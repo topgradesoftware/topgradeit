@@ -54,8 +54,6 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
     private static final int MIN_LECTURES = 1;
     private static final int MAX_LECTURES = 8;
     
-    String staff_id;
-    String campus_id;
     ProgressBar progress_bar;
     TextView total_records;
     Button sent_timetable_in_sms;
@@ -111,6 +109,12 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
         setupWindowInsets();
         
         context = StaffTimeTable.this;
+        
+        // Load constants from Paper database (CRITICAL FIX)
+        Paper.init(context);
+        Constant.loadFromPaper();
+        Log.d(TAG, "Constants loaded - staff_id: " + Constant.staff_id + ", campus_id: " + Constant.campus_id);
+        
         Initlization();
         load_timetable_section();
         
@@ -155,22 +159,20 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
     }
 
     private void load_timetable(String session_id) {
-        staff_id = Paper.book().read("staff_id");
-        campus_id = Paper.book().read("campus_id");
-        
-        Log.d(TAG, "load_timetable() - staff_id: " + staff_id);
-        Log.d(TAG, "load_timetable() - campus_id: " + campus_id);
+        Log.d(TAG, "load_timetable() - staff_id: " + Constant.staff_id);
+        Log.d(TAG, "load_timetable() - campus_id: " + Constant.campus_id);
         Log.d(TAG, "load_timetable() - session_id: " + session_id);
         
         HashMap<String, String> postParam = new HashMap<String, String>();
-        postParam.put("staff_id", staff_id);
-        postParam.put("parent_id", campus_id);
+        postParam.put("staff_id", Constant.staff_id);
+        postParam.put("parent_id", Constant.campus_id);
         postParam.put("timetable_session_id", session_id);
         
         Log.d(TAG, "load_timetable() - API request body: " + (new JSONObject(postParam)).toString());
         
         findViewById(R.id.progress_overlay).setVisibility(View.VISIBLE);
-        RequestBody body = RequestBody.create((new JSONObject(postParam)).toString(), MediaType.parse("application/json; charset=utf-8"));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                (new JSONObject(postParam)).toString());
         Constant.mApiService.load_timetable(body).enqueue(new Callback<TimetableModel>() {
             @Override
             public void onResponse(Call<TimetableModel> call, Response<TimetableModel> response) {
@@ -242,20 +244,17 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
     }
 
     private void send_timetable() {
-        // Load staff_id and campus_id from PaperDB
-        String staff_id = Paper.book().read("staff_id");
-        String campus_id = Paper.book().read("campus_id");
-        
-        Log.d(TAG, "send_timetable() - staff_id: " + staff_id);
-        Log.d(TAG, "send_timetable() - campus_id: " + campus_id);
+        Log.d(TAG, "send_timetable() - staff_id: " + Constant.staff_id);
+        Log.d(TAG, "send_timetable() - campus_id: " + Constant.campus_id);
 
         HashMap<String, String> postParam = new HashMap<String, String>();
-        postParam.put("staff_id", staff_id);
-        postParam.put("parent_id", campus_id);
+        postParam.put("staff_id", Constant.staff_id);
+        postParam.put("parent_id", Constant.campus_id);
         postParam.put("message", timetable_sms);
 
         findViewById(R.id.progress_overlay).setVisibility(View.VISIBLE);
-        RequestBody body = RequestBody.create((new JSONObject(postParam)).toString(), MediaType.parse("application/json; charset=utf-8"));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                (new JSONObject(postParam)).toString());
         Constant.mApiService.load_timetable_sms(body).enqueue(new Callback<TimetableSmsModel>() {
             @Override
             public void onResponse(Call<TimetableSmsModel> call, Response<TimetableSmsModel> response) {
@@ -287,19 +286,16 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
     }
 
     private void load_timetable_section() {
-        // Load staff_id and campus_id from PaperDB
-        String staff_id = Paper.book().read("staff_id");
-        String campus_id = Paper.book().read("campus_id");
-        
-        Log.d(TAG, "load_timetable_section() - staff_id: " + staff_id);
-        Log.d(TAG, "load_timetable_section() - campus_id: " + campus_id);
+        Log.d(TAG, "load_timetable_section() - staff_id: " + Constant.staff_id);
+        Log.d(TAG, "load_timetable_section() - campus_id: " + Constant.campus_id);
 
         HashMap<String, String> postParam = new HashMap<String, String>();
-        postParam.put("staff_id", staff_id);
-        postParam.put("parent_id", campus_id);
+        postParam.put("staff_id", Constant.staff_id);
+        postParam.put("parent_id", Constant.campus_id);
 
         findViewById(R.id.progress_overlay).setVisibility(View.VISIBLE);
-        RequestBody body = RequestBody.create((new JSONObject(postParam)).toString(), MediaType.parse("application/json; charset=utf-8"));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                (new JSONObject(postParam)).toString());
 
         Constant.mApiService.load_timetable_session(body).enqueue(new Callback<TimetableSessionModel>() {
             @Override

@@ -16,14 +16,12 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(String baseUrl) {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        // Only log in debug builds, disable in production
-        interceptor.setLevel(BuildConfig.DEBUG ? 
-                HttpLoggingInterceptor.Level.BODY : 
-                HttpLoggingInterceptor.Level.NONE);
+        // Use safe logging interceptor that doesn't consume the response body
+        SafeLoggingInterceptor safeLogger = new SafeLoggingInterceptor(BuildConfig.DEBUG);
+        
         OkHttpClient client = new OkHttpClient
                 .Builder()
-                .addInterceptor(interceptor)
+                .addInterceptor(safeLogger)
                 .readTimeout(5, TimeUnit.MINUTES)
                 .connectTimeout(5, TimeUnit.MINUTES)
                 .build();

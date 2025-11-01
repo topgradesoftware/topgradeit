@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import topgrade.parent.com.parentseeks.Shared.Models.SharedStatus;
 
-import topgrade.parent.com.parentseeks.Shared.Models.SharedStatus;public class TimetableModel {
+public class TimetableModel {
     @SerializedName("status")
     @Expose
     private SharedStatus status;
