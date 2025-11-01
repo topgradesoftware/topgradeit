@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/backgroundmain">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="4dp"
+            tools:ignore="TouchTargetSize">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/back_icon"
+                android:contentDescription="@string/back_button" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="Biometric Authentication"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Main Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
+
+            <!-- Biometric Icon -->
+            <ImageView
+                android:id="@+id/biometric_icon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:src="@drawable/ic_fingerprint"
+                android:contentDescription="@string/biometric_icon"
+                android:background="@drawable/circle_background"
+                android:padding="24dp"
+                app:tint="@color/primary_color" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/biometric_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Biometric Authentication"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/biometric_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Use your fingerprint or face to login securely"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginBottom="48dp"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Enable Button -->
+            <Button
+                android:id="@+id/enable_biometric_btn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Enable Biometric Login"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible" />
+
+            <!-- Disable Button -->
+            <Button
+                android:id="@+id/disable_biometric_btn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Disable Biometric Login"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
+
+            <!-- Security Info Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_gray"
+                android:layout_marginTop="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Security Information"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Your credentials are encrypted and stored securely\n• Biometric data never leaves your device\n• You can disable this feature anytime\n• Works with fingerprint and face recognition"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout> 

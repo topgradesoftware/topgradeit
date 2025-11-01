@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+
+        android:divider="@drawable/style_divider_gray"
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:padding="1dp"
+            android:text="10 June , 2019"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp" />
+
+        <TextView
+            android:id="@+id/attendence_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:gravity="center_horizontal"
+            android:padding="1dp"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp" />
+
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:gravity="center_horizontal"
+            android:padding="1dp"
+            android:singleLine="true"
+            android:text="Due to fever"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_dark" />
+
+
+</LinearLayout>

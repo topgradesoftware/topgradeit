@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="From Seeks"
+        android:icon="@mipmap/ic_launcher_round"/>
+    <item android:title="Local SMS" />
+    <item android:title="Whatsapp" />
+    <item android:title="Whatsapp(Business)" />
+    <item android:title="Other" />
+
+</menu>
+

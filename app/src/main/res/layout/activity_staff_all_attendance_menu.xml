@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="false"
+    tools:targetApi="34"
+    tools:ignore="MissingConstraints,LayoutFidelity">
+
+    <!-- ==================== HEADER SECTION ==================== -->
+
+    <!-- Header Background Wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Navigation Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/attendance_menu"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:contentDescription="@string/attendance_menu"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Header Separator -->
+    <View
+        android:id="@+id/header_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:alpha="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ==================== MAIN CONTENT SECTION ==================== -->
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/header_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_attendance_history"
+            android:textColor="?android:textColorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:textColor="@color/white"
+            android:onClick="MYAttendance"
+            android:text="@string/my_attendance"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/round_visibility_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/take_attendance_class_incharge"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:onClick="StudentAttendance_CLass"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:text="@string/submit_class_attendance"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_send_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:onClick="StudentAttendanceEdit_CLass"
+            android:text="@string/view_update_class_attendance"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_update_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/take_attendance_section_incharge"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:onClick="StudentAttendance_Section"
+            android:text="@string/submit_section_attendance"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_send_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:onClick="StudentAttendanceEdit_Section"
+            android:text="@string/view_update_attendance_of_section"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_update_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/take_attendance_subject_teacher"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:onClick="StudentAttendance"
+            android:text="@string/submit_attendance_of_your_subject"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_arrow_upward_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:onClick="StudentAttendanceEdit"
+            android:text="@string/view_update_subject_attendance"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:padding="12dp"
+            tools:ignore="ButtonStyle,ButtonSize"
+            app:icon="@drawable/baseline_update_24"
+            app:iconTint="@color/white"
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/navy_blue" />
+
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

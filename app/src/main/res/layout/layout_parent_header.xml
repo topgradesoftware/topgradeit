@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Unified Parent Header Template -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Background wave - Height can be customized via header_height attribute -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_dark_brown"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Parent Login Icon (for dashboard pages) -->
+    <ImageView
+        android:id="@+id/header_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_parent_login"
+        android:contentDescription="@string/parent_login_icon"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Parent Page"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        android:shadowColor="@android:color/transparent"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@android:color/white"
+        android:layout_marginStart="16dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:contentDescription="@string/back_button"
+        tools:ignore="TouchTargetSize"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- More Options Button (for dashboard pages) -->
+    <ImageView
+        android:id="@+id/more_option"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        app:tint="@android:color/white"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/more_options"/>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminateOnly="true"
+        android:visibility="gone"
+        android:progressTint="@android:color/white"
+        android:indeterminateTint="@android:color/white"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</merge>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+
+            android:id="@+id/back_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/_20ssp"
+            android:layout_marginStart="26dp"              android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@+id/back_icon"
+            android:layout_toRightOf="@+id/back_icon"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Attendance Submit"
+            android:textColor="@color/white" />
+
+        <TextView
+
+            android:id="@+id/attendence_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="7dp"
+            android:text="12 MArch 2019"
+            android:textColor="@color/white"
+            android:fontFamily="@font/quicksand_bold"
+            app:drawableRightCompat="@drawable/ic_keyboard_arrow_right_white_24dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Class"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/rounded_black"
+            android:gravity="center_vertical">
+
+            <components.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/classs_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/select_class" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Section"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/rounded_black"
+            android:gravity="center_vertical">
+
+            <components.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/section_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/select_section" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Select Subject"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/rounded_black"
+            android:gravity="center_vertical">
+
+            <components.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/subject_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/select_subject" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/style_border_gray"
+            android:orientation="vertical"
+
+            android:padding="1dp">
+
+            <LinearLayout
+                android:id="@+id/header_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#800000"
+                android:divider="@drawable/style_divider_white"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="10">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/sms_check"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        android:checked="true"
+                        app:buttonTint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+
+                        android:text="SMS"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text="R.N"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                                 android:fontFamily="@font/quicksand_bold"
+ />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.5"
+                    android:gravity="center_vertical"
+                    android:padding="7dp"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                                 android:fontFamily="@font/quicksand_bold"
+
+                    android:background="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text="Action"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                                 android:fontFamily="@font/quicksand_bold"
+ />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text="Note"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                                 android:fontFamily="@font/quicksand_bold"
+ />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:scrollbars="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attendence_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/attendance_submit_layout" />
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/total_records"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:text="Total Records:"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <Button
+            android:id="@+id/submit_attendence"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/et_border"
+            android:gravity="center"
+            android:text="Submit Attendance"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>

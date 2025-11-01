@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".Parent.Activity.ParentSubmitComplaint">
+
+    <!-- Header Background -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_wave_dark_brown"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_complaint"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="@id/header_wave"
+        app:layout_constraintEnd_toEndOf="@id/header_wave"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <!-- Main Content -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintBottom_toTopOf="@id/submit_complaint_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Complainant Info Header with Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="2dp">
+
+                    <TextView
+                        android:id="@+id/complainant_info_header"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/complainant_info"
+                        android:textColor="@color/dark_brown"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:gravity="start|center_vertical" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/dark_brown"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:id="@+id/complaint_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="6dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="@color/white"
+                                android:importantForAccessibility="no" />
+
+                            <TextView
+                                android:id="@+id/complaint_date_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:text="@string/complaint_date_placeholder"
+                                android:textColor="@color/white"
+                                android:textSize="11sp"
+                                android:fontFamily="@font/quicksand_medium" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <!-- Complainant Category -->
+                <TextView
+                    android:text="@string/choose_complaint_category"
+                    style="@style/TextLabelStyle"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/complainant_category"
+                    style="@style/SpinnerStyle"
+                    android:hint="@string/select_category"
+                    android:minHeight="38dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:importantForAccessibility="yes" />
+
+                <!-- Student -->
+                <TextView
+                    android:id="@+id/complaint_student"
+                    style="@style/EditTextStyle"
+                    android:text="@string/select_students"
+                    android:focusable="false"
+                    android:clickable="true"
+                    app:drawableEndCompat="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawablePadding="6dp"
+                    android:padding="6dp"
+                    android:minHeight="38dp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edit_text_background" />
+                <!-- Complain About -->
+                <TextView
+                    android:text="@string/complain_about"
+                    style="@style/TextLabelStyle"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp" />
+
+                <EditText
+                    android:id="@+id/complaint_about"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/enter_complain_about"
+                    android:inputType="textCapSentences"
+                    android:minHeight="38dp"
+                    android:padding="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:autofillHints="name" />
+
+                <!-- Complain Title -->
+                <EditText
+                    android:id="@+id/complaint_title"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/complain_title_required"
+                    android:inputType="textCapSentences"
+                    android:minHeight="38dp"
+                    android:padding="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:autofillHints="name" />
+
+                <!-- Picture Proof -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <TextView
+                        android:text="@string/picture_proof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:gravity="start|center_vertical" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/choose_file_btn"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:text="@string/camera_gallery_button"
+                        android:textColor="@color/dark_brown"
+                        android:textSize="12sp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        app:strokeColor="@color/dark_brown"
+                        app:iconTint="@color/dark_brown" />
+
+                </LinearLayout>
+
+                <!-- Image Preview Container -->
+                <RelativeLayout
+                    android:id="@+id/image_preview_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/complaint_image_preview"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/edit_text_background"
+                        android:padding="2dp"
+                        android:contentDescription="@string/picture_proof" />
+
+                    <ImageView
+                        android:id="@+id/image_options_btn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_alignTop="@id/complaint_image_preview"
+                        android:layout_alignEnd="@id/complaint_image_preview"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_more_vert"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/dark_brown"
+                        android:padding="6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:tint="@color/white"
+                        android:contentDescription="@string/image_options" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/max_image_size"
+                    android:textColor="#FF0000"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:layout_marginBottom="2dp" />
+
+                <!-- Complaint Description -->
+                <EditText
+                    android:id="@+id/complaint_description"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/description_about_complain"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="top|start"
+                    android:padding="6dp"
+                    android:minHeight="80dp"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:scrollbars="vertical"
+                    android:autofillHints="name" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Submit Button -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/submit_complaint_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/dark_brown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_complaint_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/dark_brown"
+            android:text="@string/submit_complaint"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/quicksand_bold"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="textStart"
+            app:iconPadding="6dp"
+            app:iconSize="18dp"
+            app:iconTint="@color/white" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Progress Overlay -->
+    <FrameLayout
+        android:id="@+id/progress_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@drawable/edit_text_background"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:indeterminateTint="@color/dark_brown" />
+
+            <TextView
+                android:id="@+id/progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Submitting complaint..."
+                android:textColor="@color/dark_brown"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_medium" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

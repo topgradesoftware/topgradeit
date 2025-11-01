@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".Student.Activity.StudentSubmitComplaint">
+
+    <!-- Header Background -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_wave_teal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_complaint"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="@id/header_wave"
+        app:layout_constraintEnd_toEndOf="@id/header_wave"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <!-- Main Content -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintBottom_toTopOf="@id/submit_complaint_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Complaint Subject -->
+                <TextView
+                    android:text="@string/complaint_subject"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/complaint_subject"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/enter_complaint_subject"
+                    android:inputType="textCapSentences" />
+
+                <!-- Complaint Category -->
+                <TextView
+                    android:text="@string/complaint_category"
+                    style="@style/TextLabelStyle" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/complaint_category"
+                    style="@style/SpinnerStyle"
+                    android:hint="@string/select_complaint_category"
+                    android:contentDescription="@string/select_complaint_category"
+                    android:importantForAccessibility="yes" />
+
+                <!-- Complaint Priority -->
+                <TextView
+                    android:text="@string/complaint_priority"
+                    style="@style/TextLabelStyle" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/complaint_priority"
+                    style="@style/SpinnerStyle"
+                    android:hint="@string/select_complaint_priority"
+                    android:contentDescription="@string/select_complaint_priority"
+                    android:importantForAccessibility="yes" />
+
+                <!-- Complaint Description -->
+                <TextView
+                    android:text="@string/complaint_description"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/complaint_description"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/enter_complaint_description"
+                    android:layout_height="140dp"
+                    android:gravity="top|start"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="6"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Submit Button -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/submit_complaint_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/teal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_complaint_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/teal"
+            android:text="@string/submit_complaint"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="@font/quicksand_bold"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconTint="@color/white" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Centered Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

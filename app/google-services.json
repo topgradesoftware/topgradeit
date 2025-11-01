@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "18339653364",
+    "project_id": "cmtb-c9382",
+    "storage_bucket": "cmtb-c9382.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18339653364:android:e96946f461458dea74e0a1",
+        "android_client_info": {
+          "package_name": "topgrade.parent.com.parentseeks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4DZgSWnH0Rg7iT0YRzk1n4mVXtwoYSTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

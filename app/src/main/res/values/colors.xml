@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_50">#E3F2FD</color>
+    <color name="primary_100">#BBDEFB</color>
+    <color name="primary_200">#90CAF9</color>
+    <color name="primary_300">#64B5F6</color>
+    <color name="primary_400">#42A5F5</color>
+    <color name="primary_500">#2196F3</color>
+    <color name="primary_600">#1E88E5</color>
+    <color name="primary_700">#1976D2</color>
+    <color name="primary_800">#1565C0</color>
+    <color name="primary_900">#0D47A1</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary_50">#F3E5F5</color>
+    <color name="secondary_100">#E1BEE7</color>
+    <color name="secondary_200">#CE93D8</color>
+    <color name="secondary_300">#BA68C8</color>
+    <color name="secondary_400">#AB47BC</color>
+    <color name="secondary_500">#9C27B0</color>
+    <color name="secondary_600">#8E24AA</color>
+    <color name="secondary_700">#7B1FA2</color>
+    <color name="secondary_800">#6A1B9A</color>
+    <color name="secondary_900">#4A148C</color>
+
+    <!-- Neutral Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="white_30">#4DFFFFFF</color>
+    <color name="link_yellow">#F1C40F</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="orange">#FF9800</color>
+
+    <!-- Light Theme Colors -->
+    <color name="background_light">#FAFAFA</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_variant_light">#F5F5F5</color>
+    <color name="on_surface_light">#1C1B1F</color>
+    <color name="on_surface_variant_light">#49454F</color>
+    <color name="text_primary_light">#1C1B1F</color>
+    <color name="text_secondary_light">#49454F</color>
+    <color name="card_background_light">#FFFFFF</color>
+    <color name="divider_light">#E0E0E0</color>
+    <color name="icon_light">#49454F</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="surface_variant_dark">#2D2D2D</color>
+    <color name="on_surface_dark">#E6E1E5</color>
+    <color name="on_surface_variant_dark">#CAC4D0</color>
+    <color name="text_primary_dark">#E6E1E5</color>
+    <color name="text_secondary_dark">#CAC4D0</color>
+    <color name="card_background_dark">#2D2D2D</color>
+    <color name="divider_dark">#424242</color>
+    <color name="icon_dark">#CAC4D0</color>
+
+    <!-- Error Colors -->
+    <color name="error_50">#FFEBEE</color>
+    <color name="error_100">#FFCDD2</color>
+    <color name="error_200">#EF9A9A</color>
+    <color name="error_300">#E57373</color>
+    <color name="error_400">#EF5350</color>
+    <color name="error_500">#F44336</color>
+    <color name="error_600">#E53935</color>
+    <color name="error_700">#D32F2F</color>
+    <color name="error_800">#C62828</color>
+    <color name="error_900">#B71C1C</color>
+
+    <!-- Success Colors -->
+    <color name="success_50">#E8F5E8</color>
+    <color name="success_100">#C8E6C9</color>
+    <color name="success_200">#A5D6A7</color>
+    <color name="success_300">#81C784</color>
+    <color name="success_400">#66BB6A</color>
+    <color name="success_500">#4CAF50</color>
+    <color name="success_600">#43A047</color>
+    <color name="success_700">#388E3C</color>
+    <color name="success_800">#2E7D32</color>
+    <color name="success_900">#1B5E20</color>
+
+    <!-- Warning Colors -->
+    <color name="warning_50">#FFF8E1</color>
+    <color name="warning_100">#FFECB3</color>
+    <color name="warning_200">#FFE082</color>
+    <color name="warning_300">#FFD54F</color>
+    <color name="warning_400">#FFCA28</color>
+    <color name="warning_500">#FFC107</color>
+    <color name="warning_600">#FFB300</color>
+    <color name="warning_700">#FFA000</color>
+    <color name="warning_800">#FF8F00</color>
+    <color name="warning_900">#FF6F00</color>
+
+    <!-- Info Colors -->
+    <color name="info_50">#E3F2FD</color>
+    <color name="info_100">#BBDEFB</color>
+    <color name="info_200">#90CAF9</color>
+    <color name="info_300">#64B5F6</color>
+    <color name="info_400">#42A5F5</color>
+    <color name="info_500">#2196F3</color>
+    <color name="info_600">#1E88E5</color>
+    <color name="info_700">#1976D2</color>
+    
+    <!-- Custom Colors -->
+    <color name="navy_blue">#000064</color>
+    <color name="info_800">#1565C0</color>
+    <color name="info_900">#0D47A1</color>
+
+    <!-- Legacy Colors (for backward compatibility) -->
+    <color name="colorPrimary">@color/navy_blue</color>
+    <color name="colorPrimaryDark">@color/primary_700</color>
+    <color name="colorAccent">@color/navy_blue</color>
+    <color name="colorPrimaryVariant">@color/primary_700</color>
+    <color name="colorSecondary">@color/secondary_500</color>
+    <color name="colorSecondaryVariant">@color/secondary_700</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorOnSecondary">@color/white</color>
+    <color name="colorSurface">@color/surface_light</color>
+    <color name="colorOnSurface">@color/on_surface_light</color>
+    <color name="colorError">@color/error_500</color>
+    <color name="colorOnError">@color/white</color>
+    
+    <!-- Missing colors that were referenced -->
+    <color name="color_black">@color/black</color>
+    
+    <!-- Student theme colors (Teal) -->
+    <color name="student_primary">#004d40</color>
+    <color name="student_primary_dark">#003d33</color>
+    <color name="student_accent">#00695c</color>
+    <color name="teal_700">#00695c</color>
+    <color name="student_background">#F5F5F5</color>
+    <color name="student_card_background">#FFFFFF</color>
+    <color name="student_text_primary">#FFFFFF</color>
+    <color name="student_text_secondary">#FFFFFF</color>
+    <color name="student_input_background">#FAFAFA</color>
+    <color name="student_input_border">#004d40</color>
+    <color name="student_button_gradient_start">#004d40</color>
+    <color name="student_button_gradient_end">#003d33</color>
+    <color name="student_header_gradient_start">#004d40</color>
+    <color name="student_header_gradient_end">#003d33</color>
+    <color name="student_success">#4CAF50</color>
+    <color name="student_warning">#FF9800</color>
+    <color name="student_error">#F44336</color>
+    
+    <!-- Staff/Teacher theme colors (Navy Blue) -->
+    <color name="staff_primary">#000064</color>
+    <color name="staff_primary_dark">#000050</color>
+    <color name="staff_accent">#000080</color>
+    <color name="staff_background">#F5F5F5</color>
+    <color name="staff_card_background">#FFFFFF</color>
+    <color name="staff_text_primary">#FFFFFF</color>
+    <color name="staff_text_secondary">#FFFFFF</color>
+    <color name="staff_input_background">#FAFAFA</color>
+    <color name="staff_input_border">#000064</color>
+    <color name="staff_button_gradient_start">#000064</color>
+    <color name="staff_button_gradient_end">#000050</color>
+    <color name="staff_header_gradient_start">#000064</color>
+    <color name="staff_header_gradient_end">#000050</color>
+    <color name="staff_success">#4CAF50</color>
+    <color name="staff_warning">#FF9800</color>
+    <color name="staff_error">#F44336</color>
+    
+    <!-- Additional missing colors -->
+    <color name="primary_color">@color/primary_500</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="gray">#757575</color>
+    <color name="gray_light">#BDBDBD</color>
+    <color name="navy_blue_light">#000060</color>
+    <color name="yellow">#FB8C00</color>
+    <color name="green">#214E23</color>
+    <color name="colorGrey">#616060</color>
+    <color name="blue">#0066FF</color>
+    <color name="icons">#0066FF</color>
+    <color name="red">#F44336</color>
+    <color name="white_color">#ffffff</color>
+    <color name="color_gray_dark">#3d3b48</color>
+    <color name="text_secondary">@color/text_secondary_light</color>
+    
+    <!-- Missing colors for PersonalDashboard -->
+    <color name="dark_brown">#8B4513</color>
+    <color name="teal">#004d40</color>
+    <color name="golden">#FFD700</color>
+    
+    <!-- Parent theme colors (Dark Brown) -->
+    <color name="parent_primary">#693e02</color>
+    <color name="accent_yellow">#F1C40F</color>
+    <color name="parent_primary_dark">#4a2b01</color>
+    <color name="parent_accent">#8b5a03</color>
+    <color name="parent_background">#F5F5F5</color>
+    <color name="parent_card_background">#FFFFFF</color>
+    <color name="parent_text_primary">#FFFFFF</color>
+    <color name="parent_text_secondary">#FFFFFF</color>
+    <color name="parent_input_background">#FAFAFA</color>
+    <color name="parent_input_border">#693e02</color>
+    <color name="parent_button_gradient_start">#693e02</color>
+    <color name="parent_button_gradient_end">#4a2b01</color>
+    <color name="parent_header_gradient_start">#693e02</color>
+    <color name="parent_header_gradient_end">#4a2b01</color>
+    <color name="parent_success">#4CAF50</color>
+    <color name="parent_warning">#FF9800</color>
+    <color name="parent_error">#F44336</color>
+    <color name="light_gray_background">#F5F5F5</color>
+    
+    <!-- Ripple effect color for buttons -->
+    <color name="ripple_color">#1F000000</color>
+    
+    <!-- Hint colors for better dark mode support -->
+    <color name="hint_color">#808080</color>
+    
+    <!-- Progress indicator colors -->
+    <color name="progress_indicator_light">@color/white</color>
+    <color name="progress_indicator_dark">@color/primary_200</color>
+    
+    <!-- Overlay colors for better dark mode support -->
+    <color name="overlay_background_light">#80000000</color>
+    <color name="overlay_background_dark">#80FFFFFF</color>
+    
+    <!-- Additional semantic colors -->
+    <color name="surface_container">@color/surface_light</color>
+    <color name="surface_container_dark">@color/surface_dark</color>
+    <color name="on_surface_container">@color/on_surface_light</color>
+    <color name="on_surface_container_dark">@color/on_surface_dark</color>
+    
+    <!-- Role selection colors for better theme support -->
+    <color name="role_admin">#E74C3C</color>
+    <color name="role_campus">#4CAF50</color>
+    <color name="role_super_admin">#007BFF</color>
+    <color name="role_staff">#000064</color>
+    <color name="role_parent">#693e02</color>
+    <color name="role_about">#28A745</color>
+    <!-- Share card color -->
+    <color name="role_share">#FF9800</color>
+    <color name="role_settings">#6C757D</color>
+    <color name="role_help">#17A2B8</color>
+    <color name="role_feedback">#9C27B0</color>
+    <color name="text_primary_role">#000000</color>
+    
+    <!-- Text colors for role cards -->
+    <color name="text_on_role_card">@color/white</color>
+    
+    <!-- Drawable tint for option cards -->
+    <color name="drawable_tint_white">@color/white</color>
+    
+    <!-- Text color for white cards -->
+    <color name="text_on_white_card">@color/black</color>
+</resources>

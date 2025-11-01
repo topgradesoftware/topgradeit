@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
+    tools:context=".Parent.Activity.ParentComplaintMenu">
+
+    <!-- ===== HEADER WAVE ===== -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_dark_brown"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ===== BACK BUTTON ===== -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- ===== HEADER TITLE ===== -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/complaints"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ===== MAIN CONTENT CARD ===== -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center_horizontal">
+
+                <!-- ===== DESCRIPTION ===== -->
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_category_to_view_complaints"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:textColor="@color/dark_brown"
+                    android:gravity="center"
+                    android:layout_marginBottom="28dp" />
+
+                <!-- ===== SUBMIT COMPLAINT BUTTON ===== -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_submit_complaint"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:maxWidth="600dp"
+                    android:text="@string/submit_complaint"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:icon="@drawable/ic_add_white_24dp"
+                    app:iconTint="@color/white"
+                    app:iconGravity="textStart"
+                    app:iconPadding="14dp"
+                    app:backgroundTint="@color/dark_brown"
+                    app:cornerRadius="12dp"
+                    android:elevation="3dp"
+                    android:layout_marginBottom="24dp"
+                    tools:ignore="ButtonStyle" />
+
+                <!-- ===== ALL COMPLAINTS BUTTON WITH BADGE ===== -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_all_complaints"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:maxWidth="600dp"
+                        android:text="@string/all_complaints"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="60dp"
+                        app:icon="@drawable/ic_assign_task"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"
+                        app:iconPadding="14dp"
+                        app:backgroundTint="@color/dark_brown"
+                        app:cornerRadius="12dp"
+                        android:elevation="3dp"
+                        tools:ignore="ButtonStyle" />
+
+                    <TextView
+                        android:id="@+id/badge_all_complaints"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:text="@string/zero"
+                        android:textColor="@color/dark_brown"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:elevation="5dp" />
+                </FrameLayout>
+
+                <!-- ===== SOLVED COMPLAINTS BUTTON WITH BADGE ===== -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_solved_complaints"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:maxWidth="600dp"
+                        android:text="@string/solved_complaints"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="60dp"
+                        app:icon="@drawable/ic_done"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"
+                        app:iconPadding="14dp"
+                        app:backgroundTint="@color/success_500"
+                        app:cornerRadius="12dp"
+                        android:elevation="3dp"
+                        tools:ignore="ButtonStyle,TextContrastCheck" />
+
+                    <TextView
+                        android:id="@+id/badge_solved_complaints"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:text="@string/zero"
+                        android:textColor="@color/success_500"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:elevation="5dp"
+                        tools:ignore="TextContrastCheck" />
+                </FrameLayout>
+
+                <!-- ===== UNDER DISCUSSION COMPLAINTS BUTTON WITH BADGE ===== -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_under_discussion_complaints"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:maxWidth="600dp"
+                        android:text="@string/under_discussion_complaints"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="60dp"
+                        app:icon="@drawable/ic_in_progress"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"
+                        app:iconPadding="14dp"
+                        app:backgroundTint="@color/error_500"
+                        app:cornerRadius="12dp"
+                        android:elevation="3dp"
+                        tools:ignore="ButtonStyle" />
+
+                    <TextView
+                        android:id="@+id/badge_under_discussion_complaints"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:text="@string/zero"
+                        android:textColor="@color/error_500"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:elevation="5dp" />
+                </FrameLayout>
+
+                <!-- ===== PENDING COMPLAINTS BUTTON WITH BADGE ===== -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_pending_complaints"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:maxWidth="600dp"
+                        android:text="@string/pending_complaints"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="60dp"
+                        app:icon="@drawable/ic_pending"
+                        app:iconTint="@color/white"
+                        app:iconGravity="textStart"
+                        app:iconPadding="14dp"
+                        app:backgroundTint="@color/warning_500"
+                        app:cornerRadius="12dp"
+                        android:elevation="3dp"
+                        tools:ignore="ButtonStyle,TextContrastCheck" />
+
+                    <TextView
+                        android:id="@+id/badge_pending_complaints"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/white"
+                        android:gravity="center"
+                        android:text="@string/zero"
+                        android:textColor="@color/warning_500"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:elevation="5dp"
+                        tools:ignore="TextContrastCheck" />
+                </FrameLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <!-- ===== FOOTER ===== -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/dark_brown"
+        android:paddingVertical="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/topgrade_logo"
+                android:contentDescription="@string/topgrade_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:fontFamily="@font/quicksand_bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

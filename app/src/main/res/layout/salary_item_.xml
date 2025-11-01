@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/header_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/style_divider_gray"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="4"
+        android:minHeight="48dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/Salary_Month"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="Salary Month"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/quicksand_medium" />
+
+
+        <TextView
+            android:id="@+id/Payable"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="Payable"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/Paid"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="Paid"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/Remain"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="Remain"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/quicksand_medium" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_dark" />
+</LinearLayout>

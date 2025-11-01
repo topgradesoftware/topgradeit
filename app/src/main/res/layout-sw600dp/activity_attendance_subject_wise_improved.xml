@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/teal_700"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ic_arrow_back -->
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back_button"/>
+
+        <!-- Student Selection -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:orientation="vertical"
+            android:layout_marginEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_student_label"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="4dp" />
+
+            <components.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/select_child_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/spinner_background"
+                android:gravity="start"
+                android:contentDescription="@string/select_student" />
+
+        </LinearLayout>
+
+        <!-- Month Selection -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_month_label"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="4dp" />
+
+            <components.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/select_month_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:background="@drawable/spinner_background"
+                android:gravity="start"
+                android:contentDescription="@string/select_month" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Fixed Header Row -->
+    <TableLayout
+        android:id="@+id/header_table"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:shrinkColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Header Row will be created dynamically in Java -->
+
+    </TableLayout>
+
+    <!-- Scrollable Data Table -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:contentDescription="@string/attendance_data_table"
+        app:layout_constraintTop_toBottomOf="@id/header_table"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TableLayout
+            android:id="@+id/attendance_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:shrinkColumns="*">
+
+            <!-- Data rows will be created dynamically in Java -->
+
+        </TableLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

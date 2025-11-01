@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:versionCode="25"
+    android:versionName="5.0.0" >
+
+    <!-- Network & Communication -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
+    <!-- Biometric permissions -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    
+    <!-- Storage & Media Permissions -->
+    <!-- Camera permission for taking pictures -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    
+    <!-- Legacy external storage for Android 12 and below -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    
+    <!-- Media permissions for Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:targetApi="33" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:targetApi="33" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:targetApi="33" />
+    
+    <!-- Photo Picker API support for Android 14+ (API 34+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" tools:targetApi="34" />
+
+    <application
+        android:name="topgrade.parent.com.parentseeks.Parent.Utils.TopgradeApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="false"
+        android:resizeableActivity="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:allowClearUserData="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        
+            
+            
+        <!-- Firebase Configuration -->
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="true" />
+            
+
+        <!-- ================= Teacher/Staff Activities ================= -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.AcademicDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activites.Activity.StaffProgress"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <!-- ================= Parent Activities ================= -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.AttendanceSubjectWiseImproved"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.AttendanceClassWise"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.AttendanceMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.StudentProfileUpdateActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ModernStudentTimeTable"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="com.topgradesoftware.seeks.Parent.Activity.StudentDateSheet"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.OTPActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceUpdateClass"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceSubmitClass"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.Edit_ProfileParent"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Exam.ExamManagementDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceUpdateSubject"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.FeedbackMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.FeedbackList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAssignTask"
+            android:label="@string/title_activity_staff_assign_task"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAssignTaskResponse"
+            android:label="Submit Task Response"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"
+            android:parentActivityName="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAssignTask" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentFeedback"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffViewComplaints"
+            android:label="@string/title_activity_staff_complain_view"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Edit_Profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffInvoice"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.SalaryDetail"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.AdvancedSalary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.TeacherChildProfile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Attendance.StaffAttendanceMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceSubmitSubject"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Application.StaffAddApplication"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.LeaveApplicationsListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.ApplicationDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Application.StaffApplicationMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Application.StaffApplicationList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Complaint.StaffSubmitComplaint"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Complaint.StaffComplaintMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Complaint.StaffComplaintList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        
+        <!-- Parent Complaint Activities -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentComplaintMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentSubmitComplaint"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentComplaintList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        
+        <!-- Student Complaint Activities -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentComplaintMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentSubmitComplaint"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentComplaintList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Exam.ExamResultByRole"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Exam.CreateExam"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffTask"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffTaskMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAnnouncements"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.AddDiaryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <!-- New Diary Module Activities -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Diary.DiaryMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Diary.DiarySubmitClass"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Diary.DiarySubmitSection"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Diary.DiarySubmitSubject"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.ViewDiaryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.LoadChildrenDiary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffTimeTable"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.AddFeedback"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffLedger"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffSalary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.PaymentHistory"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffStudentList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Exam.ExamSubmit"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Exam.ExamResults"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.Attendance.StaffAttendance"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceSubmitSection"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffAttendanceUpdateSection"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffProfile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffMainDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffOthersDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.SuperAdminLink"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Teacher.Activity.TeacherLogin"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.SelectRole"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.BiometricSetupActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.Splash"
+            android:hardwareAccelerated="true"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentProfile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ZoomImage"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ThemeTestActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="components.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ChildList"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.FeeChalan"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.Report"
+            android:theme="@style/AppTheme.NoFlicker"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentChildDetail"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <!-- Theme is optional and only needed if default theme has no action bar. -->
+
+
+
+        <service
+            android:name="topgrade.parent.com.parentseeks.Parent.services.MyFirebaseMessaging"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        
+        <!-- FileProvider for camera and file sharing -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="topgrade.parent.com.parentseeks.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
+        <!-- Class Notification Receiver -->
+        <receiver
+            android:name="topgrade.parent.com.parentseeks.Parent.Utils.ClassNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="topgrade.parent.com.parentseeks.CLASS_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Removed duplicate AttendanceSubmitMenu - functionality consolidated in StaffAttendanceMenu -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.DatabaseMigrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentMainDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.OptimizedDashBoard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.PersonalDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.OtherOptionsDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.AcademicsDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+
+        
+        <!-- ================= Student Activities ================= -->
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentMainDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentAcademicsDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentPersonalDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Student.Activity.StudentOtherOptionsDashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+    </application>
+
+</manifest>

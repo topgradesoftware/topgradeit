@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="false">
+
+    <!-- Background wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ic_arrow_back -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="@drawable/circle_background"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" 
+        android:contentDescription="@string/back_button"/>
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/salary_detail"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Month Salary Title -->
+    <TextView
+        android:id="@+id/Salary_Month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/month_salary"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/_14ssp"
+        android:fontFamily="@font/quicksand_bold"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Content Container - Fits on One Screen -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_4sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/Salary_Month"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:orientation="vertical">
+
+                <!-- Main Salary Details Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:background="@drawable/style_border_gray"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/total_salary"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Total_Salary"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/lecture_assigned"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Lectures"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/lecture_attended"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Working_Days"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/per_d_rate"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Per_Rate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/present"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Present"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/absent"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Absent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/leave"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Leave"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/half_leave"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Half_Leave"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/late"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Late"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/adv_deduct"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Adv_Deduct"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/deduction"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Deduction"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/incentive"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Incntv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/payable"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Payable"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/paid"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Paid"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/paid_date"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Paid_Date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/quicksand_bold"
+                            android:gravity="center_vertical"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text="@string/remaining"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/Remaining"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:minHeight="18dp"
+                            android:padding="2dp"
+                            android:text=""
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                </LinearLayout>
+
+                <!-- Salary Sub Total Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/salary_sub_total"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <!-- Salary Breakdown Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/style_border_gray"
+                    android:divider="@drawable/style_divider_gray"
+                    android:orientation="vertical"
+                    android:padding="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:padding="2dp"
+                            android:minHeight="18dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/head"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp"
+                            android:fontFamily="@font/quicksand_bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:minHeight="18dp"
+                            android:text="@string/amount"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp"
+                            android:fontFamily="@font/quicksand_bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_dark" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/salary_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_16sdp"
+                        android:orientation="vertical"
+                        android:scrollbars="vertical"
+                        android:overScrollMode="never"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/salary_item" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:orientation="horizontal"
+                        android:showDividers="middle"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:padding="2dp"
+                            android:minHeight="18dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/total"
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp"
+                            android:fontFamily="@font/quicksand_bold" />
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:minHeight="18dp"
+                            android:text=""
+                            android:textColor="@color/color_black"
+                            android:textSize="11sp"
+                            android:fontFamily="@font/quicksand_bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Bottom Spacing -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

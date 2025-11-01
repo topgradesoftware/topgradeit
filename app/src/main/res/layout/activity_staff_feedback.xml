@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context="topgrade.parent.com.parentseeks.Teacher.Activity.AddFeedback">
+
+    <!-- Header Background -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_wave_navy_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Icon -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/staff_feedback"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:letterSpacing="0.03"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Scrollable Main Content -->
+    <ScrollView
+        android:id="@+id/scroll_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="80dp">
+
+            <!-- Feedback Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Class / Subject -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:text="@string/select_class_subject"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_black">
+
+                        <components.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/classs_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </FrameLayout>
+
+                    <!-- Student -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:text="@string/select_student"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_black">
+
+                        <components.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/student_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </FrameLayout>
+
+                    <!-- Record Info -->
+                    <TextView
+                       android:layout_gravity="right"
+                        android:id="@+id/total_records"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:text="@string/total_students_default"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="13sp" />
+
+                    <!-- Feedback -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:text="@string/feedback_label"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/write_feedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:background="@drawable/rounded_black"
+                        android:hint="@string/write_feedback_hint"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:padding="14dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:imeOptions="actionDone"
+                        android:autofillHints="message"
+                        tools:ignore="LabelFor" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Submit Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="@string/submit_your_feedback"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:backgroundTint="@color/navy_blue"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_submit"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconSize="20dp"
+                app:rippleColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Center ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:indeterminateTint="@color/navy_blue"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

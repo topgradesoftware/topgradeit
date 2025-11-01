@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/man"
+            android:title="My Profile" />
+        
+        <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/ic_attendance"
+            android:title="My Attendance" />
+        
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_reports"
+            android:title="My Reports" />
+        
+        <item
+            android:id="@+id/nav_timetable"
+            android:icon="@drawable/timetablee"
+            android:title="My Timetable" />
+        
+        <item
+            android:id="@+id/nav_exams"
+            android:icon="@drawable/ic_exam"
+            android:title="Exams &amp; Results" />
+        
+        <item
+            android:id="@+id/nav_homework"
+            android:icon="@drawable/ic_homework"
+            android:title="Homework" />
+        
+        <item
+            android:id="@+id/nav_fees"
+            android:icon="@drawable/chalan"
+            android:title="Fee Details" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_info"
+                android:title="App Settings" />
+            
+            <item
+                android:id="@+id/nav_notifications"
+                android:icon="@drawable/ic_info"
+                android:title="Notifications" />
+            
+            <item
+                android:id="@+id/nav_change_password"
+                android:icon="@drawable/ic_lock"
+                android:title="Change Password" />
+        </menu>
+    </item>
+
+    <item android:title="Support">
+        <menu>
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help"
+                android:title="Help &amp; Support" />
+            
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info"
+                android:title="About App" />
+            
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share"
+                android:title="Share App" />
+            
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_star"
+                android:title="Rate App" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout" />
+
+</menu>

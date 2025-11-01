@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tablet-specific dimensions for role selection layout -->
+    
+    <!-- Larger icon sizes for tablets -->
+    <dimen name="icon_size_role_card">40dp</dimen>
+    <dimen name="icon_size_option_card">28dp</dimen>
+    
+    <!-- Larger text sizes for tablets -->
+    <dimen name="text_size_role_card">16sp</dimen>
+    <dimen name="text_size_option_card">11sp</dimen>
+    <dimen name="text_size_section_header">18sp</dimen>
+    
+    <!-- Increased spacing for tablets -->
+    <dimen name="role_card_margin">12dp</dimen>
+    <dimen name="role_card_padding">12dp</dimen>
+    <dimen name="option_card_margin">6dp</dimen>
+    <dimen name="option_card_padding">8dp</dimen>
+    
+    <!-- Larger touch targets for tablets -->
+    <dimen name="option_card_height">70dp</dimen>
+</resources>

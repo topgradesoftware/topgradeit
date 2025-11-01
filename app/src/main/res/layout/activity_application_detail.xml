@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <!-- Background wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" 
+        android:contentDescription="@string/back_button"/>
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Application Details"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Main Content ScrollView -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Application Status Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Application Status"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_background"
+                            android:backgroundTint="@color/orange"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:id="@+id/application_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Pending"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/quicksand_medium" />
+
+                        <TextView
+                            android:id="@+id/application_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2025-01-15"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/quicksand_medium" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Application Details Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Application Details"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Application Title -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/application_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Leave Application"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/quicksand_bold" />
+
+                    </LinearLayout>
+
+                    <!-- Date Range -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date Range"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/date_range"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="2025-01-15 to 2025-01-17"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/quicksand_medium" />
+
+                    </LinearLayout>
+
+                    <!-- Application Body -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/application_body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Application description or reason for leave..."
+                            android:textColor="@color/navy_blue"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:lineSpacingExtra="4dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actions"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <!-- Edit Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/edit_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:text="Edit"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/navy_blue"
+                            app:cornerRadius="8dp"
+                            app:fontFamily="@font/quicksand_medium" />
+
+                        <!-- Delete Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/delete_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Delete"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/red"
+                            app:cornerRadius="8dp"
+                            app:fontFamily="@font/quicksand_medium" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

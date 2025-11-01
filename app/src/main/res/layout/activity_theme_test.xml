@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="false">
+
+    <!-- Background wave - Extended to cover status bar -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Theme Test Page"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Current Theme Display -->
+    <TextView
+        android:id="@+id/current_theme_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:text="Current Theme: Parent Theme (Brown) - Default"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_background_light_gray"
+        android:padding="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Theme Test Buttons Container -->
+    <LinearLayout
+        android:id="@+id/theme_buttons_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_background_white"
+        android:padding="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@+id/current_theme_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Student Theme Button -->
+        <Button
+            android:id="@+id/test_student_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:text="Test Student Theme (Teal)"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background_teal"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:padding="@dimen/_12sdp" />
+
+        <!-- Staff Theme Button -->
+        <Button
+            android:id="@+id/test_staff_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:text="Test Staff Theme (Navy Blue)"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background_navy"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:padding="@dimen/_12sdp" />
+
+        <!-- Parent Theme Button -->
+        <Button
+            android:id="@+id/test_parent_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:text="Test Parent Theme (Brown)"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background_brown"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:padding="@dimen/_12sdp" />
+
+        <!-- Open ZoomImage Test Button -->
+        <Button
+            android:id="@+id/open_zoom_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open ZoomImage Test"
+            android:textColor="@color/black"
+            android:background="@drawable/button_background_white_border"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:padding="@dimen/_12sdp" />
+
+    </LinearLayout>
+
+    <!-- Theme Information -->
+    <TextView
+        android:id="@+id/theme_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:text="This page tests dynamic theme support for all user types:\n\n• Student Theme: Teal (#004d40)\n• Staff Theme: Navy Blue (#000064)\n• Parent Theme: Brown (#693e02)\n\nClick buttons to test themes, then open ZoomImage to verify theme consistency."
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:fontFamily="@font/quicksand_medium"
+        android:lineSpacingExtra="4dp"
+        android:background="@drawable/rounded_background_light_gray"
+        android:padding="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/theme_buttons_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/footer_background_rounded"
+        android:elevation="8dp"
+        android:minHeight="40dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Footer Content -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/topgrade_logo"
+                android:contentDescription="@string/topgrade_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

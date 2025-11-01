@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Option"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/Cancel"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/close_dialog"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_close_black_48dp"
+            app:tint="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Label -->
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="Select Child"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:fontFamily="@font/quicksand_bold" />
+
+    <!-- Spinner Container -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="@color/student_primary"
+        app:strokeWidth="@dimen/_1sdp">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/select_child_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
+            android:padding="@dimen/_12sdp"
+            android:gravity="center_vertical"
+            android:contentDescription="@string/select_child_hint" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Search Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/search_filter"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Search"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_search_black_36dp"
+        app:iconTint="@color/white"
+        app:iconGravity="start"
+        app:iconPadding="8dp"
+        app:backgroundTint="@color/student_primary"
+        app:rippleColor="?attr/colorControlHighlight" />
+
+</LinearLayout>

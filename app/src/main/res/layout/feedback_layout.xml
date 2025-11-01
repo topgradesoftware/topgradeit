@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Header Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <!-- Student Name -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/student_name_label"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <TextView
+                    android:id="@+id/subject_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Context Menu -->
+            <ImageView
+                android:id="@+id/context_menu"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_menu"
+                app:tint="@color/navy_blue"
+                android:contentDescription="@string/options_menu" />
+        </LinearLayout>
+
+        <!-- Feedback Content -->
+        <TextView
+            android:id="@+id/feeback_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_placeholder"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Footer Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Date -->
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/date"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                android:fontFamily="@font/quicksand_medium" />
+
+            <!-- Teacher Name -->
+            <TextView
+                android:id="@+id/teacher_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/teacher"
+                android:textColor="@color/navy_blue"
+                android:textSize="12sp"
+                android:fontFamily="@font/quicksand_medium"
+                android:background="@drawable/rounded_black"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

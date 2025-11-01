@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode variants for role selection colors -->
+    <color name="role_admin">#C0392B</color>
+    <color name="role_campus">#388E3C</color>
+    <color name="role_super_admin">#0056B3</color>
+    <color name="role_staff">#000050</color>
+    <color name="role_parent">#4a2b01</color>
+    <color name="role_about">#1B5E20</color>
+    <color name="role_settings">#424242</color>
+    <color name="role_help">#006064</color>
+    
+    <!-- Text colors for dark mode -->
+    <color name="text_primary_role">#FFFFFF</color>
+    <color name="text_on_role_card">@color/white</color>
+    
+    <!-- Drawable tint for option cards -->
+    <color name="drawable_tint_white">@color/white</color>
+    
+    <!-- Progress indicator for dark mode -->
+    <color name="progress_indicator_light">@color/primary_200</color>
+</resources>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".Teacher.Exam.ExamSubmit">
+
+    <!-- ==================== HEADER ==================== -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_wave_navy_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_result"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="@id/header_wave"
+        app:layout_constraintEnd_toEndOf="@id/header_wave" />
+
+    <!-- ==================== SELECTED CRITERIA CARD ==================== -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/criteria_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="@color/light_gray"
+        app:strokeWidth="1dp"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- First Row: Session, Class, Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/session_text"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="3dp"
+                    android:text="@string/placeholder_session"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/class_text"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="3dp"
+                    android:text="@string/placeholder_class"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/section_text"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/placeholder_section"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- Second Row: Subject, Exam, SMS Checkbox -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/subject_text"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="3dp"
+                    android:text="@string/placeholder_subject"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/exam_text"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="3dp"
+                    android:text="@string/placeholder_exam"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center" />
+
+                <CheckBox
+                    android:id="@+id/sms_check"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/send_sms"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:background="@drawable/rounded_black"
+                    android:padding="6dp"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ==================== RESULTS CARD ==================== -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/results_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/criteria_card"
+        app:layout_constraintBottom_toTopOf="@id/submit_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Header Info -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/rounded_black"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/total_records"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_records_zero"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_calendar"
+                    android:layout_marginEnd="4dp"
+                    app:tint="@color/navy_blue"
+                    android:contentDescription="@string/date" />
+
+                <TextView
+                    android:id="@+id/attendence_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder_date"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/quicksand_bold" />
+
+            </LinearLayout>
+
+            <!-- Students RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/exam_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="ifContentScrolls"
+                android:nestedScrollingEnabled="true" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ==================== SUBMIT BUTTON CARD ==================== -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/submit_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/navy_blue"
+        app:layout_constraintBottom_toTopOf="@id/footer_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Submit_Marks"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/navy_blue"
+            android:text="@string/submit_marks"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconTint="@color/white"
+            app:cornerRadius="12dp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ==================== FOOTER ==================== -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/footer_background_staff_navy"
+        android:elevation="8dp"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Footer Content -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/topgrade_logo"
+                android:contentDescription="@string/topgrade_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ==================== PROGRESS BAR ==================== -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTint="@color/navy_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

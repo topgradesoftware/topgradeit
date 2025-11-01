@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Optimized Staff Timetable Layout -->
+<!-- Improved performance with single ConstraintLayout and reduced nesting -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".Teacher.Activity.StaffTimeTable">
+
+    <!-- ===== HEADER SECTION ===== -->
+    <!-- Consolidated header with wave background -->
+    <FrameLayout
+        android:id="@+id/header_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/responsive_header_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Background Wave -->
+        <ImageView
+            android:id="@+id/header_wave"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_wave_navy_blue"
+            android:contentDescription="@string/header_wave_background"
+            android:importantForAccessibility="no" />
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_gravity="start|center_vertical"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/white"
+            android:contentDescription="@string/back_button"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/timetable"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:contentDescription="@string/timetable_title" />
+    </FrameLayout>
+
+    <!-- ===== SESSION SPINNER CARD ===== -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/spinner_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_4sdp"
+        app:layout_constraintTop_toBottomOf="@id/header_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/timetable_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:contentDescription="@string/select_timetable_session" />
+
+        <TextView
+            android:id="@+id/no_data_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_16sdp"
+            android:contentDescription="@string/no_timetable_data"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="@string/no_timetable_data"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_md"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ===== TIMETABLE TABLE CARD ===== -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/table_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_2sdp"
+        app:layout_constraintTop_toBottomOf="@id/spinner_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp">
+
+            <!-- Table Header -->
+            <LinearLayout
+                android:id="@+id/header_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/navy_blue"
+                android:divider="@drawable/style_divider_white"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="6"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/serial_number"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_sm"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.2"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/timing"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_sm"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/lecture_numb"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_sm"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/subject"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_sm"
+                    android:fontFamily="@font/quicksand_bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.3"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/section"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_sm"
+                    android:fontFamily="@font/quicksand_bold" />
+            </LinearLayout>
+
+            <!-- RecyclerView with Timetable Data -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timetable_rcv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/header_rv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/staff_timetable_item" />
+
+            <!-- No Data View -->
+
+            <!-- Total Records Counter -->
+            <TextView
+                android:id="@+id/total_records"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/total_records_default"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_sm"
+                android:fontFamily="@font/quicksand_bold"
+                android:contentDescription="@string/total_records_desc"
+                app:layout_constraintTop_toBottomOf="@id/timetable_rcv"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ===== SEND SMS BUTTON ===== -->
+    <!-- Positioned above navigation bar with extra bottom margin -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/send_timetable_sms_button"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:text="@string/send_timetable_sms"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:onClick="send_sms"
+        android:elevation="8dp"
+        app:backgroundTint="?attr/colorPrimary"
+        app:cornerRadius="@dimen/_12sdp"
+        app:icon="@drawable/ic_send"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ===== PROGRESS OVERLAY ===== -->
+    <FrameLayout
+        android:id="@+id/progress_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/overlay_background_light"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:indicatorSize="48dp"
+            app:trackThickness="4dp"
+            app:indicatorColor="@color/progress_indicator_light"
+            android:contentDescription="@string/loading_timetable_data" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

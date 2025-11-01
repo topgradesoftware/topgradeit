@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Class options for spinner -->
+    <string-array name="class_options">
+        <item>Select Class</item>
+        <item>Class 1</item>
+        <item>Class 2</item>
+        <item>Class 3</item>
+        <item>Class 4</item>
+        <item>Class 5</item>
+        <item>Class 6</item>
+        <item>Class 7</item>
+        <item>Class 8</item>
+        <item>Class 9</item>
+        <item>Class 10</item>
+    </string-array>
+
+    <!-- Subject options for spinner -->
+    <string-array name="subject_options">
+        <item>Select Subject</item>
+        <item>Mathematics</item>
+        <item>Science</item>
+        <item>English</item>
+        <item>History</item>
+        <item>Geography</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Biology</item>
+        <item>Computer Science</item>
+        <item>Literature</item>
+    </string-array>
+
+    <!-- Section options for spinner -->
+    <string-array name="section_options">
+        <item>Select Section</item>
+        <item>Section A</item>
+        <item>Section B</item>
+        <item>Section C</item>
+        <item>Section D</item>
+        <item>Section E</item>
+    </string-array>
+
+    <!-- Student options for spinner -->
+    <string-array name="student_options">
+        <item>Select Student</item>
+        <item>All Students</item>
+        <item>Student 1</item>
+        <item>Student 2</item>
+        <item>Student 3</item>
+        <item>Student 4</item>
+        <item>Student 5</item>
+    </string-array>
+</resources> 

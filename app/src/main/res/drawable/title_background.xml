@@ -1,0 +1,13 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="@color/colorAccent" />  <!-- Replace with your desired background color -->
+
+  <corners
+      android:topLeftRadius="15dp"
+      android:topRightRadius="15dp" />
+
+  <padding
+      android:left="0dp"
+      android:top="0dp"
+      android:right="0dp"
+      android:bottom="0dp" />
+</shape>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation Drawer IDs -->
+    <item name="nav_home" type="id"/>
+    <item name="nav_profile" type="id"/>
+    <item name="nav_child_list" type="id"/>
+    <item name="nav_fee_chalan" type="id"/>
+    <item name="nav_reports" type="id"/>
+    <item name="nav_settings" type="id"/>
+    <item name="nav_logout" type="id"/>
+</resources>

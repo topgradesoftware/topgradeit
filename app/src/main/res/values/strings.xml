@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================== APP INFO ========================== -->
+    <string name="app_name">TopGrade</string>
+    <string name="powered_by">Powered by TopGrade Software</string>
+    <string name="powered_by_topgrade_software">Powered By TopGrade Software</string>
+    <string name="topgrade_logo">TopGrade Software Logo</string>
+    <string name="topgrade_software_logo">Topgrade Software logo</string>
+    <string name="developed_by">Developed by SEEKS Education Network</string>
+    <string name="app_logo">Topgrade Software App logo</string>
+    <string name="version">Version</string>
+
+    <!-- ========================== LOGIN ========================== -->
+    <string name="login_title">Login to Your Account</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Sign In</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login_forgot_password">Forgot Password?</string>
+    <string name="login_invalid_credentials">Invalid username or password</string>
+    <string name="login_success">Login successful</string>
+    <string name="logout_success">You have been logged out</string>
+    <string name="logout">Logout</string>
+    <string name="logout_description">Sign Out</string>
+    <string name="logout_failed">Logout failed</string>
+    <string name="error_during_logout">Error during logout</string>
+    
+    <!-- Login Fields -->
+    <string name="campus_id">Campus ID</string>
+    <string name="login_id">Login ID</string>
+    <string name="password">Password</string>
+    <string name="enter_campus_id">Enter Campus ID</string>
+    <string name="enter_login_id">Enter Login ID</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_campus_id_hint">Enter Campus ID</string>
+    <string name="enter_login_id_hint">Enter Login ID</string>
+    <string name="enter_password_hint">Enter Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="i_agree_to_the">I agree to the</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    
+    <!-- Biometric -->
+    <string name="biometric_login">Biometric login</string>
+    <string name="biometric_setup">Biometric setup</string>
+    <string name="biometric_icon">Biometric icon</string>
+    <string name="fingerprint_icon">Fingerprint Icon</string>
+
+    <!-- ========================== ROLES & USER TYPES ========================== -->
+    <string name="role_super_admin">Super Admin</string>
+    <string name="super_admin">Super Admin</string>
+    <string name="super_admin_or_director">Super Admin/Director Login</string>
+    <string name="role_admin">Admin</string>
+    <string name="i_am_admin">I Am Admin</string>
+    <string name="admin_user_login">Admin User Login</string>
+    <string name="role_staff">Staff</string>
+    <string name="staff_member">Staff Member</string>
+    <string name="i_am_staff">I Am Staff</string>
+    <string name="staff_login">Staff Login</string>
+    <string name="staff_teacher_login">Staff/Teacher Login</string>
+    <string name="role_parent">Parent</string>
+    <string name="i_am_parent">I Am Parent</string>
+    <string name="parent_login">Parent Login</string>
+    <string name="parent_student_login">Parent/Student Login</string>
+    <string name="role_student">Student</string>
+    <string name="i_am_student">I Am Student</string>
+    <string name="student_login">Student Login</string>
+    <string name="student">Student</string>
+    <string name="campus">Campus</string>
+    <string name="campus_login">Campus Login</string>
+
+    <!-- ========================== DASHBOARD ========================== -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_view_all">View All</string>
+    <string name="dashboard_total_students">Total Students</string>
+    <string name="total_students">Total Students</string>
+    <string name="total_students_default">Total Students: 0</string>
+    <string name="dashboard_total_staff">Total Staff</string>
+    <string name="dashboard_total_parents">Total Parents</string>
+    <string name="dashboard_total_classes">Total Classes</string>
+    <string name="dashboard_total_attendance">Today\'s Attendance</string>
+    
+    <!-- Parent Dashboard -->
+    <string name="parent_dashboard">Parent Dashboard</string>
+    
+    <!-- Student Dashboard -->
+    <string name="student_dashboard">Student Dashboard</string>
+    <string name="student_main_dashboard">Student Main Dashboard</string>
+    <string name="personal_dashboard">Personal Dashboard</string>
+    <string name="profile_siblings_challan">Profile • Siblings • Challan</string>
+    <string name="your_academics">Your Academics</string>
+    <string name="attendance_results_reports">Attendance . Results . Reports</string>
+    <string name="student_other_options">Student Other Options</string>
+    <string name="student_academics">Student Academics</string>
+    
+    <!-- Staff Dashboard -->
+    <string name="staff_dashboard">Staff Dashboard</string>
+    <string name="staff_main_dashboard">Staff Main Dashboard</string>
+    <string name="my_dashboard">Staff Personal</string>
+    <string name="profile_schedule_news">Profile • Schedule • News</string>
+    <string name="profile_attendance_reports">Profile • Attendance • Reports</string>
+    <string name="welcome">Welcome</string>
+    <string name="staff_name">John</string>
+    <string name="staff_dashboard_icon">Staff Dashboard Icon</string>
+    <string name="teaching_hub_icon">Teaching Hub Icon</string>
+    <string name="teaching_hub">Teaching Hub</string>
+    <string name="staff_teaching_hub">Staff Teaching Hub</string>
+    <string name="classes_assignments_grades">Classes • Assignments • Grades</string>
+    <string name="more_options_icon">More Options Icon</string>
+    <string name="more_options">More Options</string>
+    <string name="more_options_button">More Options Button</string>
+    <string name="staff_more_options">More Options</string>
+    <string name="settings_share_logout">Settings • Share • Logout</string>
+    <string name="settings_help_about">Settings . Help . About</string>
+    
+    <!-- Academic Dashboard -->
+    <string name="academic_dashboard">Academic Dashboard</string>
+    <string name="academics_dashboard">Academics Dashboard</string>
+    <string name="your_dashboard">Your Dashboard</string>
+    <string name="accounts_dashboard">Accounts Dashboard</string>
+    <string name="child_academics">Child Academics</string>
+    
+    <!-- ========================== ATTENDANCE ========================== -->
+    <string name="attendance_title">Attendance</string>
+    <string name="attendance">Attendance</string>
+    <string name="attendance_description">View Child Attendance</string>
+    <string name="attendance_mark">Mark Attendance</string>
+    <string name="attendance_menu">Attendance Menu</string>
+    <string name="attendance_present">Present</string>
+    <string name="present">Present</string>
+    <string name="attendance_absent">Absent</string>
+    <string name="absent">Absent</string>
+    <string name="attendance_leave">On Leave</string>
+    <string name="half_leave">Half Leave</string>
+    <string name="full_leave">Full Leave</string>
+    <string name="late">Late</string>
+    <string name="leave">Leave</string>
+    <string name="attendance_save_success">Attendance saved successfully</string>
+    <string name="attendance_already_marked">Attendance already marked</string>
+    <string name="attendance_summary">Attendance Summary</string>
+    <string name="attendance_history_of"> Attendance History Of: </string>
+    <string name="your_attendance_history">Your Attendance History</string>
+    <string name="my_attendance">My Attendance</string>
+    <string name="staff_attendance_history">Staff Attendance History</string>
+    <string name="working_days">Working Days</string>
+    
+    <!-- Attendance Actions -->
+    <string name="take_attendance_class_incharge">Take Attendance (As Class Incharge)</string>
+    <string name="view_update_class_attendance">View/Update Class Attendance</string>
+    <string name="update_class_attendance">Update Class Attendance</string>
+    <string name="take_attendance_section_incharge">Take Attendance (As Section Incharge)</string>
+    <string name="view_update_attendance_of_section">View/Update Section Attendance</string>
+    <string name="update_section_attendance">Update Section Attendance</string>
+    <string name="take_attendance_subject_teacher">Take Attendance (As Subject Teacher)</string>
+    <string name="view_update_subject_attendance">View/Update Subject Attendance</string>
+    <string name="update_subject_attendance">Update Subject Attendance</string>
+    <string name="view_attendance_subject_wise">View Attendance (Subject Wise)</string>
+    <string name="view_attendance_class_wise">View Attendance (Class Wise)</string>
+    <string name="submit_attendance_of_your_subject">Submit Subject Attendance</string>
+    <string name="update_attendance">Update Attendance</string>
+    <string name="submit_attendance">Submit Attendance</string>
+    <string name="submit_class_attendance">Submit Class Attendance</string>
+    <string name="submit_section_attendance">Submit Section Attendance</string>
+    <string name="submit_subject_attendance">Submit Subject Attendance</string>
+    <string name="edit_attendance">Edit</string>
+    <string name="loading_attendance_records">Loading attendance records</string>
+    <string name="student_attendance_menu">Student Attendance Menu</string>
+    
+    <!-- Attendance Layout -->
+    <string name="attendance_date_placeholder">12 March 2019</string>
+    <string name="select_date">Select date</string>
+    <string name="roll_number">R.N</string>
+    <string name="action">Action</string>
+    <string name="note">Note</string>
+    <string name="attendance_data_table">Attendance Data Table</string>
+    <string name="select_student_label">Select Student Label</string>
+    <string name="select_month_label">Select Month Label</string>
+    <string name="select_month">Select Month</string>
+    <string name="september_2024">September 2024</string>
+
+    <!-- ========================== COMPLAINTS ========================== -->
+    <string name="complaint_title">Complaints</string>
+    <string name="complaints">Complaints</string>
+    <string name="my_complaints">My Complaints</string>
+    <string name="complaint_add_new">Add New Complaint</string>
+    <string name="create_new_complaint">Create New Complaint</string>
+    <string name="complaint_submit">Submit Complaint</string>
+    <string name="submit_complaint">Submit Complaint</string>
+    <string name="complaint_view_all">View Complaints</string>
+    <string name="all_complaints">All Complaints</string>
+    <string name="choose_category_to_view_complaints">Choose Complaints Category</string>
+    <string name="complaint_status_pending">Pending</string>
+    <string name="pending_complaints">Pending</string>
+    <string name="under_discussion_complaints">Under Discussion</string>
+    <string name="complaint_status_resolved">Resolved</string>
+    <string name="solved_complaints">Solved Complaints</string>
+    <string name="complaint_success">Complaint submitted successfully</string>
+    <string name="no_complaints_found">No Complaints Found</string>
+    <string name="no_complaints_message">You haven\'t submitted any complaints yet.\nTap the + button to create your first complaint.</string>
+    <string name="no_complaints_subtitle">You haven\'t submitted any complaints yet</string>
+    <string name="no_complaints_icon">No complaints icon</string>
+    <string name="total_complaints_0">Total Complaints: 0</string>
+    
+    <!-- Complaint Details -->
+    <string name="complaint_subject">Complaint Subject</string>
+    <string name="enter_complaint_subject">Enter complaint subject</string>
+    <string name="complaint_category">Complaint Category</string>
+    <string name="select_complaint_category">Select complaint category</string>
+    <string name="complaint_priority">Complaint Priority</string>
+    <string name="select_complaint_priority">Select complaint priority</string>
+    <string name="complaint_description">Complaint Description</string>
+    <string name="enter_complaint_description">Enter complaint description</string>
+    <string name="complainant_info">Complainant Info</string>
+    <string name="complaint_date_placeholder">30/10/25 10:47 pm</string>
+    <string name="choose_complaint_category">Choose Complaint Category</string>
+    <string name="select_category">Select Category</string>
+    <string name="select_complainant_category">Select Complainant Category</string>
+    <string name="select_students">Select Student(s)</string>
+    <string name="complain_about">Complain About</string>
+    <string name="enter_complain_about">Enter Complain About</string>
+    <string name="complain_title_required">Complain Title *</string>
+    <string name="picture_proof">Picture Proof</string>
+    <string name="camera_gallery_button">📷 Camera | 🖼️ Gallery</string>
+    <string name="max_image_size">Max: 300px × 300px, 100KB</string>
+    <string name="description_about_complain">Description about Complain</string>
+    <string name="image_options">Image Options</string>
+    <string name="view_image">View Image</string>
+    <string name="change_image">Change Image</string>
+    <string name="delete_image">Delete Image</string>
+    <string name="admin_response">Admin Response:</string>
+    <string name="response_icon">Response icon</string>
+    <string name="view_details">View Details</string>
+    <string name="follow_up">Follow Up</string>
+    <string name="solvedComplain">Solved Complaint</string>
+    <string name="unsolvedComplain">Unsolved Complaint</string>
+    <string name="title_activity_staff_complain_view">Staff Complaint View</string>
+
+    <!-- ========================== APPLICATIONS ========================== -->
+    <string name="add_application">Add Application</string>
+    <string name="application_list">Application List</string>
+    <string name="no_application_message">Click on plus button to add application.</string>
+    <string name="application_body">Application Body</string>
+    <string name="solvedApplication">Approved Application</string>
+    <string name="unsolvedApplication">Unapproved Application</string>
+    <string name="title_activity_staff_application_view">Staff Application View</string>
+    
+    <!-- Leave Applications -->
+    <string name="leave_application">Leave Application</string>
+    <string name="leave_application_title">Leave Application</string>
+    <string name="leave_applications">Leave Applications</string>
+    <string name="choose_category_to_view_applications">Choose Applications Category</string>
+    <string name="submit_new_application">Submit Application</string>
+    <string name="submit_application">Submit Application</string>
+    <string name="view_all_applications">View All</string>
+    <string name="pending_applications">Pending</string>
+    <string name="approved_applications">Approved</string>
+    <string name="rejected_applications">Rejected</string>
+    <string name="choose_your_child">Choose your child</string>
+    <string name="select_application_category">Select Application Category</string>
+    <string name="choose_application_type">Choose application type</string>
+    <string name="application_reason">Application Reason</string>
+    <string name="sick_leave_example">e.g: sick leave</string>
+    <string name="example_sick_leave">e.g: sick leave</string>
+    <string name="application_details">Application Details</string>
+    <string name="write_application_details">Write your application details</string>
+    <string name="write_application">Write Application</string>
+    <string name="start_date">Start Date</string>
+    <string name="select_start_date">Select start date</string>
+    <string name="start_date_hint">Select start date</string>
+    <string name="select_end_date">Select end date</string>
+    <string name="end_date_hint">Select end date</string>
+    <string name="submit_leave_application">Submit Leave Application</string>
+    <string name="submit_leave_application_icon">Submit leave application icon</string>
+    <string name="submit_arrow">Submit arrow</string>
+
+    <!-- ========================== MESSAGES & NOTIFICATIONS ========================== -->
+    <string name="msg_no_data">No data available</string>
+    <string name="msg_loading">Loading, please wait...</string>
+    <string name="msg_error_occurred">An error occurred</string>
+    <string name="msg_network_error">Network connection failed</string>
+    <string name="msg_retry">Retry</string>
+    <string name="retry">Retry</string>
+    <string name="offline_message">You appear to be offline. Please check your connection.</string>
+    <string name="data_load_error">Failed to load data. Please try again.</string>
+
+    <!-- ========================== EXAMS & RESULTS ========================== -->
+    <string name="exam_title">Examinations</string>
+    <string name="exam_schedule">Exam Schedule</string>
+    <string name="exam_results">Exam Results</string>
+    <string name="exam_no_result">Result not uploaded yet</string>
+    <string name="exam_menu">Exam Menu</string>
+    <string name="exam_icon">Exam icon</string>
+    <string name="exam_management">Exam Management</string>
+    <string name="your_progress">Your Progress</string>
+    <string name="see_your_progress_report">See Your Progress Report</string>
+    <string name="exam_operations">Exam Operations</string>
+    
+    <!-- Exam Actions -->
+    <string name="exam_mark_submit">Exam Mark Submit</string>
+    <string name="exam_mark_entry">Exam Mark Entry</string>
+    <string name="submit_result">Submit Result</string>
+    <string name="submit_exam_marks">Submit Exam Marks</string>
+    <string name="update_exam_marks">Update Exam Marks</string>
+    <string name="view_results">View Results</string>
+    <string name="student_marks">Student Marks</string>
+    <string name="marks">Marks</string>
+    <string name="submit_marks">Submit Marks</string>
+    
+    <!-- Exam Selection -->
+    <string name="select_exam_criteria">Select Exam Criteria</string>
+    <string name="exam_selection_instructions">Please select exam criteria below for marks entry</string>
+    <string name="exam_session">Exam Session</string>
+    <string name="select_exam_session">Select Exam Session</string>
+    <string name="select_exam_session_hint">Select Exam Session</string>
+    <string name="select_exam_session_step">2. Select Exam Session</string>
+    <string name="select_exam">Select Exam</string>
+    <string name="select_exam_hint">Select Exam</string>
+    <string name="placeholder_session">Session</string>
+    <string name="placeholder_exam">Exam</string>
+    <string name="placeholder_subject">Subject</string>
+    <string name="exam_colon">Exam: </string>
+    <string name="session_colon">Session: </string>
+    
+    <!-- Date Sheet -->
+    <string name="date_sheet">Date Sheet</string>
+    <string name="title_date_sheet">Date Sheet</string>
+    <string name="date_sheet_description">View Exam Schedule</string>
+    <string name="date_sheet_data">Date sheet data list</string>
+    <string name="name_loading">Name: Loading...</string>
+    <string name="class_loading">Class: Loading...</string>
+    <string name="header_time">Time</string>
+    <string name="send_date_sheet_sms">Send Date Sheet in SMS</string>
+    <string name="search_date_sheet">Search Date Sheet</string>
+    <string name="loading_date_sheet_data">Loading date sheet data</string>
+    <string name="refresh_exam_sessions">Refresh Exam Sessions</string>
+    
+    <!-- Progress Reports -->
+    <string name="progress_reports">Progress Reports</string>
+    <string name="progress_reports_description">View Academic Reports</string>
+    
+    <!-- Exam Wise -->
+    <string name="class_wise">Class Wise</string>
+    <string name="section_wise">Section Wise</string>
+    <string name="group_wise">Group Wise</string>
+
+    <!-- ========================== FEES ========================== -->
+    <string name="fees_title">Fees</string>
+    <string name="fees_paid">Paid</string>
+    <string name="paid">Paid</string>
+    <string name="fees_unpaid">Unpaid</string>
+    <string name="fees_pending">Pending</string>
+    <string name="fees_total">Total Fees</string>
+    <string name="fees_last_payment">Last Payment</string>
+    
+    <!-- Fee Challan -->
+    <string name="fee_challan_page_title">Fee Challan Page Title</string>
+    <string name="fee_challan">Fee Challan</string>
+    <string name="select_children">Select Children</string>
+    <string name="fee_challan_table">Fee Challan Table</string>
+    <string name="fee_challan_data_table">Fee Challan Data Table</string>
+    <string name="chalan_number_column">Chalan Number Column</string>
+    <string name="chalan_number">Chalan Number</string>
+    <string name="month_column">Month Column</string>
+    <string name="date_column">Date Column</string>
+    <string name="fee_column">Fee Column</string>
+    <string name="fee">Fee</string>
+    <string name="arrears_column">Arrears Column</string>
+    <string name="arrears">Arrears</string>
+    <string name="fine_column">Fine Column</string>
+    <string name="fine">Fine</string>
+    <string name="discount_column">Discount Column</string>
+    <string name="discount">Discount</string>
+    <string name="payable_column">Payable Column</string>
+    <string name="payable">Payable</string>
+    <string name="payment_column">Payment Column</string>
+    <string name="payment">Payment</string>
+    <string name="remaining_column">Remaining Column</string>
+    <string name="remaining">Remaining</string>
+
+    <!-- ========================== REPORTS ========================== -->
+    <string name="report_title">Reports</string>
+    <string name="report_generate">Generate Report</string>
+    <string name="report_download">Download Report</string>
+    <string name="report_view">View Report</string>
+    <string name="month_wise_report">Month Wise Report</string>
+    
+    <!-- ========================== TIMETABLE ========================== -->
+    <string name="time_table">Time Table</string>
+    <string name="timetable">Timetable</string>
+    <string name="timetable_title">Timetable</string>
+    <string name="time_table_description">View Class Schedule</string>
+    <string name="timetable_data">Timetable data list</string>
+    <string name="timetable_class_and_section">Timetable Class and Section</string>
+    <string name="select_timetable_session">Select timetable session</string>
+    <string name="select_timetable_session_hint">Choose timetable session</string>
+    <string name="send_timetable_sms">Send Timetable in SMS</string>
+    <string name="send_timetable_in_sms">Send Timetable in SMS</string>
+    <string name="loading_timetable_data">Loading timetable data</string>
+    <string name="no_timetable_data">No timetable records found</string>
+    
+    <!-- Timetable Details -->
+    <string name="lecture_numb">Lec.</string>
+    <string name="period_number">Period Number</string>
+    <string name="time">Time</string>
+    <string name="timing">Timing</string>
+    <string name="subject">Subj.</string>
+    <string name="teacher">Teacher</string>
+    <string name="break_time">Break Time</string>
+
+    <!-- ========================== DIARY ========================== -->
+    <string name="send_diary_class_incharge">Send Class Diary</string>
+    <string name="send_diary_section_incharge">Send Section Diary</string>
+    <string name="send_diary_subject_teacher">Send Subject Diary</string>
+    <string name="class_diary_details">Class Diary Details</string>
+    <string name="section_diary_details">Section Diary Details</string>
+    <string name="subject_diary_details">Subject Diary Details</string>
+    <string name="description">Description</string>
+    <string name="write_diary_content_class">Write diary content for entire class</string>
+    <string name="write_diary_content_section">Write diary content for section</string>
+    <string name="write_diary_content_subject">Write subject-specific diary content</string>
+    <string name="upload_picture">Upload Picture</string>
+    <string name="uploaded_image">Uploaded image</string>
+    <string name="send_to_app">Send to App</string>
+    <string name="send_diary_to_class">Send Diary to Class</string>
+    <string name="send_diary_to_section">Send Diary to Section</string>
+    <string name="send_subject_diary">Send Subject Diary</string>
+    <string name="no_date_selected">No date selected</string>
+    
+    <!-- ========================== ANNOUNCEMENTS ========================== -->
+    <string name="announcements_title">Announcements</string>
+    <string name="all_news">All</string>
+    <string name="events">Events</string>
+    <string name="text">News</string>
+    <string name="no_announcements_found">No announcements found\n\nCheck back later for updates!</string>
+    <string name="campus_id_error">Configuration Error\n\nCampus ID not found. Please contact support.</string>
+    <string name="campus_id_not_found">Campus ID not found</string>
+    <string name="failed_to_load_news">Failed to load news</string>
+    <string name="failed_to_load_events">Failed to load events</string>
+    <string name="failed_to_load_announcements">Failed to load announcements</string>
+    <string name="partial_data_warning">Some data may be incomplete. Please try refreshing.</string>
+
+    <!-- ========================== TASKS ========================== -->
+    <string name="task_icon">Task icon</string>
+    <string name="no_tasks_icon">No tasks icon</string>
+    <string name="no_tasks_found">No Tasks Found</string>
+    <string name="no_tasks_subtitle">No tasks match your current filters.\nTry adjusting your search criteria.</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="choose_category_to_view_tasks">Choose task category</string>
+    <string name="view_all_tasks">View All Tasks</string>
+    <string name="pending_tasks">Pending Tasks</string>
+    <string name="incomplete_tasks">Incomplete</string>
+    <string name="completed_tasks">Completed</string>
+    <string name="assigned_tasks_title">My Tasks</string>
+    <string name="total_tasks_0">Total Tasks: 0</string>
+    <string name="total_tasks_format">Total Tasks: %d</string>
+    <string name="title_activity_staff_assign_task">Staff Assign Task</string>
+    <string name="task_completed">Task Completed</string>
+    
+    <!-- Task Filters -->
+    <string name="status_filter">Status Filter</string>
+    <string name="date_range_filter">Date Range Filter</string>
+    <string name="clear_filter">Clear</string>
+    <string name="apply_filter">Apply Filter</string>
+    
+    <!-- Submit Response -->
+    <string name="submit_response">Submit Response</string>
+    <string name="write_your_response">Write your response:</string>
+    <string name="type_here">Type here..</string>
+    
+    <!-- ========================== FEEDBACK ========================== -->
+    <string name="feedback">Feedback</string>
+    <string name="feedback_icon">Feedback Icon</string>
+    <string name="feedback_menu">Feedback Menu</string>
+    <string name="feedback_welcome_message">Manage your student feedback</string>
+    <string name="staff_feedback">Staff Feedback</string>
+    <string name="give_student_feedback">Give Student Feedback</string>
+    <string name="submit_your_feedback">Submit Your Feedback</string>
+    <string name="submit_feedback">Submit Feedback</string>
+    <string name="submit_feedback_description">Create new feedback for students</string>
+    <string name="create_feedback_description">Create new feedback for students</string>
+    <string name="view_feedback_given_by_you">View Feedback Given by You</string>
+    <string name="view_feedback">View Feedback</string>
+    <string name="view_feedback_description">See all your submitted feedback</string>
+    <string name="view_feedback_description_short">See all your submitted feedback</string>
+    <string name="feedback_list">Feedback List</string>
+    <string name="feedback_list_label">Feedback list label</string>
+    <string name="feedback_list_data">Feedback list data</string>
+    <string name="no_feedback_available">No feedback available. Use the button below to add feedback about students.</string>
+    <string name="feedback_placeholder">Feedback content goes here…</string>
+    
+    <!-- Feedback Details -->
+    <string name="teacher_remarks">Teacher Remarks</string>
+    <string name="teacher_remarks_page_title">Teacher Remarks page</string>
+    <string name="feedback_label">Feedback:</string>
+    <string name="write_feedback_hint">Write Feedback</string>
+    <string name="submit_to_parent_app">Submit to App</string>
+    <string name="submit_to_parent_no">SMS To Parent</string>
+    <string name="total_feedback">Total Feedback</string>
+    <string name="this_month">This Month</string>
+    <string name="feedback_tip">Developed by Topgrade Software</string>
+    <string name="load_feedback">Load Feedback</string>
+    <string name="load_feedback_button">Load feedback button</string>
+    
+    <!-- Feedback Format Strings -->
+    <string name="teacher_with_subject">%1$s (%2$s)</string>
+    <string name="child_with_subject">%1$s (%2$s)</string>
+
+    <!-- ========================== SALARY ========================== -->
+    <string name="advanced_salary">Advance Salary</string>
+    <string name="salary">Salary:</string>
+    <string name="salary_detail">Salary Details</string>
+    <string name="payment_history">Payment History</string>
+    <string name="ledger">History</string>
+    <string name="invoice">Salary Detail</string>
+    
+    <!-- Salary Details -->
+    <string name="month_salary">Month Salary</string>
+    <string name="total_salary">Total Salary</string>
+    <string name="lecture_assigned">Lecture Assigned</string>
+    <string name="lecture_attended">Lecture Attended</string>
+    <string name="per_d_rate">Per/D Rate</string>
+    <string name="adv_deduct">Adv Deduct</string>
+    <string name="deduction">Deduction</string>
+    <string name="deduction_month">Ded/Month</string>
+    <string name="incentive">Incentive</string>
+    <string name="paid_date">Paid Date</string>
+    <string name="salary_sub_total">Salary Sub Total</string>
+    <string name="head">Head</string>
+    <string name="daily_lectures">Daily Lectures:</string>
+
+    <!-- ========================== PROFILE ========================== -->
+    <string name="profile">Profile</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="edit_profile_picture">Edit profile picture</string>
+    <string name="tap_to_view_larger_image">Tap to view larger image</string>
+    <string name="click_here_to_upload_image">Click Here to Upload Image</string>
+    <string name="edit_image_icon">Edit image icon</string>
+    <string name="edit_image_icon_staff">Edit image icon</string>
+    
+    <!-- Parent Profile -->
+    <string name="parent_profile">Parent Profile</string>
+    
+    <!-- Student Profile -->
+    <string name="student_profile">Student Profile</string>
+    <string name="student_name">Student Name:</string>
+    <string name="student_name_label">Student Name</string>
+    <string name="enter_student_name">Enter student name</string>
+    <string name="update_student_profile">Update Student Profile</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="school_information">School Information</string>
+    
+    <!-- Child Profile -->
+    <string name="child_detail">Child Detail</string>
+    <string name="child_profile">Child Profile</string>
+    <string name="child_list">Child List</string>
+    <string name="no_child_list">No Child List</string>
+    <string name="no_siblings_found">No siblings found.\n\nThis feature shows other students in your family.</string>
+    <string name="no_children_found">No children found.\n\nThis feature shows your children\'s information.</string>
+    <string name="select_child">Select Child</string>
+    <string name="select_child_label">Select child label</string>
+    <string name="select_child_spinner">Select child spinner</string>
+    <string name="select_child_hint">Choose a child</string>
+    
+    <!-- Edit Profile -->
+    <string name="edit_profile">Edit Profile</string>
+    <string name="update_profile">Update Profile</string>
+    
+    <!-- Profile Fields -->
+    <string name="name">Name</string>
+    <string name="name_label">Name</string>
+    <string name="name_label_staff">Name</string>
+    <string name="name_field_label">Name</string>
+    <string name="name_hint">Name</string>
+    <string name="name_hint_staff">Enter your name</string>
+    <string name="enter_name">Enter your name</string>
+    
+    <string name="email">Email</string>
+    <string name="email_label">Email:</string>
+    <string name="email_label_staff">Email</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="email_hint_staff">Enter your email</string>
+    
+    <string name="phone">Phone</string>
+    <string name="phone_label">Phone:</string>
+    <string name="phone_label_staff">Phone</string>
+    <string name="phone_hint">Phone</string>
+    <string name="phone_hint_staff">Enter your phone number</string>
+    <string name="enter_phone">Enter your phone number</string>
+    <string name="parent_number_label">Parent Number</string>
+    <string name="parent_number_label_profile">Parent Number</string>
+    
+    <string name="landline">Landline</string>
+    <string name="landline_label">Landline:</string>
+    <string name="landline_label_staff">Landline</string>
+    <string name="enter_landline">Enter your landline number</string>
+    <string name="landline_hint_staff">Enter your landline number</string>
+    
+    <string name="address">Address</string>
+    <string name="address_label">Address:</string>
+    <string name="address_label_staff">Address</string>
+    <string name="enter_address">Enter your address</string>
+    <string name="address_hint_staff">Enter your address</string>
+    
+    <string name="father_name">Father\'s Name</string>
+    <string name="father_name_label">Father\'s Name</string>
+    
+    <string name="gender">Gender</string>
+    <string name="gender_label">Gender</string>
+    <string name="gender_label_profile">Gender</string>
+    <string name="gender_label_staff">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender_hint_staff">Select your gender</string>
+    
+    <string name="date_of_birth">DOB:</string>
+    <string name="dob_label">DOB</string>
+    <string name="dob_label_profile">Date of Birth</string>
+    <string name="dob_label_staff">DOB</string>
+    <string name="d_o_b">D.O.B:</string>
+    <string name="dob_hint_staff">Select your date of birth</string>
+    
+    <string name="cnic">CNIC No :</string>
+    <string name="cnic_label_staff">CNIC</string>
+    <string name="cnic_hint_staff">Enter your CNIC</string>
+    
+    <string name="qualification">Qualification:</string>
+    <string name="education_label_staff">Education</string>
+    <string name="education_hint_staff">Enter your education</string>
+    
+    <string name="designation">Designation:</string>
+    <string name="security">Security:</string>
+    <string name="joining_date">Joining Date:</string>
+    
+    <string name="subject_label_staff">Subject</string>
+    <string name="staff_subject">Staff Subject</string>
+    <string name="subject_hint_staff">Enter your subject</string>
+    <string name="select_subject">Select Subject</string>
+    <string name="select_subject_hint">Select Subject</string>
+    <string name="select_multiple_subjects">Select Multiple Subjects</string>
+    
+    <string name="parent_label_staff">Parent</string>
+    <string name="parent_hint_staff">Enter parent name</string>
+    
+    <string name="state">State:</string>
+    <string name="state_label_staff">State</string>
+    <string name="state_hint_staff">Select your state</string>
+    
+    <string name="city">City:</string>
+    <string name="city_label_staff">City</string>
+    <string name="city_hint_staff">Select your city</string>
+    
+    <string name="admission_date">DOA:</string>
+    <string name="doa_label">DOA</string>
+    <string name="form_date_label">Form Date</string>
+    
+    <string name="reg_or_roll_number">Reg/Roll No:</string>
+    <string name="reg_no_label">Reg No</string>
+    <string name="reg_no_label_profile">Reg No</string>
+    
+    <string name="roll_no">Roll No</string>
+    <string name="roll_no_label">Roll No</string>
+    <string name="roll_no_label_profile">Roll No</string>
+    
+    <string name="class_label">Class</string>
+    <string name="select_class">Select Class</string>
+    <string name="select_class_hint">Select Class</string>
+    <string name="classes">Classes</string>
+    <string name="placeholder_class">Class</string>
+    <string name="select_class_subject">Select Class/Subject</string>
+    
+    <string name="section_label">Section</string>
+    <string name="section_name_label">Section Name</string>
+    <string name="section">Sec</string>
+    <string name="section_short">Sec</string>
+    <string name="select_section">Select Section</string>
+    <string name="select_section_hint">Select Section</string>
+    <string name="select_multiple_sections">Select Multiple Sections</string>
+    <string name="placeholder_section">Section</string>
+    
+    <string name="shift_label">Shift</string>
+    
+    <string name="advanced_label">Advanced</string>
+    <string name="advanced_label_profile">Advanced Options</string>
+
+    <!-- ========================== SETTINGS ========================== -->
+    <string name="settings_title">Settings</string>
+    <string name="settings">Settings</string>
+    <string name="settings_icon">Settings Icon</string>
+    <string name="settings_profile">Profile Settings</string>
+    <string name="settings_change_password">Change Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_login_password">Change Login Password</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_logout">Logout</string>
+    
+    <!-- Password Change -->
+    <string name="previous_password">Previous Password</string>
+    <string name="Previous_Password">Previous Password</string>
+    <string name="new_password">New Password</string>
+    <string name="New_Password">New Password</string>
+
+    <!-- ========================== GENERAL BUTTONS ========================== -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_uppercase">CANCEL</string>
+    <string name="btn_delete">Delete</string>
+    <string name="delete">Delete</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="confirm">Confirm</string>
+    <string name="reset">Reset</string>
+    <string name="filter">Filter</string>
+    <string name="filter_icon">Filter Icon</string>
+    <string name="search">Search</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="view">View</string>
+    <string name="edit">Edit</string>
+    <string name="close_button">Close</string>
+    <string name="close_dialog">Close dialog</string>
+    <string name="select">SELECT</string>
+    <string name="select_option">Select Option</string>
+    <string name="selected">Selected</string>
+    <string name="or">OR</string>
+
+    <!-- ========================== NAVIGATION ========================== -->
+    <string name="back_to_home">Back to Home</string>
+    <string name="back_to_home_description">Go Home</string>
+    <string name="back_to_menu">Back to Menu</string>
+    <string name="back_button">Go back to previous screen</string>
+    <string name="back_button_desc">Back button</string>
+    <string name="back_to_previous_screen">Go back to previous screen</string>
+    <string name="back_navigation">Go Back</string>
+    <string name="back_icon_desc">ic_arrow_back for navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- ========================== ADDITIONAL OPTIONS ========================== -->
+    <string name="additional_options">Additional Options</string>
+    <string name="about">About</string>
+    <string name="about_icon">About Icon</string>
+    <string name="share">Share</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="share_app">Share App</string>
+    <string name="share_app_icon">Share app icon</string>
+    <string name="share_application">Share Application</string>
+    <string name="share_app_message">Let me recommend you this application to view student attendance, fee Challan and Reports.\n\n%1$s\n\n</string>
+    <string name="share_app_chooser">Choose one</string>
+    <string name="help">Help</string>
+    <string name="help_icon">Help Icon</string>
+    <string name="rate">Rate</string>
+    <string name="rate_app">Rate App</string>
+    <string name="apply_online">Apply Online</string>
+    <string name="visit_our_web">Visit Our Website</string>
+
+    <!-- ========================== SMS ========================== -->
+    <string name="sms">SMS</string>
+    <string name="sms_on">SMS: ON</string>
+    <string name="sms_toggle">Enable SMS notifications</string>
+    <string name="sms_toggle_all">Toggle SMS for all students</string>
+    <string name="send_sms_to_all">Send SMS to all students</string>
+    <string name="send_sms">SMS</string>
+    <string name="send_sms_notification">SMS</string>
+
+    <!-- ========================== DATE & TIME ========================== -->
+    <string name="date">Date</string>
+    <string name="date_colon">Date: </string>
+    <string name="date_placeholder">29 October, 2025</string>
+    <string name="placeholder_date">Select Date</string>
+    <string name="end_date">End Date</string>
+    <string name="month">Month</string>
+    <string name="month_year_format">%1$s %2$d</string>
+    <string name="previous_date">Previous Date</string>
+    <string name="next_date">Next Date</string>
+    
+    <!-- ========================== DATA & RECORDS ========================== -->
+    <string name="total">Total</string>
+    <string name="total_records">Total Records:</string>
+    <string name="total_records_colon">Total Records:</string>
+    <string name="total_records_desc">Total number of timetable records</string>
+    <string name="total_records_default">Total Records: 0</string>
+    <string name="total_records_0">Total Records: 0</string>
+    <string name="total_records_zero">Total Records: 0</string>
+    <string name="total_records_format">Total Records: %d</string>
+    <string name="serial_number">Sr.</string>
+    <string name="sr">Sr</string>
+    <string name="serial_number_format">%1$d</string>
+    <string name="title">Title</string>
+    <string name="amount">Amount</string>
+    <string name="reason">Reason</string>
+    <string name="reason_alt">Reason</string>
+    <string name="resson">Reason</string>
+    <string name="information">Information</string>
+
+    <!-- ========================== ZERO VALUES ========================== -->
+    <string name="default_zero">0</string>
+    <string name="zero_value">0</string>
+    <string name="zero">0</string>
+    <string name="zero_value_alt">0</string>
+
+    <!-- ========================== EMPTY STATES ========================== -->
+    <string name="no_academics_data">No academic data available</string>
+    <string name="no_academics_data_description">Please check your connection and try again</string>
+    <string name="empty_state">Empty state</string>
+
+    <!-- ========================== ICONS & CONTENT DESCRIPTIONS ========================== -->
+    <string name="admin_icon">Admin Icon</string>
+    <string name="campus_icon">Campus Icon</string>
+    <string name="super_admin_icon">Super Admin Icon</string>
+    <string name="staff_icon">Staff Icon</string>
+    <string name="student_icon">Student Icon</string>
+    <string name="parent_icon">Parent Icon</string>
+    <string name="staff_login_icon">Staff Login Icon</string>
+    <string name="parent_login_icon">Parent Login Icon</string>
+    <string name="student_login_icon">Student Login Icon</string>
+    <string name="header_wave_background">Header wave background</string>
+    <string name="header_background">Header background</string>
+    <string name="dropdown_icon">Dropdown Icon</string>
+    <string name="dropdown_arrow">Dropdown arrow</string>
+    <string name="more_options_desc">More options menu</string>
+    <string name="options_menu">Options menu</string>
+    <string name="forward_arrow">Forward arrow</string>
+    <string name="add_feedback_icon">Add feedback icon</string>
+    <string name="view_feedback_icon">View feedback icon</string>
+    <string name="total_feedback_icon">Total feedback icon</string>
+    <string name="this_month_icon">This month icon</string>
+    <string name="theme_icon">Theme icon</string>
+    <string name="error_icon">Error icon</string>
+    <string name="loading_app_data">Loading app data</string>
+
+    <!-- ========================== ERROR MESSAGES ========================== -->
+    <string name="feature_coming_soon">Feature coming soon: %1$s</string>
+    <string name="error_initializing_dashboard">Error initializing academics dashboard</string>
+    <string name="error_opening_feature">Error opening %1$s</string>
+    <string name="error_sharing_application">Error sharing application</string>
+    <string name="error_opening_rate_page">Error opening rate page</string>
+    <string name="error_going_back_home">Error going back to home</string>
+
+    <!-- ========================== IMAGE CROPPING ========================== -->
+    <string name="crop_image_activity_title"></string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="crop_image_menu_flip">Flip</string>
+    <string name="crop_image_menu_flip_horizontally">Flip horizontally</string>
+    <string name="crop_image_menu_flip_vertically">Flip vertically</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
+
+    <!-- ========================== NAVIGATION FRAGMENTS ========================== -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <!-- ========================== MISCELLANEOUS ========================== -->
+    <string name="titletextsize">20dp</string>
+    <string name="font_family_condensed">sans-serif-condensed</string>
+    <string name="verification_code">Enter the 4-digit code sent to you at 7909092807</string>
+    <string name="load_students">Load Students</string>
+    <string name="select_student">Select Student</string>
+    <string name="tap_to_configure_exam_selection">Tap to configure exam selection</string>
+
+    <!-- ========================== GENDER ARRAY ========================== -->
+    <string-array name="gender_array">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+    
+</resources>

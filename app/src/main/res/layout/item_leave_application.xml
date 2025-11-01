@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Section - Orange Background -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_orange_background"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <!-- Serial Number Circle -->
+            <TextView
+                android:id="@+id/serial_number"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/navy_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand_bold" />
+
+            <!-- Application Title -->
+            <TextView
+                android:id="@+id/application_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:text="Leave Application"
+                android:textColor="@color/navy_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand_bold"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/application_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand_bold"
+                android:background="@drawable/rounded_white_background"
+                android:backgroundTint="@color/navy_blue"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp" />
+
+        </LinearLayout>
+
+        <!-- Bottom Section - Light Gray Background -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_light_gray_background"
+            android:padding="12dp"
+            android:layout_marginTop="4dp">
+
+            <!-- Date Range -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_calendar"
+                    android:contentDescription="Calendar"
+                    app:tint="@color/navy_blue" />
+
+                <TextView
+                    android:id="@+id/date_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="2025-01-15 to 2025-01-17"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/quicksand_medium" />
+
+            </LinearLayout>
+
+            <!-- Application Body -->
+            <TextView
+                android:id="@+id/application_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Application description or reason for leave..."
+                android:textColor="@color/navy_blue"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_medium"
+                android:layout_marginBottom="8dp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <!-- Tap to View Details -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end|center_vertical">
+
+                <TextView
+                    android:id="@+id/tap_to_view_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to view details →"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:alpha="0.7" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

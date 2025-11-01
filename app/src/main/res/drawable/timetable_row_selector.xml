@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Light gray background for odd rows (selected state) -->
+    <item android:state_selected="true" android:color="#F5F5F5" />
+    <!-- White background for even rows (default state) -->
+    <item android:color="#FFFFFF" />
+</selector>

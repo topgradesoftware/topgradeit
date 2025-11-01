@@ -1,0 +1,16 @@
+<!-- squircle_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background color of the frame -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Outer round rectangle -->
+    <corners android:radius="@dimen/_10sdp" />
+
+    <!-- Padding to create a square shape inside the rectangle -->
+    <padding
+        android:bottom="@dimen/_2sdp"
+        android:left="@dimen/_2sdp"
+        android:right="@dimen/_2sdp"
+        android:top="@dimen/_2sdp" />
+</shape>

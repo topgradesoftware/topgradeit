@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:fitsSystemWindows="true"
+    tools:context=".Teacher.Diary.DiarySubmitSubject">
+
+    <!-- Background wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back_icon_desc"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_diary_subject_teacher"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- ScrollView for content -->
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintBottom_toTopOf="@+id/btn_send_diary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+            
+            <!-- Date Selection -->
+            <LinearLayout
+                android:id="@+id/diary_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_black"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8sdp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/date_left_arrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:contentDescription="@string/previous_date"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/diary_date_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/date_placeholder"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="center"
+                    android:contentDescription="@string/select_date"
+                    tools:text="Wed • 30 October,2024" />
+
+                <ImageView
+                    android:id="@+id/date_right_arrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    android:contentDescription="@string/next_date"
+                    app:tint="@color/black" />
+            </LinearLayout>
+
+            <!-- Class Selection Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="12dp">
+
+                <!-- Select Class -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_class"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    app:drawableStartCompat="@drawable/ic_class_navy"
+                    android:drawablePadding="6dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/class_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/spinner_background" />
+            </LinearLayout>
+
+            <!-- Section Selection Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="12dp">
+
+                <!-- Select Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_section"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    app:drawableStartCompat="@drawable/ic_section_24dp"
+                    android:drawablePadding="6dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/section_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/spinner_background" />
+            </LinearLayout>
+
+            <!-- Subject Selection Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="12dp">
+
+                <!-- Select Subject -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_subject"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/quicksand_bold"
+                    app:drawableStartCompat="@drawable/ic_subject_24dp"
+                    android:drawablePadding="6dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/subject_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/spinner_background" />
+                
+                <!-- Multi-Select Subjects Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_subjects"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/select_multiple_subjects"
+                    android:textSize="12sp"
+                    android:textColor="@color/navy_blue"
+                    android:fontFamily="@font/quicksand_medium"
+                    app:icon="@drawable/ic_check_box"
+                    app:iconSize="18dp"
+                    app:iconTint="@color/navy_blue"
+                    app:strokeColor="@color/navy_blue"
+                    app:cornerRadius="6dp" />
+            </LinearLayout>
+            
+            <!-- Subject Diary Header -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@color/navy_blue"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp"
+                android:text="@string/subject_diary_details"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_bold"
+                android:textStyle="bold" />
+
+            <!-- Description Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="@string/description"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_bold"
+                app:drawableStartCompat="@drawable/ic_diary_description_navy"
+                android:drawablePadding="6dp" />
+
+            <EditText
+                android:id="@+id/et_diary_description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/edittext_background"
+                android:gravity="top|start"
+                android:hint="@string/write_diary_content_subject"
+                android:textColorHint="#757575"
+                android:textColor="@color/black"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textSize="13sp"
+                android:importantForAutofill="no" />
+
+            <!-- Upload Picture Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_upload_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/navy_blue"
+                android:padding="10dp"
+                android:text="@string/upload_picture"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:fontFamily="@font/quicksand_bold"
+                app:cornerRadius="6dp"
+                app:icon="@drawable/ic_upload_24dp"
+                app:iconTint="@android:color/white"
+                app:iconPadding="6dp" />
+
+            <!-- Image Preview Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_image_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <!-- Thumbnail Image -->
+                    <ImageView
+                        android:id="@+id/iv_diary_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        android:background="#E0E0E0"
+                        android:contentDescription="@string/uploaded_image" />
+
+                    <!-- Action Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <!-- View/Zoom Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_view_image"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:text="@string/view"
+                            android:textSize="10sp"
+                            android:textColor="@color/navy_blue"
+                            android:contentDescription="@string/view"
+                            android:maxLines="1"
+                            app:icon="@drawable/ic_view"
+                            app:iconSize="16dp"
+                            app:iconTint="@color/navy_blue"
+                            app:strokeColor="@color/navy_blue"
+                            app:cornerRadius="4dp" />
+
+                        <!-- Delete Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_delete_image"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:text="@string/delete"
+                            android:textSize="10sp"
+                            android:textColor="#D32F2F"
+                            android:contentDescription="@string/delete"
+                            android:maxLines="1"
+                            app:icon="@drawable/ic_close"
+                            app:iconSize="16dp"
+                            app:iconTint="#D32F2F"
+                            app:strokeColor="#D32F2F"
+                            app:cornerRadius="4dp" />
+
+                        <!-- Edit Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_edit_image"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/edit"
+                            android:textSize="10sp"
+                            android:textColor="@color/navy_blue"
+                            android:contentDescription="@string/edit"
+                            android:maxLines="1"
+                            app:icon="@drawable/ic_edit"
+                            app:iconSize="16dp"
+                            app:iconTint="@color/navy_blue"
+                            app:strokeColor="@color/navy_blue"
+                            app:cornerRadius="4dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Send to App -->
+            <CheckBox
+                android:id="@+id/cb_send_to_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/send_to_app"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_bold"
+                android:checked="true" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Send Diary Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_send_diary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/navy_blue"
+        android:text="@string/send_subject_diary"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:fontFamily="@font/quicksand_bold"
+        app:cornerRadius="6dp"
+        app:icon="@drawable/ic_send"
+        app:iconGravity="start"
+        app:iconTint="@android:color/white"
+        app:iconPadding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTint="@color/navy_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Hidden fields for compatibility -->
+    <LinearLayout
+        android:id="@+id/selection_page"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:id="@+id/data_section"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/date_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/selection_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/session_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/class_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/section_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/subject_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

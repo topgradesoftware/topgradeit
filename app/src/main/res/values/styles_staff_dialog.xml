@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom theme for staff month selection dialog -->
+    <style name="StaffDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:listViewStyle">@style/StaffListViewStyle</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    
+    <!-- Custom ListView style for staff theme -->
+    <style name="StaffListViewStyle" parent="Widget.AppCompat.ListView">
+        <item name="android:divider">@color/navy_blue</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:listSelector">@drawable/staff_list_selector</item>
+    </style>
+</resources>

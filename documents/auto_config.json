@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "Topgrade Software App",
+    "version": "1.5",
+    "package": "topgrade.parent.com.parentseeks"
+  },
+  "build": {
+    "debug": true,
+    "release": true,
+    "clean_before_build": true,
+    "generate_report": true,
+    "copy_to_builds_folder": true
+  },
+  "automation": {
+    "daily_build": true,
+    "email_notifications": false,
+    "upload_to_cloud": false,
+    "backup_old_builds": true,
+    "max_backup_count": 10
+  },
+  "notifications": {
+    "email": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "from_email": "noreply@topgrade.com",
+      "to_email": "admin@topgrade.com"
+    },
+    "slack": {
+      "enabled": false,
+      "webhook_url": ""
+    }
+  },
+  "cloud_storage": {
+    "google_drive": {
+      "enabled": false,
+      "folder_id": ""
+    },
+    "dropbox": {
+      "enabled": false,
+      "access_token": ""
+    }
+  },
+  "paths": {
+    "builds_folder": "builds",
+    "reports_folder": "builds/reports",
+    "backup_folder": "builds/backup"
+  },
+  "scheduling": {
+    "daily_build_time": "09:00",
+    "weekly_cleanup": true,
+    "cleanup_day": "sunday"
+  }
+} 

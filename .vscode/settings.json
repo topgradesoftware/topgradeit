@@ -1,0 +1,77 @@
+{
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.7.6-hotspot"
+        }
+    ],
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.7.6-hotspot",
+    "java.import.gradle.wrapper.checksums": [],
+    "java.import.gradle.enabled": true,
+    "java.import.gradle.offline.enabled": false,
+    "java.import.gradle.arguments": "--no-daemon",
+    "java.import.gradle.jvmArguments": "-Xmx4g",
+    "java.import.gradle.user.home": "",
+    "java.import.gradle.java.imports": {
+        "java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.7.6-hotspot"
+    },
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.7.6-hotspot",
+            "default": true
+        }
+    ],
+    "java.project.sourcePaths": [
+        "app/src/main/java"
+    ],
+    "java.project.outputPath": "app/build/intermediates/javac/debug/classes",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.configuration.detectJdksAtStart": false,
+    "java.import.exclusions": [
+        "**/node_modules/**",
+        "**/.metadata/**",
+        "**/archetype-resources/**",
+        "**/META-INF/maven/**"
+    ],
+    "java.autobuild.enabled": true,
+    "java.maxConcurrentBuilds": 1,
+    "java.completion.enabled": true,
+    "java.signatureHelp.enabled": true,
+    "java.contentProvider.preferred": "fernflower",
+    "java.sources.organizeImports.starThreshold": 99,
+    "java.sources.organizeImports.staticStarThreshold": 99,
+    "java.format.enabled": true,
+    "java.format.settings.url": "",
+    "java.format.settings.profile": "",
+    "java.saveActions.organizeImports": true,
+    "java.eclipse.downloadSources": true,
+    "java.maven.downloadSources": true,
+    "java.references.includeDecompiledSources": true,
+    "java.sources.organizeImports.starThreshold": 99,
+    "java.sources.organizeImports.staticStarThreshold": 99,
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "java.project.resourceFilters": [
+        "node_modules",
+        ".git"
+    ],
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/app/build": true,
+        "**/build": true
+    },
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.7.6-hotspot",
+            "default": true
+        }
+    ]
+}

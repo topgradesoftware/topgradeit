@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/header" android:layout_width="wrap_content" android:layout_height="?attr/actionBarSize" android:background="@color/student_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@+id/back_icon"
+            android:layout_toRightOf="@+id/back_icon"
+            android:text="Progress Report"
+            android:textColor="@color/white"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <ImageView
+            android:id="@+id/more_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            app:tint="@android:color/white" 
+        android:contentDescription="@string/more_options"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Session Selector - Now positioned below header -->
+    <LinearLayout
+        android:id="@+id/session_selector_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="@color/student_primary"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Session"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/show_advanced_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Select Children"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/_10sdp"
+            app:drawableEndCompat="@drawable/ic_arrow_drop_down_white_24dp"
+            app:drawableRightCompat="@drawable/ic_arrow_drop_down_white_24dp" />
+
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/session_selector_container"
+        android:indeterminateOnly="true"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/search_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_bar"
+        android:hint="Search..."
+        android:inputType="text"
+        android:padding="8dp"
+        android:background="@drawable/et_border"
+        android:layout_margin="8dp" />
+
+    <LinearLayout
+        android:id="@+id/filter_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_filter"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_bar"
+
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp">
+
+            <LinearLayout
+                android:id="@+id/session_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+
+                android:layout_marginTop="@dimen/_5sdp"
+
+
+                android:background="@drawable/style_border_gray"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:divider="@drawable/style_divider_gray"
+
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Selected Child"
+                        android:textColor="?android:textColorPrimary"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:id="@+id/Selected_Child"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_dark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:divider="@drawable/style_divider_gray"
+
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Selected Session"
+                        android:textColor="?android:textColorPrimary"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:id="@+id/Selected_Session"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_dark" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/subject_wise_report_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Subject Wise Report"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                             android:fontFamily="@font/quicksand_bold"
+ />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontal_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/topPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/_5sdp">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/test_rcv"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/subject_rcv"
+                        android:layout_alignParentStart="true"
+                        android:background="@drawable/style_border_gray_color"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subject_rcv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/test_rcv"
+                        android:background="@drawable/style_border_gray_color"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subject_detail_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/subject_rcv"
+                        android:layout_toEndOf="@+id/test_rcv"
+                        android:background="@drawable/style_border_gray"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/marks_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/subject_detail_rcv"
+                        android:layout_toRightOf="@+id/marks_tv"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/Graph_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/marks_rcv"
+                        android:layout_toRightOf="@+id/graph_tv"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/percent_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/Graph_rcv"
+                        android:layout_toRightOf="@+id/percent_tv"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/class_pos_rcv"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/percent_rcv"
+                        android:layout_toRightOf="@+id/class_pos_tv"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                    <TextView
+                        android:id="@+id/marks_tv"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/test_rcv"
+                        android:background="@drawable/style_border_gray_color"
+                        android:gravity="center"
+                        android:padding="@dimen/_7sdp"
+                        android:text="T Marks"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+
+                    <TextView
+                        android:id="@+id/graph_tv"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/marks_tv"
+                        android:background="@drawable/style_border_gray_color"
+                        android:gravity="center"
+                        android:padding="@dimen/_7sdp"
+                        android:text="Graph"
+
+
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:id="@+id/percent_tv"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/graph_tv"
+                        android:background="@drawable/style_border_gray_color"
+                        android:gravity="center"
+                        android:padding="@dimen/_7sdp"
+                        android:text="%age"
+
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:id="@+id/class_pos_tv"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/percent_tv"
+                        android:background="@drawable/style_border_gray_color"
+                        android:gravity="center"
+                        android:padding="@dimen/_7sdp"
+                        android:text="Class Pos"
+
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+
+                </RelativeLayout>
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:id="@+id/month_wise_report_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/month_wise_report"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                             android:fontFamily="@font/quicksand_bold"
+ />
+
+            <LinearLayout
+                android:id="@+id/monthly_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/style_border_gray"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/style_border_gray_color"
+                    android:divider="@drawable/style_divider_gray"
+                    android:showDividers="middle"
+
+                    android:weightSum="6.5">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="7dp"
+                        android:text="Month"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:padding="7dp"
+                        android:text="Marks"
+
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="7dp"
+                        android:text="CP"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="7dp"
+                        android:text="%"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="Attendance"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/_10ssp"
+                                     android:fontFamily="@font/quicksand_bold"
+ />
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attendence_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@android:color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+
+                        android:id="@+id/headerScroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/style_divider_gray"
+                        android:showDividers="middle"
+                        android:weightSum="6.5">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/style_border_gray_color"
+                            android:gravity="center"
+                            android:padding="7dp"
+                            android:text="Average"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                                         android:fontFamily="@font/quicksand_bold"
+ />
+
+                        <TextView
+                            android:id="@+id/Avg_Marks"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
+                            android:padding="7dp"
+                            android:textColor="?android:textColorPrimary"
+
+                            android:textSize="@dimen/_10ssp"
+                                         android:fontFamily="@font/quicksand_bold"
+ />
+
+                        <TextView
+                            android:id="@+id/Avg_Position"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="7dp"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                                         android:fontFamily="@font/quicksand_bold"
+ />
+
+                        <TextView
+                            android:id="@+id/Avg_Percentage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="7dp"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                                         android:fontFamily="@font/quicksand_bold"
+ />
+
+                        <TextView
+                            android:id="@+id/Avg_Attendance"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:padding="7dp"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/subject_wise_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Subject wise Percentage Graph"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                             android:fontFamily="@font/quicksand_bold"
+ />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+
+                android:layout_height="@dimen/_250sdp"
+                android:layout_marginTop="@dimen/_20sdp" />
+
+
+            <TextView
+                android:id="@+id/month_wise_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Month wise Percentage Graph"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                             android:fontFamily="@font/quicksand_bold"
+ />
+
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/month_wise_graph"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_250sdp"
+                android:layout_marginTop="@dimen/_20sdp" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

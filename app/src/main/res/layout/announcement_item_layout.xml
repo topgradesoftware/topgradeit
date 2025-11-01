@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Unified Table Row -->
+    <LinearLayout
+        android:id="@+id/table_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:divider="@drawable/style_divider_gray"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="10"
+        android:padding="4dp"
+        android:background="@color/white">
+
+        <!-- Serial Number -->
+        <TextView
+            android:id="@+id/serial"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/serial_number"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- Start Date (for events) -->
+        <TextView
+            android:id="@+id/start_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/start_date"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- End Date (for events) -->
+        <TextView
+            android:id="@+id/end_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/end_date"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
+    <!-- Bottom Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_dark" />
+
+</LinearLayout>

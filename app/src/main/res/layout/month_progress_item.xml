@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@android:color/black" />
+
+    <LinearLayout
+
+        android:id="@+id/headerScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/style_divider_gray"
+        android:showDividers="middle"
+        android:weightSum="6.5">
+
+
+        <TextView
+            android:id="@+id/Month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/style_border_gray_color"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <TextView
+            android:id="@+id/Marks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="?android:textColorPrimary"
+
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <TextView
+            android:id="@+id/Position"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <TextView
+            android:id="@+id/Percentage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <TextView
+            android:id="@+id/Attendance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_140sdp"
+    android:layout_margin="@dimen/_5sdp"
+    android:padding="@dimen/_5sdp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp"
+        android:weightSum="10">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/perfect"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:src="@drawable/man_brown"
+            android:background="@color/white"
+            android:padding="6dp" />
+
+        <TextView
+            android:id="@+id/name_wanted"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="Name"
+            android:textColor="@color/student_primary"
+            android:textSize="@dimen/_12ssp"
+            android:fontFamily="@font/quicksand_bold"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

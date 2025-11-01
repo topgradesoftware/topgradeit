@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_100sdp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/style_border_gray"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/Subjects"
+            android:layout_width="match_parent"
+
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/style_border_gray_color"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/Test_No"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/Students_Appeared"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+        <TextView
+            android:id="@+id/Total_Students"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/above_90"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+        <TextView
+            android:id="@+id/per_81_90"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/per_71_80"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/per_61_70"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/per_51_60"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/per_33_50"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/per_25_33"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/Passed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/Failed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/Passed_per"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:id="@+id/Failed_per"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:singleLine="true"
+            android:text="0"
+
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_weight="50"
+            android:padding="@dimen/_7sdp"
+            android:text="Class Position"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+                         android:fontFamily="@font/quicksand_bold"
+
+            android:visibility="gone" />
+
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="1dp"
+            android:background="@color/color_gray_dark"
+            android:visibility="gone" />
+
+
+    </LinearLayout>

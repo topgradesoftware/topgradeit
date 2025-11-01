@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="false">
+
+    <!-- Background wave - Extended to cover status bar -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ic_arrow_back -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" 
+        android:contentDescription="@string/back_button"/>
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/advanced_salary"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Header Row - Navy Blue -->
+    <LinearLayout
+        android:id="@+id/header_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:background="@color/navy_blue"
+        android:divider="@drawable/style_divider_white"
+        android:minHeight="30dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_4sdp"
+        android:showDividers="middle"
+        android:weightSum="5.5"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/resson"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/month"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/date"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/amount"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/deduction_month"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- RecyclerView Container -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Advanced_salary_rcv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/header_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/advanced_salary_layout" 
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"/>
+
+    <!-- Total Records Text - After Table Data -->
+    <TextView
+        android:id="@+id/total_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/total_records"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="12sp"
+        android:gravity="start"
+        app:layout_constraintTop_toBottomOf="@+id/Advanced_salary_rcv"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Summary Row - Navy Blue -->
+    <LinearLayout
+        android:id="@+id/summary_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:background="@color/navy_blue"
+        android:divider="@drawable/style_divider_white"
+        android:minHeight="20dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_4sdp"
+        android:showDividers="middle"
+        android:weightSum="5.5"
+        app:layout_constraintTop_toBottomOf="@+id/total_records"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/total"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/deuction_amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/zero"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/deuction_month"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_4sdp"
+            android:text="@string/zero"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

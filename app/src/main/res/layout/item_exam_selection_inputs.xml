@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Exam Session -->
+    <TextView
+        android:id="@+id/exam_session_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exam_session"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginTop="2dp"
+        android:labelFor="@+id/exam_session_spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/exam_session_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/select_exam_session"
+            android:inputType="none"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <!-- Class -->
+    <TextView
+        android:id="@+id/class_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_class"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginTop="6dp"
+        android:labelFor="@+id/class_spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/class_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/select_class"
+            android:inputType="none"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <!-- Section -->
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_section"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginTop="6dp"
+        android:labelFor="@+id/section_spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/section_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/select_section"
+            android:inputType="none"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <!-- Subject -->
+    <TextView
+        android:id="@+id/subject_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_subject"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginTop="6dp"
+        android:labelFor="@+id/subject_spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/subject_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/select_subject"
+            android:inputType="none"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <!-- Exam -->
+    <TextView
+        android:id="@+id/exam_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_exam"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginTop="6dp"
+        android:labelFor="@+id/exam_spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical">
+
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/exam_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/select_exam"
+            android:inputType="none"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+</LinearLayout>
+

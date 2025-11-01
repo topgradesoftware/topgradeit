@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/topgrade_logo"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Database Migration"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Migrate from Paper DB to Room Database"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Progress Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Migration Progress"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Status Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/status_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Checking migration status..."
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@drawable/status_background"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+    <!-- Details Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/details_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No details available"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:background="@drawable/details_background"
+                android:padding="12dp"
+                android:lineSpacingExtra="4dp" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/start_migration_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Migration"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_button_background"
+            android:layout_marginBottom="8dp"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/verify_migration_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify Migration"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/secondary_button_background"
+            android:layout_marginBottom="8dp"
+            android:enabled="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reset_migration_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reset"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/warning_button_background"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/close_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Close"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/neutral_button_background"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout> 

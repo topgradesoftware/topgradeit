@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="false"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    tools:targetApi="34"
+    tools:ignore="MissingConstraints,LayoutFidelity">
+
+    <!-- ==================== HEADER SECTION ==================== -->
+
+    <!-- Header Background Wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Navigation Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_navigation"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/update_section_attendance"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:contentDescription="@string/update_section_attendance"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Header Separator -->
+    <View
+        android:id="@+id/header_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:alpha="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ==================== MAIN CONTENT SECTION ==================== -->
+
+    <!-- Date Selection -->
+    <LinearLayout
+        android:id="@+id/attendance_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@+id/header_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/date_left_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/previous_date"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/attendence_date_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/attendance_date_placeholder"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:contentDescription="@string/select_date" />
+
+        <ImageView
+            android:id="@+id/date_right_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:contentDescription="@string/next_date"
+            app:tint="@color/black" />
+    </LinearLayout>
+
+    <!-- Class Selection Spinner -->
+    <LinearLayout
+        android:id="@+id/class_selection_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/attendance_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Spinner
+            android:id="@+id/class_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:contentDescription="@string/select_class" />
+    </LinearLayout>
+
+    <!-- Section Selection Spinner -->
+    <LinearLayout
+        android:id="@+id/section_selection_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/class_selection_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Spinner
+            android:id="@+id/section_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:contentDescription="@string/select_section" />
+    </LinearLayout>
+
+    <!-- Attendance Table Header -->
+    <LinearLayout
+        android:id="@+id/header_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:background="@color/navy_blue"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:orientation="horizontal"
+        android:weightSum="10.5"
+        android:paddingStart="0dp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="@dimen/_4sdp"
+        app:layout_constraintTop_toBottomOf="@+id/section_selection_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Roll Number Header -->
+        <TextView
+            android:id="@+id/roll_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="@string/roll_number"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:contentDescription="@string/roll_number" />
+
+        <!-- Name Header -->
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="@string/name"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:contentDescription="@string/name" />
+
+        <!-- Action Header -->
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="@string/action"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:contentDescription="@string/action" />
+
+        <!-- Note Header -->
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:text="@string/note"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:contentDescription="@string/note" />
+    </LinearLayout>
+
+    <!-- Students RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/attendance_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:contentDescription="@string/attendance_data_table"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@+id/header_rv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/total_records_container" />
+
+    <!-- Total Records Container -->
+    <LinearLayout
+        android:id="@+id/total_records_container"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/rounded_black"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_4sdp"
+        app:layout_constraintBottom_toTopOf="@+id/update_attendance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/total_records"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/total_records"
+            android:textAppearance="@style/TextAppearance.QuicksandBold.Small"
+            android:contentDescription="@string/total_records" />
+    </LinearLayout>
+
+    <!-- ==================== ACTION SECTION ==================== -->
+
+    <!-- Update Attendance Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/update_attendance"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_48sdp"
+        android:text="@string/update_attendance"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:backgroundTint="@color/navy_blue"
+        android:contentDescription="@string/update_attendance"
+        app:cornerRadius="12dp"
+        app:elevation="4dp"
+        app:rippleColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ==================== LOADING SECTION ==================== -->
+
+    <!-- Progress Overlay -->
+    <View
+        android:id="@+id/progress_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        android:contentDescription="@string/loading_attendance_records"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

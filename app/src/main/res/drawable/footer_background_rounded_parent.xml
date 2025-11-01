@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="50dp"
+    android:viewportWidth="400"
+    android:viewportHeight="50">
+
+    <!-- Rounded Rectangle Background with improved corners -->
+    <path
+        android:fillColor="@color/parent_card_background"
+        android:pathData="M16,0 L384,0 Q400,0 400,16 L400,34 Q400,50 384,50 L16,50 Q0,50 0,34 L0,16 Q0,0 16,0 Z" />
+</vector>

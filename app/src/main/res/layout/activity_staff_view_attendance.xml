@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="false">
+
+    <!-- Background wave - Extended to cover status bar -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ic_arrow_back -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" 
+        android:contentDescription="@string/back_button"/>
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/tv_teacher_title_name_attendance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/staff_attendance_history"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Main Content -->
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Advanced Filter Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_filter_list_black_24dp"
+                    app:tint="@color/navy_blue"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/filter_icon" />
+
+                <TextView
+                    android:id="@+id/show_advanced_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/september_2024"
+                    android:textSize="16sp"
+                    android:textColor="@color/navy_blue"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:textStyle="bold"
+                    android:gravity="start|center_vertical" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    app:tint="@color/navy_blue"
+                    android:contentDescription="@string/dropdown_icon" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Attendance Table Header -->
+        <include
+            android:id="@+id/attendance_table_header"
+            layout="@layout/staff_attendance_table_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attendence_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:layout_marginBottom="@dimen/_10sdp" 
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"/>
+
+        <!-- Summary Table at Bottom -->
+        <!-- Performance Note: Using LinearLayout here is optimal since it's only 2 levels deep
+             with fixed children (2 rows of 3 cards each). ConstraintLayout would be overkill
+             for this simple vertical stacking. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_card_background"
+            android:padding="8dp"
+            android:elevation="4dp">
+
+            <!-- Summary Table Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/attendance_summary"
+                android:textSize="14sp"
+                android:textColor="@color/navy_blue"
+                android:fontFamily="@font/quicksand_bold"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal" />
+
+            <!-- Summary Cards Row 1: Present, Absent, Half Leave -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="6dp"
+                android:baselineAligned="false">
+
+                <!-- Performance Optimized: ConstraintLayout instead of LinearLayout with weights -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/present_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/present"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Total_Present"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Performance Optimized: ConstraintLayout for Absent card -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/absent_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/absent"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Total_Absent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Performance Optimized: ConstraintLayout for Half Leave card -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/half_leave_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/half_leave"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Total_Half_Leave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <!-- Summary Cards Row 2: Full Leave, Late, Working Days -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <!-- Performance Optimized: ConstraintLayout for Full Leave card -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/full_leave_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full_leave"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Total_Full_Leave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Performance Optimized: ConstraintLayout for Late card -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/late_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/late"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/Total_Late"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Performance Optimized: ConstraintLayout for Working Days card -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@drawable/rounded_card_background"
+                     android:padding="4dp"
+                     android:layout_margin="1dp">
+
+                    <TextView
+                        android:id="@+id/working_days_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/working_days"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/working_days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/default_zero"
+                        android:textSize="@dimen/text_sm"
+                        android:textColor="@color/navy_blue"
+                        android:fontFamily="@font/quicksand_bold"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

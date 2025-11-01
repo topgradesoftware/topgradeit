@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    
+    <!-- Staff theme profile icon - Navy Blue -->
+    <path
+        android:fillColor="#000064"
+        android:pathData="M60,10C32.39,10 10,32.39 10,60s22.39,50 50,50 50,-22.39 50,-50S87.61,10 60,10zM60,25c9.66,0 17.5,7.84 17.5,17.5S69.66,60 60,60s-17.5,-7.84 -17.5,-17.5S50.34,25 60,25zM60,70c-11.05,0 -20,-8.95 -20,-20h40C80,61.05 71.05,70 60,70z"/>
+</vector>

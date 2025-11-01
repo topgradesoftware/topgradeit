@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Designation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/designation"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/designation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Security -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/security"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/security"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Qualification -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/qualification"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/qualification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Subject -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/subject"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Salary -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/salary"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/salary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Daily Lectures -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/daily_lectures"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/daily_lectures"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+    <!-- Joining Date -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/joining_date"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <TextView
+            android:id="@+id/created_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold" />
+
+    </LinearLayout>
+
+</LinearLayout> 

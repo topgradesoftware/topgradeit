@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".Parent.Activity.StudentDateSheet">
+
+    <!-- Main Content -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray_background">
+
+        <!-- Header Wave -->
+        <ImageView
+            android:id="@+id/header_wave"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_wave"
+            android:contentDescription="@string/header_background"
+            android:importantForAccessibility="noHideDescendants"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@android:color/white"
+            app:layout_constraintTop_toTopOf="@id/header_wave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/header_wave" />
+
+        <!-- Header Title -->
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/date_sheet"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:lineSpacingExtra="2dp"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="@id/header_wave"
+            app:layout_constraintBottom_toBottomOf="@id/header_wave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <!-- Filter Card (Fixed) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/filter_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:layout_constraintTop_toBottomOf="@id/header_wave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <!-- Student Selection -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_student"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="2dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/selectChildSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/spinner_background"
+                    android:padding="6dp"
+                    android:contentDescription="@string/select_child_hint" />
+
+                <!-- Exam Session Selection -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_exam_session"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorPrimary"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="2dp" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/selectExamSession"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/spinner_background"
+                    android:padding="6dp"
+                    android:contentDescription="@string/select_exam_session" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Date Sheet Data Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:layout_constraintTop_toBottomOf="@id/filter_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Complete Unified Date Sheet Table -->
+            <include
+                android:id="@+id/date_sheet_table"
+                layout="@layout/date_sheet_complete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progress_bar_student_timetable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:contentDescription="@string/loading_date_sheet_data" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Total Records -->
+        <TextView
+            android:id="@+id/total_records"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/total_records"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            app:layout_constraintBottom_toTopOf="@id/send_datesheet_in_sms"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Send Date Sheet in SMS Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/send_datesheet_in_sms"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/send_date_sheet_sms"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:onClick="send_sms"
+            android:visibility="gone"
+            app:backgroundTint="?attr/colorPrimary"
+            app:cornerRadius="8dp"
+            app:rippleColor="@color/white"
+            app:icon="@drawable/ic_send"
+            app:iconTint="@color/white"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="@dimen/nav_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?attr/colorSurface"
+        app:headerLayout="@layout/nav_header_parent"
+        app:menu="@menu/menu_parent_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

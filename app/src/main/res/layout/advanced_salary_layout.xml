@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:divider="@drawable/style_divider_gray"
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="100">
+
+        <TextView
+
+            android:id="@+id/reson"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="27"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+            android:text="Reson"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/Month"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+
+            android:text="Month"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/Date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="18"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+            android:text="Date"
+
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/Amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="18"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+            android:text="Amount"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/Deduction"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="22"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+
+            android:text="Deduction/Month"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_dark" />
+
+
+</LinearLayout>

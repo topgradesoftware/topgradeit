@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/style_divider_gray"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:weightSum="10.5">
+
+        <!-- SMS Checkbox -->
+        <CheckBox
+            android:id="@+id/sms_check"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="7dp"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:contentDescription="@string/sms_toggle" />
+
+        <!-- Roll Number -->
+        <TextView
+            android:id="@+id/roll_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="101"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp" />
+
+        <!-- Student Name -->
+        <TextView
+            android:id="@+id/student_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:padding="7dp"
+            android:text="Student Name"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/quicksand_bold" />
+
+        <!-- Obtained Marks Input -->
+        <EditText
+            android:id="@+id/obtained_marks"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="2"
+            android:text=""
+            android:hint="0"
+            android:inputType="numberDecimal"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/quicksand_medium"
+            android:gravity="center"
+            android:background="@drawable/rounded_black"
+            android:textColorHint="@color/navy_blue"
+            android:padding="7dp"
+            android:layout_marginHorizontal="2dp" />
+
+        <!-- Total Marks -->
+        <TextView
+            android:id="@+id/total_marks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="100"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/quicksand_medium" />
+
+        <!-- Attendance Note -->
+        <TextView
+            android:id="@+id/attendence_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="7dp"
+            android:text="📝"
+            android:textColor="@color/navy_blue"
+            android:textSize="16sp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Add note" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_dark" />
+
+</LinearLayout>

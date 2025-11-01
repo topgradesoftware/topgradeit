@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
+        
+        <item android:id="@+id/nav_profile"
+            android:title="Staff Profile"
+            android:icon="@drawable/man"/>
+        
+        <item android:id="@+id/nav_salary"
+            android:title="Salary"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_advanced_salary"
+            android:title="Advanced Salary"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_ledger"
+            android:title="Ledger"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_invoice"
+            android:title="Invoice"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_feedback"
+            android:title="Feedback Students"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_timetable"
+            android:title="View TimeTable"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_assign_task"
+            android:title="View Assign Task"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_complain"
+            android:title="Complain Box"
+            android:icon="@drawable/key"/>
+        
+        <item android:id="@+id/nav_leave_application"
+            android:title="Leave Application"
+            android:icon="@drawable/key"/>
+    </group>
+    
+    <group android:id="@+id/nav_bottom">
+        <item android:id="@+id/nav_logout"
+            android:title="Logout"
+            android:icon="@drawable/logout"/>
+    </group>
+    
+</menu>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="LayoutFidelity" severity="ignore" />
+    <issue id="LayoutFidelityWarning" severity="ignore" />
+    <issue id="ButtonStyle" severity="ignore" />
+    <issue id="ButtonSize" severity="ignore" />
+    <issue id="TooWideButton" severity="ignore" />
+    <issue id="MaterialButtonStyle" severity="ignore" />
+    <issue id="ImageContrast" severity="ignore" />
+    <issue id="TooManyViews" severity="ignore" />
+    <issue id="TouchTargetSizeCheck" severity="ignore" />
+</lint>

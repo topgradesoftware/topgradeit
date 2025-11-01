@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Zoomage animation durations -->
+    <integer name="zoomage_reset_duration">200</integer>
+    <integer name="zoomage_fling_duration">300</integer>
+</resources>
+

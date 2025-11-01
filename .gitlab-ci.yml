@@ -1,0 +1,170 @@
+# GitLab CI/CD Pipeline for Android Release Management
+
+stages:
+  - validate
+  - version
+  - build
+  - security
+  - release
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+
+# Cache configuration
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+# Base image with Android SDK
+image: jangrewe/gitlab-ci-android
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+  - ./gradlew --version
+
+# Validation stage
+validate:
+  stage: validate
+  script:
+    - python3 update_version.py --validate-only --validate-build
+  artifacts:
+    reports:
+      junit: app/build/test-results/testDebugUnitTest/TEST-*.xml
+  only:
+    - merge_requests
+    - main
+    - master
+
+# Version bump for releases
+version_bump:
+  stage: version
+  script:
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - |
+      # Determine version bump type from commit message
+      if echo "$CI_COMMIT_MESSAGE" | grep -qi "feat:"; then
+        VERSION_FLAG="--minor"
+      elif echo "$CI_COMMIT_MESSAGE" | grep -qi "fix:"; then
+        VERSION_FLAG="--patch"
+      elif echo "$CI_COMMIT_MESSAGE" | grep -qi "BREAKING CHANGE"; then
+        VERSION_FLAG="--major"
+      else
+        VERSION_FLAG="--patch"
+      fi
+      
+      echo "Version bump type: $VERSION_FLAG"
+      python3 update_version.py $VERSION_FLAG --git --changelog
+    - git push origin $CI_COMMIT_REF_NAME
+    - git push origin --tags
+  only:
+    - main
+    - master
+  when: manual
+
+# Build debug APK
+build_debug:
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - app/build/outputs/apk/debug/*.apk
+    expire_in: 1 week
+  only:
+    - merge_requests
+    - main
+    - master
+
+# Build release bundle
+build_release:
+  stage: build
+  script:
+    - ./gradlew bundleRelease
+  artifacts:
+    paths:
+      - app/build/outputs/bundle/release/*.aab
+    expire_in: 1 month
+  only:
+    - tags
+    - main
+    - master
+  when: manual
+
+# Security scanning
+security_scan:
+  stage: security
+  script:
+    - ./gradlew dependencyCheckAnalyze
+  artifacts:
+    reports:
+      dependency_scanning: build/reports/dependency-check/dependency-check-report.json
+    paths:
+      - build/reports/dependency-check/
+    expire_in: 1 week
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - master
+
+# Code quality
+code_quality:
+  stage: security
+  script:
+    - ./gradlew lint
+  artifacts:
+    reports:
+      codequality: app/build/reports/lint-results-debug.xml
+    paths:
+      - app/build/reports/lint-results-debug.xml
+    expire_in: 1 week
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - master
+
+# Release job
+release:
+  stage: release
+  script:
+    - ./gradlew bundleRelease
+    - |
+      # Create release notes from changelog
+      if [ -f "CHANGELOG.md" ]; then
+        # Extract the latest version entry
+        awk '/^## \[/,/^## \[/ {if (NR>1) exit} {print}' CHANGELOG.md > release_notes.md
+      else
+        echo "Release $CI_COMMIT_TAG" > release_notes.md
+      fi
+  artifacts:
+    paths:
+      - app/build/outputs/bundle/release/*.aab
+      - release_notes.md
+  only:
+    - tags
+  when: manual
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: release_notes.md
+    assets:
+      links:
+        - name: "Release Bundle"
+          url: "https://gitlab.com/$CI_PROJECT_PATH/-/jobs/artifacts/$CI_COMMIT_TAG/download?job=release"
+          filepath: "app-release.aab"
+          link_type: "package"
+
+# Play Store Upload (requires Google Play Console setup)
+play_store_upload:
+  stage: release
+  script:
+    - ./gradlew publishRelease
+  only:
+    - tags
+  when: manual
+  dependencies:
+    - release

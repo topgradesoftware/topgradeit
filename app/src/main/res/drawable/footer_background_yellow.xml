@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="60dp"
+    android:viewportWidth="400"
+    android:viewportHeight="60">
+
+    <!-- Rounded Rectangle Background - Yellow Theme -->
+    <path
+        android:fillColor="#FDD007"
+        android:pathData="M12,0 L388,0 Q400,0 400,12 L400,48 Q400,60 388,60 L12,60 Q0,60 0,48 L0,12 Q0,0 12,0 Z" />
+</vector>

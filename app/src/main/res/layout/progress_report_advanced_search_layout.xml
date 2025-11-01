@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Student Selection Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Select Student"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginBottom="8dp" />
+
+    <components.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/selectChildSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/spinner_background"
+        android:padding="12dp"
+        android:contentDescription="@string/select_child_hint" />
+
+    <!-- Exam Session Selection Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2. Select Exam Session"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_marginBottom="8dp" />
+
+    <components.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/selectExampSession"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/spinner_background"
+        android:padding="12dp"
+        android:contentDescription="@string/select_exam_session" />
+
+    <!-- Search Button -->
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Date Sheet"
+        android:background="@color/student_primary"
+        android:textColor="@color/white"
+        android:fontFamily="@font/quicksand_medium"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

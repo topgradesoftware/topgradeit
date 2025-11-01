@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_color"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        tools:srcCompat="@drawable/verification_lotte" />
+
+    <TextView
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/verification_code"
+        android:textSize="20sp"
+        android:textAlignment="center"
+                     android:fontFamily="@font/quicksand_bold" />
+
+    <com.dpizarro.pinview.library.PinView
+        android:id="@+id/pinView"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:nativePinBox="true"
+        app:numberCharacters="1"
+        app:numberPinBoxes="4"
+        app:password="true"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/verify_code"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:background="@drawable/et_border"
+        android:text="Verify Code"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="18sp"
+
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+</LinearLayout>
+
+
+

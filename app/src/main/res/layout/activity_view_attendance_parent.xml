@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <!-- Background wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_dark_brown"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ic_arrow_back -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onBackPressed"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" 
+        android:contentDescription="@string/back_button"/>
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attendance Menu"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Content Container -->
+    <LinearLayout
+        android:id="@+id/content_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Attendance View"
+            android:textColor="@color/parent_primary"
+            android:textSize="20sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:layout_marginBottom="40dp" />
+
+        <!-- Class Attendance Button -->
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="View Class Attendance"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:onClick="View_Attendance_Class"
+            android:layout_marginBottom="20dp"
+            app:cornerRadius="8dp"
+            app:backgroundTint="@color/dark_brown"
+            app:rippleColor="@color/white"
+            app:icon="@drawable/baseline_class_24"
+            app:iconTint="@color/white"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart" />
+
+        <!-- Subject Attendance Button -->
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="View Subject Attendance"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:onClick="View_Attendance_Subject_Improved"
+            android:layout_marginBottom="20dp"
+            app:cornerRadius="8dp"
+            app:backgroundTint="@color/dark_brown"
+            app:rippleColor="@color/white"
+            app:icon="@drawable/baseline_subject_24"
+            app:iconTint="@color/white"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart" />
+
+
+        <!-- Test Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="If you can see this text, the menu is working!"
+            android:textColor="@color/parent_primary"
+            android:textSize="14sp"
+            android:fontFamily="@font/quicksand_medium"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/footer_background_brown"
+        android:elevation="8dp"
+        android:minHeight="40dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Footer Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/topgrade_logo"
+                android:contentDescription="@string/topgrade_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

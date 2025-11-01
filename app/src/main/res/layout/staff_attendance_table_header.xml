@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="28dp"
+    android:orientation="horizontal"
+    android:background="@color/navy_blue"
+    android:divider="@drawable/style_divider_gray"
+    android:showDividers="middle"
+    android:weightSum="100"
+    android:gravity="center_vertical">
+
+    <!-- Date Column Header -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:background="@color/navy_blue"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Date"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:fontFamily="sans-serif"
+        android:maxLines="1" />
+
+    <!-- Status Column Header -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:background="@color/navy_blue"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Status"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:fontFamily="sans-serif"
+        android:maxLines="1" />
+
+    <!-- Note Column Header -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="40"
+        android:background="@color/navy_blue"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Note"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:fontFamily="sans-serif"
+        android:maxLines="1" />
+
+</LinearLayout>

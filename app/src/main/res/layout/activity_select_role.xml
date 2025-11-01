@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_layout_select_role"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:ignore="UseCompoundDrawables">
+
+    <!-- Scrollable Content Area -->
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/footer_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/_8sdp"
+            android:paddingBottom="20dp">
+
+            <!-- Logo -->
+
+            <!-- Role Cards Grid -->
+            <ImageView
+                android:id="@+id/iv_top_grade_logo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginVertical="@dimen/_4sdp"
+                android:contentDescription="@string/app_logo"
+                android:importantForAccessibility="yes"
+                android:scaleType="fitCenter"
+                android:src="@drawable/header_logo" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:alignmentMode="alignMargins"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:useDefaultMargins="true">
+
+                <!-- Admin Login Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_user_login"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/role_admin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/admin_icon"
+                            android:src="@drawable/admin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/i_am_admin"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Campus Login Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/CAmpus_link"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/role_campus">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/campus_icon"
+                            android:src="@drawable/campus_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/campus"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Super Admin Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/admin_APP"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/role_super_admin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/super_admin_icon"
+                            android:src="@drawable/super_admin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/super_admin"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Staff Login Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/Staff_APP"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/role_staff">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/staff_icon"
+                            android:src="@drawable/ic_staff_login" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/i_am_staff"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Student Login Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/Student_APP"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/student_primary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/student_icon"
+                            android:src="@drawable/ic_student_login"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/i_am_student"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Parent Login Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/Parent_APP"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/role_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_6sdp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:contentDescription="@string/parent_icon"
+                            android:src="@drawable/ic_parent_login" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/i_am_parent"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </GridLayout>
+
+            <!-- Bottom Option Cards -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_8sdp">
+
+                <!-- About Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/about_card"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/about"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/role_about">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp"
+                            android:contentDescription="@string/about_icon"
+                            android:src="@drawable/ic_info"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:text="@string/about"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_option_card"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Share App Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/share_card"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/share"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/role_share">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp"
+                            android:contentDescription="@string/share_icon"
+                            android:src="@drawable/ic_share"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:text="@string/share"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_option_card"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Settings Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/settings_card"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/settings"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/role_settings">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp"
+                            android:contentDescription="@string/settings_icon"
+                            android:src="@drawable/ic_settings"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:text="@string/settings"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_option_card"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Help Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/help_card"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/help"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/role_help">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp"
+                            android:contentDescription="@string/help_icon"
+                            android:src="@drawable/ic_help"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:text="@string/help"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_option_card"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Feedback Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/feedback_card"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/feedback"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardBackgroundColor="@color/role_feedback">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_24sdp"
+                            android:layout_height="@dimen/_24sdp"
+                            android:contentDescription="@string/feedback_icon"
+                            android:src="@drawable/ic_star"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:text="@string/feedback"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_option_card"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Navigation Buttons (Positioned over content) -->
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="@dimen/_48sdp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_55sdp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@android:color/white"
+        app:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        tools:ignore="TouchTargetSize"
+        android:focusable="true"
+        android:contentDescription="@string/back_button"
+        android:importantForAccessibility="yes"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- More Options Button -->
+    <ImageView
+        android:id="@+id/more_option"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_55sdp"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        app:tint="@android:color/white"
+        app:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/more_options"
+        android:importantForAccessibility="yes"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Dashboard Title (for dynamic reference) -->
+    <TextView
+        android:id="@+id/dashboard_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_55sdp"
+        android:text="@string/app_name"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:importantForAccessibility="yes"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/_49sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:elevation="10dp"
+        android:indeterminate="true"
+        android:importantForAccessibility="yes"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Footer -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/footer_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_12sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:contentDescription="@string/topgrade_logo"
+                android:src="@drawable/topgrade_logo"
+                android:scaleType="fitCenter"
+                android:importantForAccessibility="yes" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- TopGrade Text - properly centered within 66x66dp safe area -->
+    <group
+        android:scaleX="0.65"
+        android:scaleY="0.65"
+        android:pivotX="54"
+        android:pivotY="54">
+        
+        <!-- T -->
+        <path
+            android:fillColor="@color/navy_blue"
+            android:pathData="M42,42 L42,32 L47,32 L47,37 L52,37 L52,32 L57,32 L57,42 L52,42 L52,39 L47,39 L47,42 Z" />
+        
+        <!-- op -->
+        <path
+            android:fillColor="@color/black"
+            android:pathData="M62,42 L62,32 L67,32 L67,42 Z M72,42 L72,32 L77,32 L77,42 Z" />
+        
+        <!-- Grad -->
+        <path
+            android:fillColor="@color/navy_blue"
+            android:pathData="M82,42 L82,32 L87,32 L87,42 Z M92,42 L92,32 L97,32 L97,42 Z M102,42 L102,32 L107,32 L107,42 Z M112,42 L112,32 L117,32 L117,42 Z" />
+        
+        <!-- e -->
+        <path
+            android:fillColor="@color/navy_blue"
+            android:pathData="M42,52 L42,47 L47,47 L47,52 L52,52 L52,47 L57,47 L57,52 L52,52 L52,49 L47,49 L47,52 Z" />
+        
+        <!-- Decorative lines -->
+        <path
+            android:fillColor="@color/black"
+            android:pathData="M37,62 Q54,57 71,62"
+            android:strokeWidth="1" />
+    </group>
+</vector>

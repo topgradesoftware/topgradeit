@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_black"
+    android:padding="6dp"
+    android:layout_marginBottom="4dp">
+
+    <!-- First Row: Session, Class, Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <TextView
+            android:id="@+id/session_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/navy_blue"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginEnd="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/class_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/navy_blue"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginEnd="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/section_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/navy_blue"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Second Row: Subject, Exam -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:baselineAligned="false">
+
+        <TextView
+            android:id="@+id/subject_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/navy_blue"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginEnd="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/exam_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/navy_blue"
+            android:textSize="12sp"
+            android:fontFamily="@font/quicksand_bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>
+

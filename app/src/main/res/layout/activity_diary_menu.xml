@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="false"
+    tools:targetApi="34"
+    tools:ignore="MissingConstraints,LayoutFidelity">
+
+    <!-- ==================== HEADER SECTION ==================== -->
+
+    <!-- Header Background Wave -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Navigation Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Send Diary Menu"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:contentDescription="Send Diary Menu"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="@+id/header_wave"
+        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+
+    <!-- Header Separator -->
+    <View
+        android:id="@+id/header_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:alpha="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ==================== MAIN CONTENT SECTION ==================== -->
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/header_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="top"
+            android:padding="@dimen/_10sdp">
+
+            <!-- ==================== CLASS INCHARGE SECTION ==================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Send Diary - Class InCharge"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                android:fontFamily="@font/quicksand_bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:onClick="SendDiary_Class"
+                android:text="Send Diary to Entire Class"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:padding="12dp"
+                tools:ignore="ButtonStyle,ButtonSize"
+                app:icon="@drawable/ic_class"
+                app:iconTint="@color/white"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconSize="24dp"
+                app:backgroundTint="@color/navy_blue" />
+
+            <!-- ==================== SECTION INCHARGE SECTION ==================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Send Diary - Section InCharge"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                android:fontFamily="@font/quicksand_bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:onClick="SendDiary_Section"
+                android:text="Send Diary to Specific Section"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:padding="12dp"
+                tools:ignore="ButtonStyle,ButtonSize"
+                app:icon="@drawable/ic_section"
+                app:iconTint="@color/white"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconSize="24dp"
+                app:backgroundTint="@color/navy_blue" />
+
+            <!-- ==================== SUBJECT TEACHER SECTION ==================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Send Diary - Subject Teacher"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                android:fontFamily="@font/quicksand_bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:onClick="SendDiary_Subject"
+                android:text="Send Subject-Specific Diary"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:padding="12dp"
+                tools:ignore="ButtonStyle,ButtonSize"
+                app:icon="@drawable/ic_subject"
+                app:iconTint="@color/white"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconSize="24dp"
+                app:backgroundTint="@color/navy_blue" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

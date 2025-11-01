@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EditorSettings">
+    <option name="IS_WHITESPACES_SHOWN" value="false" />
+    <option name="IS_INDENT_GUIDES_SHOWN" value="true" />
+    <option name="IS_CARET_ROW_VISIBLE" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="1" DefaultDictionary="application-level" UseSingleDictionary="true">
+    <dictionary name="custom_dictionary" enabled="true" path="$PROJECT_DIR$/.idea/dictionaries/custom_dictionary.txt" />
+  </component>
+</project> 

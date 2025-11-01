@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme for dark mode -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/navy_blue</item>
+        <item name="colorSecondaryVariant">@color/navy_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@color/background_dark</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+        
+        <!-- Card colors -->
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
+        
+        <!-- Error colors -->
+        <item name="colorError">@color/error_200</item>
+        <item name="colorOnError">@color/black</item>
+        
+        <!-- Custom attributes -->
+        <item name="colorDivider">@color/divider_dark</item>
+        <item name="colorCardBackground">@color/card_background_dark</item>
+        
+        <!-- Button styling -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+    </style>
+
+    <!-- No Action Bar theme -->
+    <style name="AppTheme.NoFlicker" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Dialog theme -->
+    <style name="AppTheme.Dialog" parent="Theme.Material3.DayNight.Dialog">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+    </style>
+
+    <!-- Button styles -->
+    <style name="AppTheme.Button" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/navy_blue</item>
+    </style>
+
+    <style name="AppTheme.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/navy_blue</item>
+        <item name="strokeColor">@color/navy_blue</item>
+    </style>
+
+    <!-- Text styles -->
+    <style name="AppTheme.TextAppearance.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">@color/text_primary_dark</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_primary_dark</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+    </style>
+
+    <!-- Card style -->
+    <style name="AppTheme.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/card_background_dark</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Custom Button Style for Navy Blue -->
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/navy_blue</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="iconTint">@color/white</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+    </style>
+
+    <!-- Material Theme Overlay for Buttons -->
+    <style name="ThemeOverlay.App.Button" parent="ThemeOverlay.Material3.Button">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryContainer">@color/navy_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondary">@color/navy_blue</item>
+        <item name="colorSecondaryContainer">@color/navy_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/navy_blue</item>
+        <item name="colorTertiaryContainer">@color/navy_blue</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
+        <item name="colorError">@color/error_200</item>
+        <item name="colorOnError">@color/black</item>
+    </style>
+
+</resources> 

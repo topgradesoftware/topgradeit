@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Update Attendance"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+                         android:fontFamily="@font/quicksand_bold"
+ />
+
+        <ImageView
+            android:id="@+id/Cancel"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_close_black_48dp"
+            app:tint="#787878" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Select Attendance"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp"
+                     android:fontFamily="@font/quicksand_bold"
+ />
+
+    <Spinner
+        android:id="@+id/attendence_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="7dp"
+        android:textColor="@color/color_black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Enter Note"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp"
+                     android:fontFamily="@font/quicksand_bold"
+ />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/rounded_black"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:background="@null"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/_5sdp"
+                android:scrollbars="vertical"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- Password field removed - no longer required -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/Save_Note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:background="@drawable/et_border"
+            android:text="Edit Atnd"
+
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/Cancel_"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:background="@drawable/et_border"
+            android:text="Cancel"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".Teacher.Exam.CreateExam">
+
+    <!-- Header Background -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_wave_navy_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create New Exam"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="@id/header_wave"
+        app:layout_constraintEnd_toEndOf="@id/header_wave"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <!-- Main Content -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintBottom_toTopOf="@id/submit_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Exam Name -->
+                <TextView
+                    android:text="Exam Name"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/exam_name"
+                    style="@style/EditTextStyle"
+                    android:hint="Enter exam name"
+                    android:inputType="textCapSentences" />
+
+                <!-- Exam Session -->
+                <TextView
+                    android:text="Exam Session"
+                    style="@style/TextLabelStyle" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/exam_session_spinner"
+                    style="@style/SpinnerStyle"
+                    android:hint="Select exam session"
+                    android:contentDescription="Select exam session"
+                    android:importantForAccessibility="yes" />
+
+                <!-- Start Time -->
+                <TextView
+                    android:text="Start Time"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/start_time"
+                    style="@style/EditTextStyle"
+                    android:hint="Enter start time (HH:MM)"
+                    android:inputType="time" />
+
+                <!-- End Time -->
+                <TextView
+                    android:text="End Time"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/end_time"
+                    style="@style/EditTextStyle"
+                    android:hint="Enter end time (HH:MM)"
+                    android:inputType="time" />
+
+                <!-- Syllabus -->
+                <TextView
+                    android:text="Syllabus"
+                    style="@style/TextLabelStyle" />
+
+                <EditText
+                    android:id="@+id/syllabus"
+                    style="@style/EditTextStyle"
+                    android:hint="Enter syllabus details"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:gravity="top|start"
+                    android:maxLines="3" />
+
+                <!-- Sections -->
+                <TextView
+                    android:text="Sections"
+                    style="@style/TextLabelStyle" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/sections_spinner"
+                    style="@style/SpinnerStyle"
+                    android:hint="Select sections"
+                    android:contentDescription="Select sections"
+                    android:importantForAccessibility="yes" />
+
+                <!-- Subjects -->
+                <TextView
+                    android:text="Subjects"
+                    style="@style/TextLabelStyle" />
+
+                <components.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/subjects_spinner"
+                    style="@style/SpinnerStyle"
+                    android:hint="Select subjects"
+                    android:contentDescription="Select subjects"
+                    android:importantForAccessibility="yes" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Submit Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/submit_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/navy_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_exam_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/white"
+            android:text="CREATE EXAM"
+            android:textColor="@color/navy_blue"
+            android:textSize="18sp"
+            android:fontFamily="@font/quicksand_bold"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconTint="@color/navy_blue" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Centered Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
