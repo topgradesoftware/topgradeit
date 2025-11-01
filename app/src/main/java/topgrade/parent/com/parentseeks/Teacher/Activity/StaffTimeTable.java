@@ -381,7 +381,6 @@ public class StaffTimeTable extends AppCompatActivity implements View.OnClickLis
 
     private void Send_Sms_Option(View view) {
         PopupMenu popup = new PopupMenu(context, view);
-        popup.getMenu().add(getString(R.string.app_name));
         popup.getMenu().add("Local SMS");
         popup.getMenu().add("Whatsapp");
         popup.getMenu().add("Whatsapp(Business)");
