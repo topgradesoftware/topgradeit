@@ -9,3 +9,6 @@
 /build
 /captures
 .externalNativeBuild
+
+# Java heap dump files
+*.hprof
