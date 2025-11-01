@@ -217,6 +217,10 @@ public class Edit_ProfileParent extends AppCompatActivity {
 
         context = Edit_ProfileParent.this;
 
+        // Load constants from Paper database (CRITICAL FIX)
+        Constant.loadFromPaper();
+        Log.d("Edit_ProfileParent", "Constants loaded - parent_id: " + Constant.parent_id + 
+              ", campus_id: " + Constant.campus_id);
 
         // Initialize image_action (cache lookup to avoid duplicate calls)
         image_action = findViewById(R.id.image_action);
@@ -488,14 +492,14 @@ public class Edit_ProfileParent extends AppCompatActivity {
             @Override
             public byte[] getBody() {
                 HashMap<String, String> postParam = new HashMap<>();
-                postParam.put("parent_id", Constant.parent_id);
-                postParam.put("campus_id", Constant.campus_id);
+                postParam.put("parent_parent_id", Constant.parent_id);
+                postParam.put("parent_id", Constant.campus_id);
                 postParam.put("file", file);
                 
                 // Log the request parameters for debugging
                 Log.d("Edit_ProfileParent", "Update Picture API Request Parameters:");
-                Log.d("Edit_ProfileParent", "- parent_id: " + Constant.parent_id);
-                Log.d("Edit_ProfileParent", "- campus_id: " + Constant.campus_id);
+                Log.d("Edit_ProfileParent", "- parent_parent_id: " + Constant.parent_id);
+                Log.d("Edit_ProfileParent", "- parent_id: " + Constant.campus_id);
                 Log.d("Edit_ProfileParent", "- Request JSON: " + new JSONObject(postParam));
                 
                 return new JSONObject(postParam).toString().getBytes();
