@@ -352,9 +352,39 @@ public class Edit_Profile extends AppCompatActivity implements View.OnClickListe
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    bitmap_img = ((Bitmap) result.getData().getExtras().get("data"));
-                    picture_str = new Base64Converter().getStringImage(bitmap_img);
-                    image.setImageBitmap(bitmap_img);
+                    Bitmap originalBitmap = ((Bitmap) result.getData().getExtras().get("data"));
+                    if (originalBitmap != null) {
+                        // FIX: Process camera image in background to prevent ANR
+                        new Thread(() -> {
+                            try {
+                                // Compress and resize camera image
+                                java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                                originalBitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 85, baos);
+                                
+                                byte[] compressedData = baos.toByteArray();
+                                Bitmap compressedBitmap = android.graphics.BitmapFactory.decodeByteArray(
+                                    compressedData, 0, compressedData.length);
+                                
+                                bitmap_img = compressedBitmap;
+                                picture_str = new Base64Converter().getStringImage(compressedBitmap);
+                                
+                                runOnUiThread(() -> {
+                                    image.setImageBitmap(compressedBitmap);
+                                    Log.d("Edit_Profile", "Camera image processed successfully");
+                                });
+                                
+                                // Recycle original to free memory
+                                if (originalBitmap != compressedBitmap) {
+                                    originalBitmap.recycle();
+                                }
+                            } catch (Exception e) {
+                                Log.e("Edit_Profile", "Error processing camera image", e);
+                                runOnUiThread(() -> {
+                                    Toast.makeText(context, "Error processing image", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }).start();
+                    }
                 }
             }
         );
@@ -365,9 +395,33 @@ public class Edit_Profile extends AppCompatActivity implements View.OnClickListe
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri image_path = result.getData().getData();
                     if (image_path != null) {
+                        // Optimized crop options to prevent ANR and reduce memory usage
+                        CropImageOptions cropOptions = new CropImageOptions();
+                        
+                        // FIX 1: Add image size limits and compression
+                        cropOptions.imageSourceIncludeCamera = false;
+                        cropOptions.imageSourceIncludeGallery = false;
+                        cropOptions.outputCompressQuality = 85; // 85% quality (good balance)
+                        cropOptions.outputCompressFormat = android.graphics.Bitmap.CompressFormat.JPEG;
+                        
+                        // FIX 2: Memory-efficient image loading - Resize output
+                        cropOptions.outputRequestWidth = 1024; // Max width 1024px
+                        cropOptions.outputRequestHeight = 1024; // Max height 1024px
+                        cropOptions.scaleType = com.canhub.cropper.CropImageView.ScaleType.FIT_CENTER;
+                        
+                        // FIX 3: ANR Prevention - Fixed aspect ratio for faster processing
+                        cropOptions.fixAspectRatio = true; // Lock to square for profile pictures
+                        cropOptions.aspectRatioX = 1;
+                        cropOptions.aspectRatioY = 1;
+                        
+                        // Additional optimizations
+                        cropOptions.autoZoomEnabled = true;
+                        cropOptions.multiTouchEnabled = true;
+                        cropOptions.cropShape = com.canhub.cropper.CropImageView.CropShape.OVAL; // Circular crop
+                        
                         CropImageContractOptions options = new CropImageContractOptions(
                             image_path,
-                            new CropImageOptions()
+                            cropOptions
                         );
                         cropImageLauncher.launch(options);
                     }
@@ -416,17 +470,77 @@ public class Edit_Profile extends AppCompatActivity implements View.OnClickListe
             result -> {
                 if (result.isSuccessful()) {
                     Uri resultUri = result.getUriContent();
-                    try {
-                        // minSdk is 26, but ImageDecoder is available from API 28
-                        // Use ImageDecoder for better performance and memory management
-                        bitmap_img = ImageDecoder.decodeBitmap(
-                            ImageDecoder.createSource(getContentResolver(), resultUri)
-                        );
-                        picture_str = new Base64Converter().getStringImage(bitmap_img);
-                        image.setImageBitmap(bitmap_img);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
+                    if (resultUri != null) {
+                        // FIX 3: ANR Prevention - Process image in background thread
+                        new Thread(() -> {
+                            try {
+                                Bitmap originalBitmap;
+                                
+                                // FIX 2: Memory-efficient image loading
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    // Use ImageDecoder with memory-efficient settings
+                                    originalBitmap = ImageDecoder.decodeBitmap(
+                                        ImageDecoder.createSource(getContentResolver(), resultUri),
+                                        (decoder, info, source) -> {
+                                            // Limit decoded image size to prevent OOM
+                                            decoder.setTargetSize(1024, 1024);
+                                            decoder.setAllocator(ImageDecoder.ALLOCATOR_SOFTWARE);
+                                        }
+                                    );
+                                } else {
+                                    // Use MediaStore for older versions with size limiting
+                                    android.graphics.BitmapFactory.Options options = new android.graphics.BitmapFactory.Options();
+                                    options.inJustDecodeBounds = true;
+                                    
+                                    // Get image dimensions without loading full image
+                                    android.graphics.BitmapFactory.decodeStream(
+                                        getContentResolver().openInputStream(resultUri), null, options);
+                                    
+                                    // Calculate sample size to reduce memory
+                                    options.inSampleSize = calculateInSampleSize(options, 1024, 1024);
+                                    options.inJustDecodeBounds = false;
+                                    options.inPreferredConfig = android.graphics.Bitmap.Config.RGB_565; // Use less memory
+                                    
+                                    originalBitmap = android.graphics.BitmapFactory.decodeStream(
+                                        getContentResolver().openInputStream(resultUri), null, options);
+                                }
+                                
+                                // FIX 1: Add compression before converting to Base64
+                                if (originalBitmap != null) {
+                                    // Compress bitmap to reduce size
+                                    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                                    originalBitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 85, baos);
+                                    
+                                    // Create compressed bitmap for display
+                                    byte[] compressedData = baos.toByteArray();
+                                    final Bitmap compressedBitmap = android.graphics.BitmapFactory.decodeByteArray(
+                                        compressedData, 0, compressedData.length);
+                                    
+                                    bitmap_img = compressedBitmap;
+                                    picture_str = new Base64Converter().getStringImage(compressedBitmap);
+                                    
+                                    // Update UI on main thread
+                                    runOnUiThread(() -> {
+                                        image.setImageBitmap(compressedBitmap);
+                                        Log.d("Edit_Profile", "Image processed successfully");
+                                    });
+                                    
+                                    // Recycle original bitmap to free memory
+                                    if (originalBitmap != compressedBitmap) {
+                                        originalBitmap.recycle();
+                                    }
+                                } else {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(context, "Error loading image", Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            } catch (Exception e) {
+                                Log.e("Edit_Profile", "Error loading cropped image", e);
+                                runOnUiThread(() -> {
+                                    Toast.makeText(context, "Error loading image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }).start();
                     }
                 } else {
                     Exception error = result.getError();
@@ -437,6 +551,32 @@ public class Edit_Profile extends AppCompatActivity implements View.OnClickListe
             }
         );
 
+    }
+    
+    /**
+     * Calculate sample size for efficient image loading
+     * Prevents OutOfMemory errors by downsampling large images
+     */
+    private int calculateInSampleSize(android.graphics.BitmapFactory.Options options, 
+                                      int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            
+            // Calculate the largest inSampleSize that keeps dimensions larger than requested
+            while ((halfHeight / inSampleSize) >= reqHeight
+                    && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        
+        Log.d("Edit_Profile", "Image dimensions: " + width + "x" + height + 
+              ", Sample size: " + inSampleSize);
+        return inSampleSize;
     }
 
     private void update_picture(final String file) {

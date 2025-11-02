@@ -1,0 +1,12 @@
+======================================
+STEP 1: Test if PHP files are updating
+======================================
+
+1. I created a file called "test_api_version.php" in your project
+2. Upload this file to your server (same folder as api.php)
+3. Open in browser: http://your-server.com/test_api_version.php
+4. You should see: {"test":"API file check","timestamp":"..."}
+
+If you see this JSON, your PHP updates are working ✓
+If you see error or blank page, PHP updates are NOT working ✗
+

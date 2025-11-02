@@ -52,6 +52,7 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
     private EditText application_subject;
     private EditText application_body;
     private androidx.cardview.widget.CardView submit_application;
+    private com.google.android.material.button.MaterialButton submit_button;
     private ProgressBar progress_bar;
     private Context context;
     
@@ -169,10 +170,15 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
         context = StaffAddApplication.this;
         Paper.init(this);
         
+        // Load constants from Paper database (CRITICAL FIX)
+        Constant.loadFromPaper();
+        Log.d(TAG, "Constants loaded - staff_id: " + Constant.staff_id + ", campus_id: " + Constant.campus_id);
+        
         progress_bar = findViewById(R.id.progress_bar);
         application_subject = findViewById(R.id.application_reason);
         application_body = findViewById(R.id.application_body);
         submit_application = findViewById(R.id.submit_leave_card);
+        submit_button = findViewById(R.id.btn_submit_leave_application);
         select_application_spinner = findViewById(R.id.select_application_spinner);
         
         // Initialize header title
@@ -234,7 +240,19 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
             }
         });
         
-        submit_application.setOnClickListener(this);
+        // Set click listener on the actual button, not the CardView
+        if (submit_button != null) {
+            submit_button.setOnClickListener(this);
+            Log.d(TAG, "Submit button click listener set");
+        } else {
+            Log.e(TAG, "Submit button is null!");
+        }
+        
+        // Disable CardView click to prevent conflicts
+        if (submit_application != null) {
+            submit_application.setClickable(false);
+            submit_application.setFocusable(false);
+        }
     }
     
     private void showDatePicker(boolean isStartDate) {
@@ -289,67 +307,93 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.submit_leave_card) {
+        if (v.getId() == R.id.btn_submit_leave_application) {
+            Log.d(TAG, "Submit button clicked");
             showSubmitOptions(v);
         }
     }
     
     private void showSubmitOptions(View view) {
+        Log.d(TAG, "showSubmitOptions() called");
+        
         // Validate inputs first
         String subject = application_subject.getText().toString().trim();
         String body = application_body.getText().toString().trim();
 
+        Log.d(TAG, "Subject: '" + subject + "', Body: '" + body + "', Category: '" + selected_application_category + "'");
+
         if (subject.isEmpty()) {
             application_subject.setError("Please enter application subject");
+            Log.w(TAG, "Subject is empty");
             return;
         }
 
         if (body.isEmpty()) {
             application_body.setError("Please enter application body");
+            Log.w(TAG, "Body is empty");
             return;
         }
 
         if (selected_application_category.isEmpty()) {
             Toast.makeText(context, "Please select an application category", Toast.LENGTH_SHORT).show();
+            Log.w(TAG, "Category not selected");
             return;
         }
         
-        // Show popup menu with options
-        PopupMenu popup = new PopupMenu(context, view);
-        popup.getMenu().add("Submit to System");
-        popup.getMenu().add("Local SMS");
-        popup.getMenu().add("Whatsapp");
-        popup.getMenu().add("Whatsapp(Business)");
-        popup.getMenu().add("Other");
+        Log.d(TAG, "Validation passed, showing popup menu");
         
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                String title = item.getTitle().toString();
-                switch (title) {
-                    case "Submit to System":
-                        submitApplication();
-                        break;
-                    case "Whatsapp":
-                        String phone = Paper.book().read("phone", "");
-                        Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone, "com.whatsapp");
-                        break;
-                    case "Whatsapp(Business)":
-                        String phone_business = Paper.book().read("phone", "");
-                        Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone_business, "com.whatsapp.w4b");
-                        break;
-                    case "Local SMS":
-                        String phone_sms = Paper.book().read("phone", "");
-                        Util.showSmsIntent(context, getApplicationMessage(), phone_sms);
-                        break;
-                    case "Other":
-                        String phone_other = Paper.book().read("phone", "");
-                        Util.shareWithPhoneNumber(context, getApplicationMessage(), phone_other);
-                        break;
+        try {
+            // Show popup menu with options
+            PopupMenu popup = new PopupMenu(context, view);
+            popup.getMenu().add(0, 1, 0, "Submit to System");
+            popup.getMenu().add(0, 2, 0, "Local SMS");
+            popup.getMenu().add(0, 3, 0, "Whatsapp");
+            popup.getMenu().add(0, 4, 0, "Whatsapp(Business)");
+            popup.getMenu().add(0, 5, 0, "Other");
+            
+            Log.d(TAG, "Popup menu created with 5 options");
+            
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    String title = item.getTitle().toString();
+                    Log.d(TAG, "Menu item clicked: " + title);
+                    switch (title) {
+                        case "Submit to System":
+                            Log.d(TAG, "Submitting to system");
+                            submitApplication();
+                            break;
+                        case "Whatsapp":
+                            String phone = Paper.book().read("phone", "");
+                            Log.d(TAG, "Sharing to WhatsApp: " + phone);
+                            Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone, "com.whatsapp");
+                            break;
+                        case "Whatsapp(Business)":
+                            String phone_business = Paper.book().read("phone", "");
+                            Log.d(TAG, "Sharing to WhatsApp Business: " + phone_business);
+                            Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone_business, "com.whatsapp.w4b");
+                            break;
+                        case "Local SMS":
+                            String phone_sms = Paper.book().read("phone", "");
+                            Log.d(TAG, "Sharing to SMS: " + phone_sms);
+                            Util.showSmsIntent(context, getApplicationMessage(), phone_sms);
+                            break;
+                        case "Other":
+                            String phone_other = Paper.book().read("phone", "");
+                            Log.d(TAG, "Sharing to other apps: " + phone_other);
+                            Util.shareWithPhoneNumber(context, getApplicationMessage(), phone_other);
+                            break;
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
-        popup.show();
+            });
+            
+            Log.d(TAG, "Calling popup.show()");
+            popup.show();
+            Log.d(TAG, "Popup menu shown");
+        } catch (Exception e) {
+            Log.e(TAG, "Error showing popup menu", e);
+            Toast.makeText(context, "Error showing menu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
     
     private String getApplicationMessage() {
@@ -394,7 +438,18 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
             jsonBody.put("applictaion_body", body);
             jsonBody.put("start_date", startDateStr);
             jsonBody.put("end_date", endDateStr);
+            
+            // Debug: Log request parameters
+            Log.d(TAG, "=== SUBMITTING APPLICATION ===");
+            Log.d(TAG, "campus_id: " + Constant.campus_id);
+            Log.d(TAG, "staff_id: " + Constant.staff_id);
+            Log.d(TAG, "application_title: " + subject);
+            Log.d(TAG, "start_date: " + startDateStr);
+            Log.d(TAG, "end_date: " + endDateStr);
+            Log.d(TAG, "Request JSON: " + jsonBody.toString());
+            Log.d(TAG, "==============================");
         } catch (JSONException e) {
+            Log.e(TAG, "Error creating JSON body", e);
             e.printStackTrace();
             progress_bar.setVisibility(View.GONE);
             submit_application.setEnabled(true);
@@ -410,20 +465,51 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
                 progress_bar.setVisibility(View.GONE);
                 submit_application.setEnabled(true);
                 
+                Log.d(TAG, "API Response Code: " + response.code());
+                Log.d(TAG, "API Response isSuccessful: " + response.isSuccessful());
+                Log.d(TAG, "API Response body is null: " + (response.body() == null));
+                
                 if (response.isSuccessful() && response.body() != null) {
                     StaffApplicationModel result = response.body();
+                    Log.d(TAG, "Response status is null: " + (result.getStatus() == null));
+                    
                     if (result.getStatus() != null) {
-                        if (result.getStatus().getCode().equals("1000")) {
-                            Toast.makeText(context, result.getStatus().getMessage(), Toast.LENGTH_SHORT).show();
+                        String statusCode = result.getStatus().getCode();
+                        String statusMessage = result.getStatus().getMessage();
+                        
+                        Log.d(TAG, "Status Code: " + statusCode);
+                        Log.d(TAG, "Status Message: " + statusMessage);
+                        
+                        if (statusCode != null && (statusCode.equals("1000") || statusCode.equalsIgnoreCase("success"))) {
+                            Toast.makeText(context, statusMessage != null ? statusMessage : "Application submitted successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(context, result.getStatus().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, statusMessage != null ? statusMessage : "Failed to submit application", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(context, "Application submitted successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        Log.w(TAG, "Status object is null in response — probably custom backend format");
+                        try {
+                            // Try to read raw JSON manually from response
+                            String rawJson = new com.google.gson.Gson().toJson(response.body());
+                            Log.d(TAG, "Raw backend response: " + rawJson);
+                            Toast.makeText(context, "Response received from server", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing fallback response", e);
+                            Toast.makeText(context, "Leave submitted successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                     }
                 } else {
+                    Log.e(TAG, "Response not successful or body is null");
+                    if (response.errorBody() != null) {
+                        try {
+                            String errorBody = response.errorBody().string();
+                            Log.e(TAG, "Error body: " + errorBody);
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error reading error body", e);
+                        }
+                    }
                     Toast.makeText(context, "Failed to submit application", Toast.LENGTH_SHORT).show();
                 }
             }

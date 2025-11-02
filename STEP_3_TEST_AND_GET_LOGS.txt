@@ -1,0 +1,35 @@
+======================================
+STEP 3: Test app and get error logs
+======================================
+
+1. Open Android Studio
+
+2. Connect your device and run the app
+
+3. In Android Studio, click on "Logcat" tab (bottom of screen)
+
+4. In the filter box, type: StaffAddApplication
+
+5. Clear the log (click the "Clear" icon)
+
+6. In the app:
+   - Go to Submit Leave Application
+   - Fill in all fields
+   - Select a NEW date (not previously used)
+   - Click "Submit" button
+   - Click "Submit to System"
+
+7. In Logcat, you will see many log messages
+   Copy ALL messages that appear, especially these:
+
+   === SUBMITTING APPLICATION ===
+   campus_id: ...
+   staff_id: ...
+   API Response Code: ...
+   Status Code: ...
+   Status Message: ...
+
+8. Share those logs with me
+
+TIP: Right-click in Logcat and select "Copy All" to copy everything
+

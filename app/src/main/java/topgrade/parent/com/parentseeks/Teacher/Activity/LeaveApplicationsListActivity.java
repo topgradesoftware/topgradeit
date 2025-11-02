@@ -63,6 +63,10 @@ public class LeaveApplicationsListActivity extends AppCompatActivity implements 
         context = this;
         Paper.init(context);
         
+        // Load constants from Paper database (CRITICAL FIX)
+        Constant.loadFromPaper();
+        Log.d(TAG, "Constants loaded - staff_id: " + Constant.staff_id + ", campus_id: " + Constant.campus_id);
+        
         // Initialize views
         initializeViews();
         

@@ -1,0 +1,19 @@
+======================================
+STEP 2: Update api.php file
+======================================
+
+1. Open your api.php file on the server
+
+2. Find this line:
+   case 'add_application':
+
+3. Replace EVERYTHING from "case 'add_application':" 
+   until the "break;" 
+   with the code from "api_leave_application_fix.php"
+
+4. Save the file
+
+5. Clear any server cache (if you have caching enabled)
+
+IMPORTANT: Make sure you replace the ENTIRE case block, not just part of it!
+
