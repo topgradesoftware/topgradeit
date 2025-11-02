@@ -14,12 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-
+import android.view.MenuItem;
 
 import io.paperdb.Paper;
 import okhttp3.MediaType;
@@ -33,6 +34,7 @@ import topgrade.parent.com.parentseeks.Parent.Interface.BaseApiService;
 import topgrade.parent.com.parentseeks.Parent.Utils.API;
 import topgrade.parent.com.parentseeks.Teacher.Model.StaffApplicationModel;
 import topgrade.parent.com.parentseeks.Teacher.Utils.Constant;
+import topgrade.parent.com.parentseeks.Teacher.Utils.Util;
 import topgrade.parent.com.parentseeks.R;
 
 import java.text.SimpleDateFormat;
@@ -288,11 +290,12 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.submit_leave_card) {
-            submitApplication();
+            showSubmitOptions(v);
         }
     }
-
-    private void submitApplication() {
+    
+    private void showSubmitOptions(View view) {
+        // Validate inputs first
         String subject = application_subject.getText().toString().trim();
         String body = application_body.getText().toString().trim();
 
@@ -306,11 +309,71 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
             return;
         }
 
-        // Validate that a category is selected
         if (selected_application_category.isEmpty()) {
             Toast.makeText(context, "Please select an application category", Toast.LENGTH_SHORT).show();
             return;
         }
+        
+        // Show popup menu with options
+        PopupMenu popup = new PopupMenu(context, view);
+        popup.getMenu().add("Submit to System");
+        popup.getMenu().add("Local SMS");
+        popup.getMenu().add("Whatsapp");
+        popup.getMenu().add("Whatsapp(Business)");
+        popup.getMenu().add("Other");
+        
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                String title = item.getTitle().toString();
+                switch (title) {
+                    case "Submit to System":
+                        submitApplication();
+                        break;
+                    case "Whatsapp":
+                        String phone = Paper.book().read("phone", "");
+                        Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone, "com.whatsapp");
+                        break;
+                    case "Whatsapp(Business)":
+                        String phone_business = Paper.book().read("phone", "");
+                        Util.shareToWhatsAppWithNumber(context, getApplicationMessage(), phone_business, "com.whatsapp.w4b");
+                        break;
+                    case "Local SMS":
+                        String phone_sms = Paper.book().read("phone", "");
+                        Util.showSmsIntent(context, getApplicationMessage(), phone_sms);
+                        break;
+                    case "Other":
+                        String phone_other = Paper.book().read("phone", "");
+                        Util.shareWithPhoneNumber(context, getApplicationMessage(), phone_other);
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
+    }
+    
+    private String getApplicationMessage() {
+        String subject = application_subject.getText().toString().trim();
+        String body = application_body.getText().toString().trim();
+        String startDate = start_date_text.getText().toString();
+        String endDate = end_date_text.getText().toString();
+        String staffName = Paper.book().read("full_name", "Staff");
+        
+        String message = "Leave Application\n\n";
+        message += "From: " + staffName + "\n";
+        message += "Category: " + selected_application_category + "\n";
+        message += "Subject: " + subject + "\n";
+        message += "Start Date: " + startDate + "\n";
+        message += "End Date: " + endDate + "\n\n";
+        message += "Details:\n" + body;
+        
+        return message;
+    }
+
+    private void submitApplication() {
+        // Validation already done in showSubmitOptions
+        String subject = application_subject.getText().toString().trim();
+        String body = application_body.getText().toString().trim();
 
         progress_bar.setVisibility(View.VISIBLE);
         submit_application.setEnabled(false);
