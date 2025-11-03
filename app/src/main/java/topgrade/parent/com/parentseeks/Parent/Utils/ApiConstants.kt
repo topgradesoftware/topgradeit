@@ -84,6 +84,7 @@ object ApiConstants {
         const val ATTENDANCE_STUDENT_FULL = "api.php?page=teacher/attendence_student_full"
         const val FEEDBACK = "api.php?page=teacher/feedback"
         const val LEAVE_APPLICATION = "api.php?page=teacher/leave_applicaton"
+        const val LEAVE_APPLICATION_CATEGORIES = "api.php?page=teacher/load_leave_application_categories"
         const val COMPLAIN = "api.php?page=teacher/complain"
         const val SEND_DIARY = "api.php?page=teacher/send_diary"
     }
