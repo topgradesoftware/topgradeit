@@ -162,9 +162,11 @@ class ConsolidatedUserRepository(
             
             // Update constants for backward compatibility
             Constant.parent_id = data.uniqueId
+            Constant.campus_id = data.parentId  // ✅ CRITICAL: Load campus_id into static constant
             Constant.current_session = loginResponse.campusSession?.uniqueId ?: ""
             
             Log.d(TAG, "User data saved to optimized database. User Type: $userType")
+            Log.d(TAG, "Static Constants - parent_id: ${Constant.parent_id}, campus_id: ${Constant.campus_id}")
         } catch (e: Exception) {
             Log.e(TAG, "Error saving user data to optimized database", e)
             throw e
@@ -230,12 +232,16 @@ class ConsolidatedUserRepository(
             Paper.book().write("picture", data.picture)
             Paper.book().write("password", password)
             
+            // ✅ CRITICAL: Load campus_id into static constant (matches working code pattern)
+            Constant.campus_id = data.parentId
+            
             // Ensure full_name is available for both user types (for parent profile access)
             Paper.book().write("full_name", data.fullName)
             
             Log.d(TAG, "Stored campus_id: ${data.parentId}")
             Log.d(TAG, "Stored email: ${data.email}")
             Log.d(TAG, "User Type: $userType")
+            Log.d(TAG, "Static Constant.campus_id set to: ${Constant.campus_id}")
             
             // Save students data
             loginResponse.students?.let { students ->

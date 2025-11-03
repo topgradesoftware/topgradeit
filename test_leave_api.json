@@ -1,0 +1,10 @@
+{
+  "operation": "add_application",
+  "campus_id": "5c67f03e5c3da",
+  "staff_id": "6876c43fd910b",
+  "application_title": "Curl Test ABC XYZ",
+  "applictaion_body": "Testing from curl",
+  "start_date": "01/12/2025",
+  "end_date": "03/12/2025"
+}
+
