@@ -282,26 +282,70 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
     }
     
     private void loadApplicationCategories() {
-        Log.d(TAG, "loadApplicationCategories() - Starting to load leave application categories");
+        Log.d(TAG, "loadApplicationCategories() - Starting to load categories from API");
         
-        // Since the API doesn't provide categories, let's create some default ones
-        // You can modify these based on your school's leave types
+        // Load categories from backend API
+        BaseApiService apiService = API.getAPIService();
+        
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("campus_id", Constant.campus_id);
+            
+            Log.d(TAG, "Fetching categories for campus: " + Constant.campus_id);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error creating JSON for categories", e);
+            return;
+        }
+        
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonBody.toString());
+        Call<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> call = apiService.load_leave_application_categories(requestBody);
+        
+        call.enqueue(new Callback<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse>() {
+            @Override
+            public void onResponse(Call<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> call, 
+                                 Response<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> response) {
+                
+                if (response.isSuccessful() && response.body() != null) {
+                    topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse result = response.body();
+                    
+                    if (result.getCategories() != null && !result.getCategories().isEmpty()) {
+                        category_name_list.clear();
+                        for (topgrade.parent.com.parentseeks.Teacher.Model.CategoryModel category : result.getCategories()) {
+                            category_name_list.add(category.getFullName());
+                        }
+                        
+                        // Set up the adapter
+                        if (select_application_spinner != null) {
+                            application_adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, category_name_list);
+                            select_application_spinner.setAdapter(application_adapter);
+                            Log.d(TAG, "Categories loaded successfully: " + category_name_list.size() + " items");
+                        }
+                    } else {
+                        Log.w(TAG, "No categories returned from API");
+                        loadDefaultCategories(); // Fallback
+                    }
+                } else {
+                    Log.e(TAG, "Failed to load categories from API");
+                    loadDefaultCategories(); // Fallback
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> call, Throwable t) {
+                Log.e(TAG, "Error loading categories", t);
+                loadDefaultCategories(); // Fallback
+            }
+        });
+    }
+    
+    private void loadDefaultCategories() {
+        Log.d(TAG, "Loading default categories as fallback");
         category_name_list.clear();
-        category_name_list.add("Sick Leave");
-        category_name_list.add("Casual Leave");
-        category_name_list.add("Annual Leave");
-        category_name_list.add("Emergency Leave");
-        category_name_list.add("Personal Leave");
-        category_name_list.add("Other");
+        category_name_list.add("Leave Application");
         
-        // Set up the adapter for select_application_spinner
-        if (select_application_spinner != null && !category_name_list.isEmpty()) {
+        if (select_application_spinner != null) {
             application_adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, category_name_list);
             select_application_spinner.setAdapter(application_adapter);
-            Log.d(TAG, "loadApplicationCategories() - Adapter set successfully with " + category_name_list.size() + " categories");
-        } else {
-            Log.e(TAG, "loadApplicationCategories() - SearchableSpinner is null or category list is empty");
-            Toast.makeText(context, "No application categories available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -469,6 +513,20 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
                 Log.d(TAG, "API Response isSuccessful: " + response.isSuccessful());
                 Log.d(TAG, "API Response body is null: " + (response.body() == null));
                 
+                // Log the raw response for debugging
+                try {
+                    if (response.body() != null) {
+                        String rawResponse = new com.google.gson.Gson().toJson(response.body());
+                        Log.d(TAG, "Raw Response Body: " + rawResponse);
+                    }
+                    if (response.errorBody() != null) {
+                        String errorResponse = response.errorBody().string();
+                        Log.d(TAG, "Error Response Body: " + errorResponse);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error logging response", e);
+                }
+                
                 if (response.isSuccessful() && response.body() != null) {
                     StaffApplicationModel result = response.body();
                     Log.d(TAG, "Response status is null: " + (result.getStatus() == null));
@@ -502,15 +560,28 @@ public class StaffAddApplication extends AppCompatActivity implements View.OnCli
                     }
                 } else {
                     Log.e(TAG, "Response not successful or body is null");
+                    String errorMessage = "Failed to submit application";
+                    
                     if (response.errorBody() != null) {
                         try {
                             String errorBody = response.errorBody().string();
                             Log.e(TAG, "Error body: " + errorBody);
+                            if (errorBody != null && !errorBody.isEmpty()) {
+                                errorMessage = "Server error: " + errorBody.substring(0, Math.min(100, errorBody.length()));
+                            }
                         } catch (Exception e) {
                             Log.e(TAG, "Error reading error body", e);
                         }
                     }
-                    Toast.makeText(context, "Failed to submit application", Toast.LENGTH_SHORT).show();
+                    
+                    // Show HTTP error code for debugging
+                    if (response.code() >= 400) {
+                        errorMessage = "Server error (" + response.code() + "): " + 
+                            (response.code() == 500 ? "Please contact administrator" : "Please try again");
+                        Log.e(TAG, "HTTP Error Code: " + response.code());
+                    }
+                    
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
 

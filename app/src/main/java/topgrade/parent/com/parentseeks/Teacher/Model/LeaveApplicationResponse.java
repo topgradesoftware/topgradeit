@@ -17,6 +17,10 @@ public class LeaveApplicationResponse {
     @Expose
     private List<LeaveApplicationData> data;
     
+    @SerializedName("categories")
+    @Expose
+    private List<CategoryModel> categories;
+    
     public SharedStatus getStatus() {
         return status;
     }
@@ -31,6 +35,14 @@ public class LeaveApplicationResponse {
     
     public void setData(List<LeaveApplicationData> data) {
         this.data = data;
+    }
+    
+    public List<CategoryModel> getCategories() {
+        return categories;
+    }
+    
+    public void setCategories(List<CategoryModel> categories) {
+        this.categories = categories;
     }
     
     public static class LeaveApplicationData {

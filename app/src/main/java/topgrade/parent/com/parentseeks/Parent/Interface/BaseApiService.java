@@ -196,6 +196,10 @@ public interface BaseApiService {
     Call<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> leave_applicaton_title(@Body RequestBody body);
 
     @Headers("Content-Type:application/json")
+    @POST("api.php?page=teacher/load_leave_application_categories")
+    Call<topgrade.parent.com.parentseeks.Teacher.Model.LeaveApplicationResponse> load_leave_application_categories(@Body RequestBody body);
+
+    @Headers("Content-Type:application/json")
     @POST("api.php?page=teacher/complain")
     Call<StaffComplainModel> complain(@Body RequestBody body);
 
