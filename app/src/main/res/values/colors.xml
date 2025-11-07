@@ -228,12 +228,13 @@
     <color name="role_super_admin">#007BFF</color>
     <color name="role_staff">#000064</color>
     <color name="role_parent">#693e02</color>
-    <color name="role_about">#28A745</color>
-    <!-- Share card color -->
-    <color name="role_share">#FF9800</color>
-    <color name="role_settings">#6C757D</color>
-    <color name="role_help">#17A2B8</color>
-    <color name="role_feedback">#9C27B0</color>
+    
+    <!-- Small option cards - using colors from main 6 cards for cohesive UI -->
+    <color name="role_about">#007BFF</color>        <!-- Super Admin Blue - info/about -->
+    <color name="role_share">#4CAF50</color>        <!-- Campus Green - sharing/social -->
+    <color name="role_settings">#000064</color>     <!-- Staff Navy - settings/serious -->
+    <color name="role_help">#004d40</color>         <!-- Student Teal - helpful/supportive -->
+    <color name="role_feedback">#E74C3C</color>     <!-- Admin Red - attention/feedback -->
     <color name="text_primary_role">#000000</color>
     
     <!-- Text colors for role cards -->

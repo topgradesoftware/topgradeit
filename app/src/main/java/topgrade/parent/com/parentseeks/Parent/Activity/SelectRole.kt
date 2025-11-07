@@ -62,9 +62,38 @@ class SelectRole : AppCompatActivity() {
         topgrade.parent.com.parentseeks.Parent.Utils.ActivityTransitionHelper.applyAntiFlickeringFlags(this)
         topgrade.parent.com.parentseeks.Parent.Utils.ActivityTransitionHelper.setBackgroundColor(this, android.R.color.white)
         
+        // Set edge-to-edge display (same as Staff Login)
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
+        
         setContentView(R.layout.activity_select_role)
+        
+        // Configure status bar (TRANSPARENT) & nav bar (Navy Blue) - SAME AS STAFF LOGIN
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = android.graphics.Color.TRANSPARENT
+            window.navigationBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.navy_blue)
 
-        // Apply Staff theme (Navy Blue) using ThemeHelper like staff login
+            // Ensure white icons on dark background (Android M+)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                val flags = window.decorView.systemUiVisibility
+                window.decorView.systemUiVisibility = 
+                    flags and android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            }
+        }
+
+        // Configure for Android R+ (White icons)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            try {
+                window.insetsController?.setSystemBarsAppearance(
+                    0, // White icons on dark background
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or 
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            } catch (e: Exception) {
+                Log.e("SelectRole", "Error setting system bars appearance", e)
+            }
+        }
+
+        // Apply Staff theme (Navy Blue) - Navigation bar already set above
         ThemeHelper.applySimpleTheme(this, ThemeHelper.THEME_STAFF)
 
         try {
@@ -228,57 +257,33 @@ class SelectRole : AppCompatActivity() {
 
     private fun setupSystemWindowInsets() {
         try {
-            // Enable edge-to-edge display
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                window.setDecorFitsSystemWindows(false)
-            }
+            // Edge-to-edge display already enabled in onCreate()
+            // Status bar (transparent) and navigation bar (navy blue) already configured in onCreate()
             
-            // Status bar and navigation bar colors are now handled by ThemeHelper
-            
-            // Setup window insets listener with safe casting
+            // Setup window insets listener - ONLY apply bottom padding to avoid pushing header down
             try {
-                val rootLayout = findViewById<RelativeLayout>(R.id.activity_layout_select_role)
+                val rootLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.activity_layout_select_role)
                 rootLayout?.let { layout ->
                     androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(layout) { view, insets ->
                         val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
                         
-                        // Apply padding to respect system bars
+                        // CRITICAL: Only apply bottom padding for navigation bar
+                        // Do NOT apply top padding - let header extend behind status bar!
                         view.setPadding(
-                            systemBars.left,
-                            systemBars.top,
-                            systemBars.right,
-                            systemBars.bottom
+                            0,                    // No left padding
+                            0,                    // No top padding - header covers status bar
+                            0,                    // No right padding
+                            systemBars.bottom     // Only bottom padding for nav bar
                         )
                         
-                        insets
+                        androidx.core.view.WindowInsetsCompat.CONSUMED
                     }
                 }
-            } catch (e: ClassCastException) {
-                Log.e("SelectRole", "Error casting root layout to RelativeLayout", e)
-                // Try to find as ConstraintLayout instead
-                try {
-                    val rootLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.activity_layout_select_role)
-                    rootLayout?.let { layout ->
-                        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(layout) { view, insets ->
-                            val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
-                            
-                            // Apply padding to respect system bars
-                            view.setPadding(
-                                systemBars.left,
-                                systemBars.top,
-                                systemBars.right,
-                                systemBars.bottom
-                            )
-                            
-                            insets
-                        }
-                    }
-                } catch (e2: Exception) {
-                    Log.e("SelectRole", "Error setting up window insets with ConstraintLayout", e2)
-                }
+            } catch (e: Exception) {
+                Log.e("SelectRole", "Error setting up window insets", e)
             }
             
-            Log.d("SelectRole", "System window insets setup completed")
+            Log.d("SelectRole", "System window insets setup completed - No top padding applied")
         } catch (e: Exception) {
             Log.e("SelectRole", "Error setting up system window insets", e)
         }
@@ -287,38 +292,8 @@ class SelectRole : AppCompatActivity() {
     private fun setupKeyboardHandling() {
         try {
             // Enable keyboard handling for better UX
-            window.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            
-            // Setup keyboard visibility listener with safe casting
-            try {
-                val rootLayout = findViewById<RelativeLayout>(R.id.activity_layout_select_role)
-                rootLayout?.let { layout ->
-                    layout.viewTreeObserver.addOnGlobalLayoutListener {
-                        val heightDiff = layout.rootView.height - layout.height
-                        if (heightDiff > 200) { // Keyboard is visible
-                            // Adjust layout when keyboard is shown
-                            layout.scrollTo(0, layout.height)
-                        }
-                    }
-                }
-            } catch (e: ClassCastException) {
-                Log.e("SelectRole", "Error casting root layout to RelativeLayout for keyboard handling", e)
-                // Try to find as ConstraintLayout instead
-                try {
-                    val rootLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.activity_layout_select_role)
-                    rootLayout?.let { layout ->
-                        layout.viewTreeObserver.addOnGlobalLayoutListener {
-                            val heightDiff = layout.rootView.height - layout.height
-                            if (heightDiff > 200) { // Keyboard is visible
-                                // Adjust layout when keyboard is shown
-                                layout.scrollTo(0, layout.height)
-                            }
-                        }
-                    }
-                } catch (e2: Exception) {
-                    Log.e("SelectRole", "Error setting up keyboard handling with ConstraintLayout", e2)
-                }
-            }
+            // Use ADJUST_PAN to avoid resizing and breaking header layout
+            window.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
             
             Log.d("SelectRole", "Keyboard handling setup completed")
         } catch (e: Exception) {

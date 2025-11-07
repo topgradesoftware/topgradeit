@@ -320,15 +320,15 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            // Show Password
-            New_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            Previous_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            Confirm_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-        } else {
-            // Hide Password
+            // Hide Password (eye icon crossed/checked = hide)
             New_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             Previous_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             Confirm_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        } else {
+            // Show Password (eye icon open/unchecked = show)
+            New_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            Previous_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            Confirm_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         }
     }
 

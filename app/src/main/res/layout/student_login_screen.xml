@@ -234,8 +234,9 @@
                     android:textSize="12sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_input_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="wrap_content"
                     app:endIconMode="password_toggle"
                     app:endIconTint="@color/student_primary"
                     app:boxBackgroundColor="@color/student_input_background"

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -23,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,7 +79,7 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
     String Api_date_format = "yyyy-MM-dd";
     String attdence_date = "";
     HashMap<String, Object> postParam = new HashMap<String, Object>();
-    CheckBox sms_check;
+    MaterialCheckBox smsCheck;
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
         @Override
@@ -165,13 +165,16 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
         attdence_date = new SimpleDateFormat(Api_date_format, Locale.getDefault()).format(myCalendar.getTime());
 
         myrecycleview = findViewById(R.id.attendence_rcv);
-        // SMS checkbox removed from layout
+        smsCheck = findViewById(R.id.sms_header_checkbox);
+        if (smsCheck != null) {
+            smsCheck.setChecked(true);
+            smsCheck.setOnCheckedChangeListener(this);
+        }
 
         back_icon.setOnClickListener(this);
 
         submit_attendence.setOnClickListener(this);
         attendenceDateLayout.setOnClickListener(this);
-        // SMS checkbox removed from layout
 
         context = StaffAttendanceSubmitSection.this;
         Paper.init(context);
@@ -409,6 +412,7 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
                             @Override
                             public void run() {
                                 attendanceSubmitModels.clear();
+                                String smsStatus = (smsCheck != null && smsCheck.isChecked()) ? "1" : "0";
                                 for (int i = 0; i < list.size(); i++) {
                                     attendanceSubmitModels.add(new AttendanceSubmitModel(
                                             "1",
@@ -416,7 +420,7 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
                                             list.get(i).getUniqueId(),
                                             list.get(i).getSectionId(),
                                             list.get(i).getParent_id(),
-                                            "1"
+                                            smsStatus
                                     ));
                                 }
                                 total_records.setText("Total Records: " + list.size());
@@ -428,6 +432,8 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
                                         attendanceSubmitModels,
                                         StaffAttendanceSubmitSection.this));
                                 }
+
+                                updateSmsHeaderState();
 
                                 progress_bar.setVisibility(View.GONE);
                             }
@@ -638,16 +644,20 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
         attendence.setSms(status);
         attendanceSubmitModels.set(position, attendence);
 
+        updateSmsHeaderState();
+
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        String status = "";
-        if (b) {
-            status = "1";
-        } else {
-            status = "0";
+        String status = b ? "1" : "0";
+
+        if (smsCheck != null && smsCheck != compoundButton) {
+            smsCheck.setOnCheckedChangeListener(null);
+            smsCheck.setChecked(b);
+            smsCheck.setOnCheckedChangeListener(this);
         }
+
         for (int i = 0; i < attendanceSubmitModels.size(); i++) {
             AttendanceSubmitModel attendence = attendanceSubmitModels.get(i);
             attendence.setSms(status);
@@ -657,6 +667,24 @@ public class StaffAttendanceSubmitSection extends AppCompatActivity
         if (myrecycleview != null && myrecycleview.getAdapter() != null) {
             myrecycleview.getAdapter().notifyDataSetChanged();
         }
+    }
+
+    private void updateSmsHeaderState() {
+        if (smsCheck == null) {
+            return;
+        }
+
+        boolean allChecked = true;
+        for (AttendanceSubmitModel model : attendanceSubmitModels) {
+            if (!"1".equals(model.getSms())) {
+                allChecked = false;
+                break;
+            }
+        }
+
+        smsCheck.setOnCheckedChangeListener(null);
+        smsCheck.setChecked(allChecked);
+        smsCheck.setOnCheckedChangeListener(this);
     }
 
     /**

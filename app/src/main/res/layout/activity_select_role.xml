@@ -7,8 +7,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:ignore="UseCompoundDrawables">
+
+    <!-- Header with Wave Background - Extended to cover status bar -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_navy_blue"
+        android:contentDescription="@string/header_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Scrollable Content Area -->
     <ScrollView
@@ -16,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_wave"
         app:layout_constraintBottom_toTopOf="@+id/footer_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -30,18 +42,7 @@
             android:padding="@dimen/_8sdp"
             android:paddingBottom="20dp">
 
-            <!-- Logo -->
-
             <!-- Role Cards Grid -->
-            <ImageView
-                android:id="@+id/iv_top_grade_logo"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp"
-                android:layout_marginVertical="@dimen/_4sdp"
-                android:contentDescription="@string/app_logo"
-                android:importantForAccessibility="yes"
-                android:scaleType="fitCenter"
-                android:src="@drawable/header_logo" />
 
             <GridLayout
                 android:layout_width="wrap_content"
@@ -511,24 +512,23 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Navigation Buttons (Positioned over content) -->
+    <!-- Navigation Buttons (Positioned on header) -->
     <!-- Back Button -->
     <ImageView
         android:id="@+id/back_button"
-        android:layout_width="@dimen/_48sdp"
-        android:layout_height="@dimen/_48sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_55sdp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/ic_arrow_back"
         app:tint="@android:color/white"
-        app:background="?attr/selectableItemBackground"
         android:clickable="true"
-        tools:ignore="TouchTargetSize"
         android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/back_button"
         android:importantForAccessibility="yes"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- More Options Button -->
@@ -536,32 +536,34 @@
         android:id="@+id/more_option"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_55sdp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_more_vert_black_24dp"
         app:tint="@android:color/white"
-        app:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/more_options"
         android:importantForAccessibility="yes"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Dashboard Title (for dynamic reference) -->
+    <!-- Dashboard Title - Centered on Header -->
     <TextView
         android:id="@+id/dashboard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_55sdp"
         android:text="@string/app_name"
-        android:textSize="@dimen/text_size_large"
+        android:fontFamily="@font/quicksand_bold"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
+        android:lineSpacingExtra="2dp"
+        android:textAlignment="center"
         android:importantForAccessibility="yes"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

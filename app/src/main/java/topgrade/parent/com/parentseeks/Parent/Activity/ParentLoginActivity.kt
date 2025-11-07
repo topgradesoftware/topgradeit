@@ -4,6 +4,7 @@ package topgrade.parent.com.parentseeks.Parent.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -26,6 +27,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.textfield.TextInputLayout
 import io.paperdb.Paper
 import topgrade.parent.com.parentseeks.Parent.Interface.BaseApiService
 import topgrade.parent.com.parentseeks.Parent.Repository.ConsolidatedUserRepository
@@ -96,7 +98,9 @@ class ParentLoginActivity : AppCompatActivity() {
         val login_user = findViewById<CardView>(R.id.login_user)
         val link = findViewById<TextView>(R.id.link)
         val user_enter_password = findViewById<EditText>(R.id.user_enter_password)
-        // Password visibility is handled by TextInputLayout's endIconMode="password_toggle"
+        
+        // Ensure password starts HIDDEN with crossed eye icon
+        ensurePasswordHiddenByDefault()
         
         link.setOnClickListener {
             val urlString = "https://topgradesoftware.com/privacy-policy.html"
@@ -450,6 +454,45 @@ class ParentLoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Ensure password field starts HIDDEN (dots) with CROSSED eye icon
+     * Material's password_toggle starts with OPEN eye even when password is hidden
+     * We need to programmatically toggle it to correct the icon state
+     */
+    private fun ensurePasswordHiddenByDefault() {
+        try {
+            val passwordInputLayout = findViewById<TextInputLayout>(R.id.password_input_layout)
+                ?: return
+            val passwordEditText = passwordInputLayout.editText ?: return
+
+            passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+            passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
+
+            passwordInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            passwordInputLayout.setEndIconDrawable(R.drawable.ic_password_visibility_off)
+            passwordInputLayout.isEndIconVisible = true
+            passwordInputLayout.setEndIconTintList(
+                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.parent_primary))
+            )
+
+            passwordInputLayout.setEndIconOnClickListener {
+                val isCurrentlyHidden = passwordEditText.transformationMethod is PasswordTransformationMethod
+                if (isCurrentlyHidden) {
+                    passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                    passwordInputLayout.setEndIconDrawable(R.drawable.ic_password_visibility_on)
+                } else {
+                    passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+                    passwordInputLayout.setEndIconDrawable(R.drawable.ic_password_visibility_off)
+                }
+                passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
+            }
+
+            Log.d("ParentLoginActivity", "Password icon forced to CROSSED eye when hidden")
+        } catch (e: Exception) {
+            Log.e("ParentLoginActivity", "Error setting password visibility", e)
+        }
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         isActivityDestroyed = true

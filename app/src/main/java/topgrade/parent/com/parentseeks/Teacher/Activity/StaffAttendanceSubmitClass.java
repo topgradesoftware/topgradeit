@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -22,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.widget.Spinner;
@@ -92,13 +92,12 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
     private LinearLayout attendanceDateLayout;
     private ImageView backIcon;
     private Button submitAttendance;
-    private TextView smsCheck;
+    private MaterialCheckBox smsCheck;
 
     // ==================== DATA ====================
     private List<Teach> classInchargesList = new ArrayList<>();
     private List<String> classList = new ArrayList<>();
     private List<AttendanceSubmitModel> attendanceSubmitModels = new ArrayList<>();
-    private boolean isSmsEnabled = false;
     private String selectedClassId;
     private String attendanceDateString = "";
     private final Calendar calendar = Calendar.getInstance();
@@ -184,13 +183,14 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
         progressBar = findViewById(R.id.progress_bar);
         classSpinner = findViewById(R.id.classs_spinner);
         // Standard Spinner doesn't need setTitle
-        smsCheck = findViewById(R.id.sms_header);
-        
+        smsCheck = findViewById(R.id.sms_header_checkbox);
+        smsCheck.setChecked(true);
+        smsCheck.setOnCheckedChangeListener(this);
+
         // Set click listeners
         backIcon.setOnClickListener(this);
         submitAttendance.setOnClickListener(this);
         attendanceDateLayout.setOnClickListener(this);
-        smsCheck.setOnClickListener(this);
         
         // Set initial date
         updateDateDisplay();
@@ -537,6 +537,7 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
 
     private void setupStudentList(List<StudentListSigel> students) {
         attendanceSubmitModels.clear();
+        String smsStatus = (smsCheck != null && smsCheck.isChecked()) ? ATTENDANCE_PRESENT : "0";
         
         for (StudentListSigel student : students) {
             attendanceSubmitModels.add(new AttendanceSubmitModel(
@@ -545,7 +546,7 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
                 student.getUniqueId(),
                 student.getSectionId(),
                 student.getParent_id(),
-                ATTENDANCE_PRESENT // Default SMS enabled
+                smsStatus
             ));
         }
         
@@ -593,8 +594,6 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
             handleSubmitAttendance();
         } else if (id == R.id.attendance_date) {
             showDatePicker();
-        } else if (id == R.id.sms_header) {
-            toggleSmsOption();
         }
     }
 
@@ -629,21 +628,6 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
             calendar.get(Calendar.DAY_OF_MONTH)
             ).show();
         }
-
-    private void toggleSmsOption() {
-        isSmsEnabled = !isSmsEnabled;
-        updateSmsDisplay();
-    }
-
-    private void updateSmsDisplay() {
-        if (isSmsEnabled) {
-            smsCheck.setTextColor(getResources().getColor(R.color.navy_blue));
-            smsCheck.setBackgroundColor(getResources().getColor(R.color.white));
-        } else {
-            smsCheck.setTextColor(getResources().getColor(R.color.white));
-            smsCheck.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        }
-    }
 
     private void submitAttendance() {
         JSONArray attendanceArray = createAttendanceJsonArray();
@@ -786,6 +770,20 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
             AttendanceSubmitModel model = attendanceSubmitModels.get(position);
             model.setSms(status);
             attendanceSubmitModels.set(position, model);
+            
+            if (smsCheck != null) {
+                boolean allChecked = true;
+                for (AttendanceSubmitModel submitModel : attendanceSubmitModels) {
+                    if (!ATTENDANCE_PRESENT.equals(submitModel.getSms())) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                smsCheck.setOnCheckedChangeListener(null);
+                smsCheck.setChecked(allChecked);
+                smsCheck.setOnCheckedChangeListener(this);
+            }
         }
     }
 
