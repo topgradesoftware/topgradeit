@@ -42,6 +42,7 @@ import topgrade.parent.com.parentseeks.Parent.Utils.API;
 import topgrade.parent.com.parentseeks.Parent.Utils.ThemeHelper;
 import topgrade.parent.com.parentseeks.Parent.Utils.ParentThemeHelper;
 import topgrade.parent.com.parentseeks.Parent.Utils.Constants;
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType;
 import androidx.core.content.ContextCompat;
 
 public class PasswordsChange extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
@@ -53,68 +54,64 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
     String campus_id;
     Context context;
     ProgressBar progress_bar;
-    String User_TYpe;
+    private UserType resolvedUserType = UserType.PARENT;
 
-    private void applyTheme() {
+    private void applyTheme(UserType userType) {
         try {
-            // Check user type and apply appropriate theme
-            String userType = Paper.book().read(Constants.User_Type, "");
-            Log.d("PasswordsChange", "User Type: " + userType);
-            
-            if (userType != null && userType.equals("STUDENT")) {
-                // Apply student theme (teal) when accessed from student context
-                ThemeHelper.applyStudentTheme(this);
-                
-                // Apply system bars theme (status bar and navigation bar)
-                int tealColor = ContextCompat.getColor(this, R.color.student_primary);
-                getWindow().setStatusBarColor(tealColor);
-                getWindow().setNavigationBarColor(tealColor);
-                
-                // Force dark navigation bar icons (prevent light appearance)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (getWindow().getInsetsController() != null) {
-                        getWindow().getInsetsController().setSystemBarsAppearance(
-                            0, // 0 = do NOT use light icons
-                            android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-                        );
+            Log.d("PasswordsChange", "Resolved User Type: " + userType);
+
+            switch (userType) {
+                case STUDENT: {
+                    ThemeHelper.applyStudentTheme(this);
+                    int tealColor = ContextCompat.getColor(this, R.color.student_primary);
+                    getWindow().setStatusBarColor(tealColor);
+                    getWindow().setNavigationBarColor(tealColor);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        if (getWindow().getInsetsController() != null) {
+                            getWindow().getInsetsController().setSystemBarsAppearance(
+                                    0,
+                                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                            );
+                        }
                     }
+                    Log.d("PasswordsChange", "Student theme applied successfully");
+                    break;
                 }
-                
-                Log.d("PasswordsChange", "Student theme applied successfully");
-            } else if (userType != null && (userType.equals("STAFF") || userType.equals("TEACHER"))) {
-                // Apply staff/teacher theme (navy blue) when accessed from staff context
-                ThemeHelper.applyStaffTheme(this);
-                
-                // Apply system bars theme (status bar and navigation bar)
-                int navyColor = ContextCompat.getColor(this, R.color.staff_primary);
-                getWindow().setStatusBarColor(navyColor);
-                getWindow().setNavigationBarColor(navyColor);
-                
-                // Force dark navigation bar icons (prevent light appearance)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (getWindow().getInsetsController() != null) {
-                        getWindow().getInsetsController().setSystemBarsAppearance(
-                            0, // 0 = do NOT use light icons
-                            android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-                        );
+                case TEACHER:
+                case STAFF: {
+                    ThemeHelper.applyStaffTheme(this);
+                    int navyColor = ContextCompat.getColor(this, R.color.staff_primary);
+                    getWindow().setStatusBarColor(navyColor);
+                    getWindow().setNavigationBarColor(navyColor);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        if (getWindow().getInsetsController() != null) {
+                            getWindow().getInsetsController().setSystemBarsAppearance(
+                                    0,
+                                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                            );
+                        }
                     }
+
+                    Log.d("PasswordsChange", "Staff/Teacher theme applied successfully");
+                    break;
                 }
-                
-                Log.d("PasswordsChange", "Staff/Teacher theme applied successfully");
-            } else {
-                // Apply unified parent theme for password change page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for password change
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for password change
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Change Password");
-                
-                Log.d("PasswordsChange", "Parent theme applied successfully");
+                case PARENT:
+                default: {
+                    ParentThemeHelper.applyParentTheme(this, 100);
+                    ParentThemeHelper.setHeaderIconVisibility(this, false);
+                    ParentThemeHelper.setMoreOptionsVisibility(this, false);
+                    ParentThemeHelper.setFooterVisibility(this, true);
+                    ParentThemeHelper.setHeaderTitle(this, "Change Password");
+
+                    Log.d("PasswordsChange", "Parent theme applied successfully");
+                    break;
+                }
             }
-            
-            // Apply footer theming based on user type
-            ThemeHelper.applyFooterTheme(this, userType);
-            
+
+            ThemeHelper.applyFooterTheme(this, userType.getValue());
+
         } catch (Exception e) {
             Log.e("PasswordsChange", "Error applying theme", e);
         }
@@ -156,12 +153,11 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
         setupWindowInsets();
         
         // Apply theme based on user type
-        applyTheme();
-        
         context = PasswordsChange.this;
         Paper.init(context);
+        resolvedUserType = resolveUserType();
+        applyTheme(resolvedUserType);
 
-        User_TYpe = getIntent().getStringExtra("User_TYpe");
         progress_bar = findViewById(R.id.progress_bar);
 
         // Setup back button click listener
@@ -184,16 +180,22 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
 
         show_hide_pwd.setOnCheckedChangeListener(PasswordsChange.this);
 
-        // Apply user-specific theme based on User_TYpe
+        // Apply user-specific theme based on resolved user type
         applyUserTheme();
 
         // Get user ID based on user type
-        if (User_TYpe != null && User_TYpe.equals("STUDENT")) {
-            parent_id = Paper.book().read("student_id");
-        } else if (User_TYpe != null && (User_TYpe.equals("STAFF") || User_TYpe.equals("TEACHER"))) {
-            parent_id = Paper.book().read("staff_id");
-        } else {
-            parent_id = Paper.book().read("parent_id");
+        switch (resolvedUserType) {
+            case STUDENT:
+                parent_id = Paper.book().read("student_id");
+                break;
+            case TEACHER:
+            case STAFF:
+                parent_id = Paper.book().read("staff_id");
+                break;
+            case PARENT:
+            default:
+                parent_id = Paper.book().read("parent_id");
+                break;
         }
         campus_id = Paper.book().read("campus_id");
 
@@ -216,7 +218,6 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
                     if (current_password.equals(old_password)) {
                         if (new_password.equals(Confirm_Password_)) {
                             Chaneg_password(parent_id, campus_id, Confirm_Password_);
-
                         } else {
                             Toast.makeText(context, "Both Password Not Match", Toast.LENGTH_SHORT).show();
 
@@ -236,16 +237,12 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
 
         progress_bar.setVisibility(View.VISIBLE);
 
-        String API_NAME = "";
-        if (User_TYpe.equals("Parent")) {
-            API_NAME = API.update_password;
-
-        } else if (User_TYpe.equals("Staff")) {
-            API_NAME = API.staff_update_password;
-
-        } else if (User_TYpe.equals("STUDENT")) {
-            API_NAME = API.student_update_password;
-
+        String API_NAME = getPasswordApiEndpoint(resolvedUserType);
+        if (API_NAME == null || API_NAME.isEmpty()) {
+            Log.e("PasswordsChange", "Unable to resolve password update API for user type: " + resolvedUserType);
+            Toast.makeText(context, "Unable to update password for this user type.", Toast.LENGTH_SHORT).show();
+            progress_bar.setVisibility(View.GONE);
+            return;
         }
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST,
@@ -334,11 +331,11 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
 
     private void applyUserTheme() {
         try {
-            Log.d("PasswordsChange", "applyUserTheme() called with User_TYpe: " + User_TYpe);
+            Log.d("PasswordsChange", "applyUserTheme() called with resolvedUserType: " + resolvedUserType);
             ImageView headerWave = findViewById(R.id.header_wave);
             Button changeButton = findViewById(R.id.chnages);
             
-            if (User_TYpe != null && User_TYpe.equalsIgnoreCase("STUDENT")) {
+            if (resolvedUserType == UserType.STUDENT) {
                 Log.d("PasswordsChange", "Applying STUDENT theme (teal)");
                 // Apply student theme (teal)
                 if (headerWave != null) {
@@ -352,7 +349,7 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     getWindow().setStatusBarColor(getResources().getColor(R.color.student_primary));
                 }
-            } else if (User_TYpe != null && (User_TYpe.equalsIgnoreCase("STAFF") || User_TYpe.equalsIgnoreCase("TEACHER"))) {
+            } else if (resolvedUserType == UserType.TEACHER || resolvedUserType == UserType.STAFF) {
                 Log.d("PasswordsChange", "Applying STAFF/TEACHER theme (navy blue)");
                 // Apply staff/teacher theme (navy blue)
                 if (headerWave != null) {
@@ -430,5 +427,39 @@ public class PasswordsChange extends AppCompatActivity implements CompoundButton
         } catch (Exception e) {
             Log.e("PasswordsChange", "Error setting up window insets: " + e.getMessage());
         }
+    }
+
+    private String getPasswordApiEndpoint(UserType userType) {
+        if (userType == null) {
+            return null;
+        }
+        switch (userType) {
+            case STUDENT:
+                return API.student_update_password;
+            case TEACHER:
+            case STAFF:
+                return API.staff_update_password;
+            case PARENT:
+            default:
+                return API.update_password;
+        }
+    }
+
+    private UserType resolveUserType() {
+        String typeFromIntent = null;
+        if (getIntent() != null) {
+            typeFromIntent = getIntent().getStringExtra("User_TYpe");
+        }
+
+        if (typeFromIntent == null || typeFromIntent.trim().isEmpty()) {
+            typeFromIntent = Paper.book().read(Constants.User_Type, "");
+        }
+
+        UserType userType = UserType.Companion.fromString(typeFromIntent);
+        if (userType == null) {
+            Log.w("PasswordsChange", "Unknown user type '" + typeFromIntent + "', defaulting to PARENT");
+            userType = UserType.PARENT;
+        }
+        return userType;
     }
 }

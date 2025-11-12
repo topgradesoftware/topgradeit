@@ -1,13 +1,13 @@
 @file:Suppress("DEPRECATION")
 package topgrade.parent.com.parentseeks.Parent.Utils
 
-import android.content.Context
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.card.MaterialCardView
 import topgrade.parent.com.parentseeks.R
 
 /**
@@ -188,7 +188,17 @@ val color = ContextCompat.getColor(activity, colorRes)
             
             // Check if this is a footer container
             if (isFooterContainer(child)) {
-                child.setBackgroundResource(footerDrawable)
+                if (child is MaterialCardView) {
+                    val colorRes = when (footerDrawable) {
+                        R.drawable.footer_background_teal -> R.color.student_primary
+                        R.drawable.footer_background_staff_navy -> R.color.staff_primary
+                        else -> R.color.parent_primary
+                    }
+                    child.setCardBackgroundColor(ContextCompat.getColor(child.context, colorRes))
+                    child.setBackgroundResource(android.R.color.transparent)
+                } else {
+                    child.setBackgroundResource(footerDrawable)
+                }
                 android.util.Log.d("ThemeHelper", "Applied footer theme to: ${child.javaClass.simpleName}")
             }
             

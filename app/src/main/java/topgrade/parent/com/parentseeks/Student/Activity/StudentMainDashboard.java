@@ -30,6 +30,7 @@ import topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange;
 import topgrade.parent.com.parentseeks.Student.Activity.StudentPersonalDashboard;
 import topgrade.parent.com.parentseeks.Student.Activity.StudentOtherOptionsDashboard;
 import topgrade.parent.com.parentseeks.Student.Activity.StudentAcademicsDashboard;
+import com.google.android.material.card.MaterialCardView;
 
 public class StudentMainDashboard extends BaseMainDashboard {
 
@@ -115,10 +116,16 @@ public class StudentMainDashboard extends BaseMainDashboard {
             }
             
             // Also apply theme to app footer container
-            LinearLayout footerContainer = findViewById(R.id.footer_container);
-            if (footerContainer != null) {
+            View footerContainer = findViewById(R.id.footer_container);
+            if (footerContainer instanceof MaterialCardView) {
+                ((MaterialCardView) footerContainer).setCardBackgroundColor(navigationBarColor);
+                Log.d("StudentMainDashboard", "App footer container theme applied successfully (MaterialCardView)");
+            } else if (footerContainer instanceof LinearLayout) {
+                ((LinearLayout) footerContainer).setBackgroundColor(navigationBarColor);
+                Log.d("StudentMainDashboard", "App footer container theme applied successfully (LinearLayout)");
+            } else if (footerContainer != null) {
                 footerContainer.setBackgroundColor(navigationBarColor);
-                Log.d("StudentMainDashboard", "App footer container theme applied successfully");
+                Log.d("StudentMainDashboard", "App footer container theme applied successfully (generic view)");
             } else {
                 Log.e("StudentMainDashboard", "Footer container not found - ID: footer_container");
             }

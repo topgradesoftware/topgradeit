@@ -44,6 +44,7 @@ import topgrade.parent.com.parentseeks.Parent.Interface.OnClickListener;
 import topgrade.parent.com.parentseeks.Parent.Interface.OnCloseNavigationDrawer;
 import topgrade.parent.com.parentseeks.Parent.Utils.API;
 import topgrade.parent.com.parentseeks.Parent.Utils.Constants;
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType;
 import topgrade.parent.com.parentseeks.R;
 import topgrade.parent.com.parentseeks.Shared.Utils.LoadingStateManager;
 import topgrade.parent.com.parentseeks.Teacher.Activity.Application.StaffAddApplication;
@@ -257,7 +258,7 @@ public class StaffDashboard extends AppCompatActivity implements
     private void showPopupMenu(View anchor) {
         try {
             if (customPopupMenu == null) {
-                customPopupMenu = new CustomPopupMenu(this, anchor, "staff");
+                customPopupMenu = new CustomPopupMenu(this, anchor, UserType.TEACHER.getValue());
                 customPopupMenu.setOnMenuItemClickListener(title -> {
                     switch (title) {
                         case "Share Application":
@@ -310,7 +311,7 @@ public class StaffDashboard extends AppCompatActivity implements
     }
 
     private void changePassword() {
-        startActivity(new Intent(this, PasswordsChange.class).putExtra("User_TYpe", "Staff"));
+        startActivity(new Intent(this, PasswordsChange.class).putExtra("User_TYpe", UserType.TEACHER.getValue()));
     }
 
     // ------------------- logout flow (no AsyncTask) -------------------

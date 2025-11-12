@@ -30,6 +30,7 @@ import topgrade.parent.com.parentseeks.Teacher.Activity.StaffMainDashboard;
 import topgrade.parent.com.parentseeks.Utils.CustomPopupMenu;
 import topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard;
 import topgrade.parent.com.parentseeks.Teacher.Adapter.StaffDashboardGridAdapter;
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -292,7 +293,7 @@ public class AcademicDashboard extends AppCompatActivity {
     private void pop_uop_menu(View view) {
         try {
             if (customPopupMenu == null) {
-                customPopupMenu = new CustomPopupMenu(this, view, "staff");
+                customPopupMenu = new CustomPopupMenu(this, view, UserType.TEACHER.getValue());
                 customPopupMenu.setOnMenuItemClickListener(title -> {
                     switch (title) {
                         case "Share Application":
@@ -428,7 +429,8 @@ public class AcademicDashboard extends AppCompatActivity {
     // Add missing method for password change dialog
     private void chnage_password_dialog() {
         try {
-            startActivity(new Intent(AcademicDashboard.this, PasswordsChange.class));
+            startActivity(new Intent(AcademicDashboard.this, PasswordsChange.class)
+                    .putExtra("User_TYpe", UserType.TEACHER.getValue()));
         } catch (Exception e) {
             Log.e(TAG, "Error opening password change dialog", e);
         }

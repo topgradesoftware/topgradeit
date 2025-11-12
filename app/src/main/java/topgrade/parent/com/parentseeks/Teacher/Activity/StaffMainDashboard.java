@@ -30,6 +30,7 @@ import topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange;
 import topgrade.parent.com.parentseeks.Teacher.Activity.StaffDashboard;
 import topgrade.parent.com.parentseeks.Teacher.Activity.AcademicDashboard;
 import topgrade.parent.com.parentseeks.Teacher.Activity.StaffOthersDashboard;
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType;
 
 public class StaffMainDashboard extends BaseMainDashboard {
 
@@ -121,7 +122,7 @@ public class StaffMainDashboard extends BaseMainDashboard {
 
     @Override
     protected String getUserType() {
-        return ThemeHelper.THEME_STAFF;
+        return UserType.TEACHER.getValue();
     }
 
     @Override

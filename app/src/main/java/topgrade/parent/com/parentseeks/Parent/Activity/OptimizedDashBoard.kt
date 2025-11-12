@@ -2,10 +2,14 @@
 package topgrade.parent.com.parentseeks.parent.activity
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.core.net.toUri
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsetsController
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -13,8 +17,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +49,7 @@ import topgrade.parent.com.parentseeks.Parent.Utils.Constants
 import topgrade.parent.com.parentseeks.Parent.Utils.DateSheetBuilder
 import topgrade.parent.com.parentseeks.Parent.Utils.ThemeHelper
 import topgrade.parent.com.parentseeks.Parent.Utils.ParentThemeHelper
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType
 import topgrade.parent.com.parentseeks.Parent.Model.ExamSession
 import topgrade.parent.com.parentseeks.R
 import topgrade.parent.com.parentseeks.Utils.CustomPopupMenu
@@ -78,8 +86,8 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
         
         try {
             // Check if this dashboard is being used by staff (which should use StaffDashboard instead)
-            val userType = intent.getStringExtra("USER_TYPE") ?: Paper.book().read(Constants.User_Type, "parent")
-            if (userType == "staff" || userType == "Teacher") {
+            val resolvedUserType = resolveCurrentUserType()
+            if (resolvedUserType == UserType.TEACHER || resolvedUserType == UserType.STAFF) {
                 Log.w(TAG, "Staff user detected in OptimizedDashBoard - this should use StaffDashboard instead")
                 // Redirect to appropriate staff dashboard
                 val intent = Intent(this, topgrade.parent.com.parentseeks.Teacher.Activity.StaffDashboard::class.java)
@@ -91,6 +99,7 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
             setContentView(R.layout.activity_screen_main)
             
             // Apply theme based on user type
+            setupWindowInsets()
             applyTheme()
             
             // Initialize UI components first
@@ -523,6 +532,7 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
 
     private fun handleMenuClick(title: String) {
         try {
+            val resolvedUserType = resolveCurrentUserType()
             when (title) {
                 "Parent Profile" -> {
                     // Navigate to parent profile
@@ -531,13 +541,13 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
                 }
                 "Staff Profile" -> {
                     // Navigate to staff profile - check user type to prevent wrong routing
-                    val userType = intent.getStringExtra("USER_TYPE") ?: Paper.book().read(Constants.User_Type, "parent")
-                    Log.d(TAG, "Staff Profile click - USER_TYPE extra: ${intent.getStringExtra("USER_TYPE")}, Paper User_Type: ${Paper.book().read(Constants.User_Type, "not_found")}, Final userType: $userType")
-                    if (userType == "staff" || userType == "Teacher") {
+                    val userTypeRaw = intent.getStringExtra("USER_TYPE") ?: Paper.book().read(Constants.User_Type, "parent")
+                    Log.d(TAG, "Staff Profile click - USER_TYPE extra: ${intent.getStringExtra("USER_TYPE")}, Paper User_Type: ${Paper.book().read(Constants.User_Type, "not_found")}, Final userType: $userTypeRaw")
+                    if (resolvedUserType == UserType.TEACHER || resolvedUserType == UserType.STAFF) {
                         val intent = Intent(this, StaffProfile::class.java)
                         startActivity(intent)
                     } else {
-                        Log.w(TAG, "Staff Profile clicked but user type is not staff/teacher: $userType")
+                        Log.w(TAG, "Staff Profile clicked but user type is not staff/teacher: $resolvedUserType")
                         Toast.makeText(this, "Staff profile is only available for staff members", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -612,9 +622,8 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
                 "Share App" -> shareApp()
                 "Rate" -> rateApp()
                 "Change Password" -> {
-                    val userType = intent.getStringExtra("USER_TYPE") ?: "parent"
                     val passwordIntent = Intent(this, topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange::class.java)
-                    passwordIntent.putExtra("User_TYpe", if (userType == "staff") "Staff" else "Parent")
+                    passwordIntent.putExtra("User_TYpe", resolvedUserType.value)
                     startActivity(passwordIntent)
                 }
                 "Logout" -> performLogout()
@@ -655,37 +664,49 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
      */
     private fun applyTheme() {
         try {
-            val userType = intent.getStringExtra("USER_TYPE") ?: Paper.book().read(Constants.User_Type, "parent")
-            Log.d(TAG, "User Type: $userType")
-            
-            if (userType == "STUDENT") {
-                // Apply student theme (teal) when accessed from student context
-                ThemeHelper.applyStudentTheme(this)
-                
-                // Set system bar colors for student theme
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    window.statusBarColor = getColor(R.color.student_primary)
-                    window.navigationBarColor = getColor(R.color.student_primary)
+            val userType = resolveCurrentUserType()
+            Log.d(TAG, "User Type: ${userType.value}")
+
+            val navigationColorRes = when (userType) {
+                UserType.STUDENT -> {
+                    ThemeHelper.applyStudentTheme(this)
+                    Log.d(TAG, "Student theme applied successfully")
+                    R.color.student_primary
                 }
-                
-                Log.d(TAG, "Student theme applied successfully")
-            } else {
-                // Apply parent theme (brown) for parent context - DEFAULT
-                ParentThemeHelper.applyParentTheme(this, 140); // 140dp for dashboard pages
-                ParentThemeHelper.setHeaderIconVisibility(this, true); // Show icon for dashboards
-                ParentThemeHelper.setMoreOptionsVisibility(this, true); // Show more options for dashboards
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Dashboard");
-                
-                Log.d(TAG, "Parent theme applied successfully - UserType: $userType")
+                else -> {
+                    ParentThemeHelper.applyParentTheme(this, 140)
+                    ParentThemeHelper.setHeaderIconVisibility(this, true)
+                    ParentThemeHelper.setMoreOptionsVisibility(this, true)
+                    ParentThemeHelper.setFooterVisibility(this, true)
+                    ParentThemeHelper.setHeaderTitle(this, "Dashboard")
+                    Log.d(TAG, "Parent theme applied successfully - UserType: ${userType.value}")
+                    R.color.parent_primary
+                }
             }
-            
-            // Apply footer theming based on user type
-            ThemeHelper.applyFooterTheme(this, userType ?: "")
-            
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.statusBarColor = Color.TRANSPARENT
+                window.navigationBarColor = ContextCompat.getColor(this, navigationColorRes)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.setSystemBarsAppearance(
+                    0,
+                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or
+                        WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val decor = window.decorView
+                decor.systemUiVisibility =
+                    decor.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            }
+
+            ThemeHelper.applyFooterTheme(this, userType.value)
+            findViewById<MaterialCardView>(R.id.footer_container)
+                ?.setCardBackgroundColor(ContextCompat.getColor(this, navigationColorRes))
+
         } catch (e: Exception) {
             Log.e(TAG, "Error applying theme", e)
-            // Fallback: apply parent theme if there's an error
             try {
                 ThemeHelper.applyParentTheme(this)
                 Log.d(TAG, "Fallback parent theme applied due to error")
@@ -693,5 +714,35 @@ class OptimizedDashBoard : AppCompatActivity(), OnMenuCLick {
                 Log.e(TAG, "Error applying fallback theme", fallbackError)
             }
         }
+    }
+
+    private fun setupWindowInsets() {
+        val root = findViewById<View>(android.R.id.content) ?: return
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            try {
+                val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                val footer = findViewById<View>(R.id.footer_container)
+                footer?.layoutParams?.let { params ->
+                    val marginParams = params as? ViewGroup.MarginLayoutParams
+                    if (marginParams != null) {
+                        val bottomMargin = if (systemInsets.bottom > 0) systemInsets.bottom else 0
+                        if (marginParams.bottomMargin != bottomMargin) {
+                            marginParams.bottomMargin = bottomMargin
+                            footer.layoutParams = marginParams
+                        }
+                    }
+                }
+                view.setPadding(0, 0, 0, 0)
+                WindowInsetsCompat.CONSUMED
+            } catch (e: Exception) {
+                Log.e(TAG, "Error handling window insets: ${e.message}")
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+    }
+
+    private fun resolveCurrentUserType(): UserType {
+        val userTypeRaw = intent.getStringExtra("USER_TYPE") ?: Paper.book().read(Constants.User_Type, "")
+        return UserType.fromString(userTypeRaw) ?: UserType.PARENT
     }
 } 

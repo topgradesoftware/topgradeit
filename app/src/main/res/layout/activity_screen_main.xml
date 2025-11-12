@@ -11,10 +11,11 @@
 
     <!-- Main Content Container -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="0dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
 
     <!-- Background wave -->
     <ImageView
@@ -188,46 +189,40 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Footer Container -->
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/footer_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/footer_background_rounded_parent"
-        android:elevation="8dp"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:fitsSystemWindows="false"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/parent_primary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Footer Content -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:gravity="center_vertical|center_horizontal">
+            android:padding="12dp">
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
                 android:src="@drawable/topgrade_logo"
                 android:contentDescription="@string/topgrade_logo"
                 android:scaleType="fitCenter" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/quicksand_bold"
                 android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
                 android:maxLines="1"
                 android:text="@string/powered_by_topgrade_software"
                 android:textColor="@android:color/white"
@@ -236,7 +231,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -45,6 +45,7 @@ import androidx.core.view.WindowCompat
 import topgrade.parent.com.parentseeks.Utils.CustomPopupMenu
 import android.widget.ImageView
 import topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -57,7 +58,7 @@ class TeacherLogin : AppCompatActivity() {
     private lateinit var biometricLoginButton: CardView
     private var isActivityDestroyed = false
     private var currentDialog: androidx.appcompat.app.AlertDialog? = null
-    private var userType: String = "staff" // Dynamic user type support
+    private var userType: String = UserType.TEACHER.value // Dynamic user type support
     private var customPopupMenu: CustomPopupMenu? = null
     private var moreOption: ImageView? = null
     private var backButton: ImageView? = null

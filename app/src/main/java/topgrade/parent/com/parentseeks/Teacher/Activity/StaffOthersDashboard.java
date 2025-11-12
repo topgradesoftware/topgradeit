@@ -70,6 +70,7 @@ import topgrade.parent.com.parentseeks.Teacher.Activity.StaffTaskMenu;
 
 import topgrade.parent.com.parentseeks.Teacher.Activity.FeedbackList;
 import topgrade.parent.com.parentseeks.Teacher.Interface.OnMenuCLick;
+import topgrade.parent.com.parentseeks.Parent.Utils.UserType;
 
 public class StaffOthersDashboard extends AppCompatActivity implements
         OnClickListener, OnClickDrawerItem, OnCloseNavigationDrawer, OnMenuCLick {
@@ -490,7 +491,7 @@ public class StaffOthersDashboard extends AppCompatActivity implements
     private void showPopupMenu(View view) {
         try {
             if (customPopupMenu == null) {
-                customPopupMenu = new CustomPopupMenu(this, view, "staff");
+                customPopupMenu = new CustomPopupMenu(this, view, UserType.TEACHER.getValue());
                 customPopupMenu.setOnMenuItemClickListener(title -> {
                     switch (title) {
                         case "Share Application":
@@ -593,7 +594,7 @@ public class StaffOthersDashboard extends AppCompatActivity implements
 
     private void changePasswordDialog() {
         startActivity(new Intent(StaffOthersDashboard.this, PasswordsChange.class)
-                .putExtra("User_TYpe", "Staff")
+                .putExtra("User_TYpe", UserType.TEACHER.getValue())
         );
     }
 
