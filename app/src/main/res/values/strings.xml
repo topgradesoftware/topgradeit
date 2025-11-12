@@ -143,7 +143,7 @@
     <string name="your_attendance_history">Your Attendance History</string>
     <string name="my_attendance">My Attendance</string>
     <string name="staff_attendance_history">Staff Attendance History</string>
-    <string name="working_days">Working Days</string>
+    <string name="working_days">W.Days</string>
     
     <!-- Attendance Actions -->
     <string name="take_attendance_class_incharge">Take Attendance (As Class Incharge)</string>
