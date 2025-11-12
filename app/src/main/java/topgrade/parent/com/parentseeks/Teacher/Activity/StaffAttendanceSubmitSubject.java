@@ -76,7 +76,7 @@ public class StaffAttendanceSubmitSubject extends AppCompatActivity
     TextView attendence_date;
     Button submit_attendence;
     final Calendar myCalendar = Calendar.getInstance();
-    String myFormat = "dd MMMM,yyyy";
+    String myFormat = "dd MMM yy";
     String Api_date_format = "yyyy-MM-dd";
     String attdence_date = "";
     HashMap<String, Object> postParam = new HashMap<String, Object>();

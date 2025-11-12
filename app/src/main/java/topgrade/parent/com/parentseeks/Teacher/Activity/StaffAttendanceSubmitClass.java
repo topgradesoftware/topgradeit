@@ -64,7 +64,7 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
 
     // ==================== CONSTANTS ====================
     private static final String TAG = "StaffAttendanceSubmitClass";
-    private static final String DATE_FORMAT_DISPLAY = "dd MMMM, yyyy";
+    private static final String DATE_FORMAT_DISPLAY = "dd MMM yy";
     private static final String DATE_FORMAT_API = "yyyy-MM-dd";
     private static final int MAX_RETRY_ATTEMPTS = 3;
     private static final long RETRY_DELAY_BASE = 1000L; // 1 second base delay
@@ -215,7 +215,7 @@ public class StaffAttendanceSubmitClass extends AppCompatActivity
     private void updateDateDisplay() {
         SimpleDateFormat displayFormat = new SimpleDateFormat(DATE_FORMAT_DISPLAY, Locale.getDefault());
         SimpleDateFormat apiFormat = new SimpleDateFormat(DATE_FORMAT_API, Locale.getDefault());
-        
+
         attendanceDate.setText(displayFormat.format(calendar.getTime()));
         attendanceDateString = apiFormat.format(calendar.getTime());
     }
