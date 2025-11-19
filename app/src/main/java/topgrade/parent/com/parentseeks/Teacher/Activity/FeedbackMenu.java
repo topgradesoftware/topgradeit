@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import topgrade.parent.com.parentseeks.R;
 import topgrade.parent.com.parentseeks.Teacher.Utils.Constant;
@@ -33,7 +36,7 @@ public class FeedbackMenu extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         
         // Set edge-to-edge display
-        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         
         setContentView(R.layout.activity_feedback_menu);
         
@@ -69,10 +72,59 @@ public class FeedbackMenu extends AppCompatActivity implements View.OnClickListe
             getWindow().getDecorView().setSystemUiVisibility(flags);
         }
         
+        // Setup window insets to respect system bars (status bar, navigation bar, notches)
+        setupWindowInsets();
+        
         context = this;
         initializeViews();
         setupClickListeners();
         loadFeedbackStatistics();
+    }
+
+    /**
+     * Setup window insets to respect system bars (status bar, navigation bar, notches)
+     * This ensures the content won't be hidden behind the system bars
+     */
+    private void setupWindowInsets() {
+        try {
+            android.view.View rootLayout = findViewById(android.R.id.content);
+            
+            if (rootLayout != null) {
+                ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                    try {
+                        androidx.core.graphics.Insets systemInsets = insets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        );
+
+                        // Add bottom margin to footer container to push it above navigation bar
+                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        if (footerContainer != null) {
+                            // Set bottom margin to navigation bar height to ensure footer is visible
+                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            android.view.ViewGroup.MarginLayoutParams params = 
+                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
+                            if (params != null) {
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
+                            }
+                        }
+                        
+                        // No padding on root layout to avoid touch interference
+                        view.setPadding(0, 0, 0, 0);
+
+                        // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
+                        return WindowInsetsCompat.CONSUMED;
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error in window insets listener: " + e.getMessage());
+                        return WindowInsetsCompat.CONSUMED;
+                    }
+                });
+            } else {
+                Log.e(TAG, "rootLayout is null - cannot setup window insets");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up window insets: " + e.getMessage(), e);
+        }
     }
 
     private void initializeViews() {

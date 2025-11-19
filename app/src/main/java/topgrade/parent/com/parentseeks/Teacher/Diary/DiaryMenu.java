@@ -65,14 +65,16 @@ public class DiaryMenu extends AppCompatActivity {
                             androidx.core.view.WindowInsetsCompat.Type.systemBars()
                         );
 
-                        LinearLayout mainContent = findViewById(R.id.layout);
-                        if (mainContent != null) {
-                            int bottomMargin = Math.max(systemInsets.bottom, 0);
-                            android.view.ViewGroup.MarginLayoutParams params =
-                                (android.view.ViewGroup.MarginLayoutParams) mainContent.getLayoutParams();
+                        // Add bottom margin to footer container to push it above navigation bar
+                        LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        if (footerContainer != null) {
+                            // Set bottom margin to navigation bar height to ensure footer is visible
+                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            android.view.ViewGroup.MarginLayoutParams params = 
+                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
                             if (params != null) {
-                                params.bottomMargin = bottomMargin + 16;
-                                mainContent.setLayoutParams(params);
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
                             }
                         }
 

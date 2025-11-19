@@ -22,6 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.gson.Gson;
 
@@ -81,6 +85,7 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
     private Context context;
     private boolean isFirstLaunch = true;
     private boolean sendToAllSubjects = false;
+    private boolean sendToAllSections = false;
     
     // Request codes
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -106,7 +111,36 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Set edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         setContentView(R.layout.activity_staff_diary_subject);
+        
+        // Configure status bar for navy blue background with white icons
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navy_blue));
+            
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                int flags = getWindow().getDecorView().getSystemUiVisibility();
+                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                getWindow().getDecorView().setSystemUiVisibility(flags);
+            }
+        }
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (getWindow().getInsetsController() != null) {
+                getWindow().getInsetsController().setSystemBarsAppearance(
+                    0,
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | 
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                );
+            }
+        }
+        
+        // Setup window insets to respect system bars
+        setupWindowInsets();
 
         context = DiarySubmitSubject.this;
         Paper.init(context);
@@ -117,6 +151,46 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
         
         // Load classes directly like attendance does (no exam session needed)
         loadClasses();
+    }
+    
+    /**
+     * Setup window insets to respect system bars (status bar, navigation bar, notches)
+     * This ensures the content won't be hidden behind the system bars
+     */
+    private void setupWindowInsets() {
+        try {
+            android.view.View rootLayout = findViewById(android.R.id.content);
+            
+            if (rootLayout != null) {
+                ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                    try {
+                        androidx.core.graphics.Insets systemInsets = insets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        );
+
+                        // Add bottom margin to footer container to push it above navigation bar
+                        LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        if (footerContainer != null) {
+                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            android.view.ViewGroup.MarginLayoutParams params = 
+                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
+                            if (params != null) {
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
+                            }
+                        }
+                        
+                        view.setPadding(0, 0, 0, 0);
+                        return WindowInsetsCompat.CONSUMED;
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error in window insets listener: " + e.getMessage());
+                        return WindowInsetsCompat.CONSUMED;
+                    }
+                });
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up window insets: " + e.getMessage(), e);
+        }
     }
 
     private void initializeViews() {
@@ -446,6 +520,12 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
                     
                     // Get sections for selected class
                     sectionList.clear();
+                    selectedSubjectIds.clear();
+                    selectedSubjectNames.clear();
+                    
+                    // Add "All Sections" option
+                    sectionList.add("All Sections");
+                    
                     for (Teach teach : teachList) {
                         if (teach.getClassName().equals(selectedClassName)) {
                             if (!sectionList.contains(teach.getSectionName())) {
@@ -462,6 +542,13 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
                     sectionSpinner.setAdapter(sectionAdapter);
                     
                     setupSectionSpinnerListener();
+                    
+                    // Auto-select "All Sections" (position 0) when class is selected
+                    if (!sectionList.isEmpty()) {
+                        sectionSpinner.post(() -> {
+                            sectionSpinner.setSelection(0);
+                        });
+                    }
                 }
             }
 
@@ -475,7 +562,43 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
         sectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position >= 0 && position < sectionList.size()) {
+                if (position == 0) {
+                    // "All Sections" selected
+                    sendToAllSections = true;
+                    sectionId = null; // Clear section ID when all sections selected
+                    
+                    // Get all subjects from all sections in this class
+                    subjectList.clear();
+                    selectedSubjectIds.clear();
+                    selectedSubjectNames.clear();
+                    
+                    // Add "All Subjects" option
+                    subjectList.add("All Subjects");
+                    
+                    // Collect all unique subjects from all sections in the class
+                    for (Teach teach : teachList) {
+                        if (teach.getStudentClassId().equals(classId)) {
+                            if (!subjectList.contains(teach.getSubjectName())) {
+                                subjectList.add(teach.getSubjectName());
+                            }
+                        }
+                    }
+                    
+                    ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(context,
+                            android.R.layout.simple_list_item_1, subjectList);
+                    subjectSpinner.setAdapter(subjectAdapter);
+                    
+                    // Auto-select "All Subjects" when "All Sections" is selected
+                    if (!subjectList.isEmpty()) {
+                        subjectSpinner.post(() -> {
+                            subjectSpinner.setSelection(0);
+                        });
+                    }
+                    
+                    setupSubjectSpinnerListener();
+                } else if (position > 0 && position < sectionList.size()) {
+                    // Single section selected
+                    sendToAllSections = false;
                     String selectedSectionName = sectionList.get(position);
                     
                     // Get subjects for selected section
@@ -501,6 +624,13 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
                             android.R.layout.simple_list_item_1, subjectList);
                     subjectSpinner.setAdapter(subjectAdapter);
                     
+                    // Auto-select "All Subjects" when section is selected
+                    if (!subjectList.isEmpty()) {
+                        subjectSpinner.post(() -> {
+                            subjectSpinner.setSelection(0);
+                        });
+                    }
+                    
                     setupSubjectSpinnerListener();
                 }
             }
@@ -521,12 +651,25 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
                     selectedSubjectIds.clear();
                     selectedSubjectNames.clear();
                     
-                    // Get all subject IDs and names for this section
-                    for (Teach teach : teachList) {
-                        if (teach.getSectionId().equals(sectionId)) {
-                            if (!selectedSubjectIds.contains(teach.getSubjectId())) {
-                                selectedSubjectIds.add(teach.getSubjectId());
-                                selectedSubjectNames.add(teach.getSubjectName());
+                    // Get all subject IDs and names
+                    if (sendToAllSections) {
+                        // Get all subjects from all sections in the class
+                        for (Teach teach : teachList) {
+                            if (teach.getStudentClassId().equals(classId)) {
+                                if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                                    selectedSubjectIds.add(teach.getSubjectId());
+                                    selectedSubjectNames.add(teach.getSubjectName());
+                                }
+                            }
+                        }
+                    } else {
+                        // Get all subjects for the selected section
+                        for (Teach teach : teachList) {
+                            if (teach.getSectionId().equals(sectionId)) {
+                                if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                                    selectedSubjectIds.add(teach.getSubjectId());
+                                    selectedSubjectNames.add(teach.getSubjectName());
+                                }
                             }
                         }
                     }
@@ -606,11 +749,24 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
             selectedSubjectIds.clear();
             selectedSubjectNames.clear();
             
-            for (Teach teach : teachList) {
-                if (teach.getSectionId().equals(sectionId)) {
-                    if (!selectedSubjectIds.contains(teach.getSubjectId())) {
-                        selectedSubjectIds.add(teach.getSubjectId());
-                        selectedSubjectNames.add(teach.getSubjectName());
+            if (sendToAllSections) {
+                // Get all subjects from all sections in the class
+                for (Teach teach : teachList) {
+                    if (teach.getStudentClassId().equals(classId)) {
+                        if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                            selectedSubjectIds.add(teach.getSubjectId());
+                            selectedSubjectNames.add(teach.getSubjectName());
+                        }
+                    }
+                }
+            } else {
+                // Get all subjects for the selected section
+                for (Teach teach : teachList) {
+                    if (teach.getSectionId().equals(sectionId)) {
+                        if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                            selectedSubjectIds.add(teach.getSubjectId());
+                            selectedSubjectNames.add(teach.getSubjectName());
+                        }
                     }
                 }
             }
@@ -637,11 +793,24 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
                     
                     // Find subject ID
                     for (Teach teach : teachList) {
-                        if (teach.getSubjectName().equals(subjectName) && teach.getSectionId().equals(sectionId)) {
-                            if (!selectedSubjectIds.contains(teach.getSubjectId())) {
-                                selectedSubjectIds.add(teach.getSubjectId());
+                        if (teach.getSubjectName().equals(subjectName)) {
+                            if (sendToAllSections) {
+                                // Match by class ID when all sections selected
+                                if (teach.getStudentClassId().equals(classId)) {
+                                    if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                                        selectedSubjectIds.add(teach.getSubjectId());
+                                    }
+                                    break;
+                                }
+                            } else {
+                                // Match by section ID when specific section selected
+                                if (teach.getSectionId().equals(sectionId)) {
+                                    if (!selectedSubjectIds.contains(teach.getSubjectId())) {
+                                        selectedSubjectIds.add(teach.getSubjectId());
+                                    }
+                                    break;
+                                }
                             }
-                            break;
                         }
                     }
                 }
@@ -695,7 +864,7 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
             Toast.makeText(context, "Please select class", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (sectionId == null || sectionId.isEmpty()) {
+        if (!sendToAllSections && (sectionId == null || sectionId.isEmpty())) {
             Toast.makeText(context, "Please select section", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -743,12 +912,24 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
         
         String subjectId = selectedSubjectIds.get(index);
         
+        // Find the section ID for this subject
+        String subjectSectionId = sectionId;
+        if (sendToAllSections) {
+            // When all sections selected, find the section ID for this specific subject
+            for (Teach teach : teachList) {
+                if (teach.getSubjectId().equals(subjectId) && teach.getStudentClassId().equals(classId)) {
+                    subjectSectionId = teach.getSectionId();
+                    break;
+                }
+            }
+        }
+        
         HashMap<String, String> params = new HashMap<>();
         params.put("staff_id", Constant.staff_id);
         params.put("campus_id", Constant.campus_id);
         params.put("session_id", Constant.current_session);
         params.put("class_id", classId);
-        params.put("section_id", sectionId);
+        params.put("section_id", subjectSectionId);
         params.put("subject_id", subjectId);
         params.put("date", selectedDate);
         params.put("description", description);
@@ -801,6 +982,7 @@ public class DiarySubmitSubject extends AppCompatActivity implements View.OnClic
             sectionId = null;
             selectedDate = "";
             sendToAllSubjects = false;
+            sendToAllSections = false;
             if (etDiaryDescription != null) etDiaryDescription.setText("");
             loadClasses();
         } else {

@@ -58,7 +58,7 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/_8sdp"
         app:layout_constraintTop_toBottomOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -128,5 +128,56 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Footer Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/navy_blue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/topgrade_logo"
+                    android:contentDescription="@string/topgrade_logo"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/powered_by_topgrade_software"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

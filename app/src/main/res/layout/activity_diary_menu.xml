@@ -5,20 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:paddingBottom="0dp"
     android:fitsSystemWindows="false"
     tools:targetApi="34"
     tools:ignore="MissingConstraints,LayoutFidelity">
 
     <!-- ==================== HEADER SECTION ==================== -->
 
-    <!-- Header Background Wave -->
+    <!-- Background wave - Extended to cover status bar -->
     <ImageView
         android:id="@+id/header_wave"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_wave_navy_blue"
-        android:contentDescription="@null"
+        android:contentDescription="@string/header_wave_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -43,15 +44,14 @@
     <!-- Header Title -->
     <TextView
         android:id="@+id/header_title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Diary Menu"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:fontFamily="@font/quicksand_bold"
+        android:lineSpacingExtra="2dp"
         android:textAlignment="center"
-        android:gravity="center"
-        android:contentDescription="Send Diary Menu"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
         app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintStart_toStartOf="@+id/header_wave"
@@ -76,7 +76,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/header_separator"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -180,6 +180,68 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Footer Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/navy_blue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/topgrade_logo"
+                    android:contentDescription="@string/topgrade_logo"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/powered_by_topgrade_software"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
