@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="false">
 
-    <!-- Background wave -->
+    <!-- Background wave - Extended to cover status bar -->
     <ImageView
         android:id="@+id/header_wave"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_wave"
+        android:src="@drawable/bg_wave_navy_blue"
         android:contentDescription="@string/header_wave_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +28,6 @@
         android:layout_marginStart="@dimen/_16sdp"
         android:padding="@dimen/_8sdp"
         android:src="@drawable/ic_arrow_back"
-        android:background="@drawable/circle_background"
         app:tint="@color/white"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
         app:layout_constraintBottom_toBottomOf="@+id/header_wave"
@@ -44,11 +44,10 @@
         android:textSize="24sp"
         android:fontFamily="@font/quicksand_bold"
         android:lineSpacingExtra="2dp"
-        android:textAlignment="center"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
         app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="@+id/header_wave"
-        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+        app:layout_constraintStart_toEndOf="@+id/back_icon"
+        app:layout_constraintEnd_toStartOf="@+id/show_advanced_filter" />
 
     <!-- Advanced Filter Button -->
     <TextView
@@ -67,25 +66,40 @@
         app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Horizontal Scroll Container for wide tables (landscape support) -->
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="horizontal"
+        android:fillViewport="false"
+        android:contentDescription="@string/attendance_data_table"
+        app:layout_constraintTop_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footer_container">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
             android:orientation="vertical">
 
+            <!-- Subject Header Row (if visible) -->
             <RelativeLayout
                 android:id="@+id/subject_layout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:paddingLeft="@dimen/_10sdp"
                 android:paddingRight="@dimen/_10sdp"
                 android:visibility="gone">
@@ -97,7 +111,6 @@
                     android:background="@drawable/style_border_gray"
                     android:orientation="vertical">
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -105,23 +118,17 @@
                         android:singleLine="true"
                         android:text="Subjects"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
 
-
                 </LinearLayout>
 
-
                 <androidx.recyclerview.widget.RecyclerView
-
                     android:id="@+id/subject_rcv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,17 +138,17 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/subject_progress_item3" />
 
-
             </RelativeLayout>
 
-
+            <!-- Main Data Table Row -->
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/_10sdp"
                 android:paddingRight="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp">
 
+                <!-- Fixed Left Column (Headers) -->
                 <LinearLayout
                     android:id="@+id/heading_Session"
                     android:layout_width="@dimen/_120sdp"
@@ -156,17 +163,13 @@
                         android:singleLine="true"
                         android:text="Subjects"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -174,36 +177,26 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="No. of Test"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
-
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="Students Appeared"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
@@ -214,20 +207,15 @@
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="Total Students"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -236,15 +224,11 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="Above 90%"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
@@ -255,20 +239,15 @@
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="81% - 90%"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -277,19 +256,14 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="71% - 80%"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -297,20 +271,15 @@
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="61% - 70%"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -318,20 +287,15 @@
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="51% - 60%"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -340,19 +304,14 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="33% - 50%"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -361,19 +320,14 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="25% - 33%"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -382,19 +336,14 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="Passed"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -402,20 +351,15 @@
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
-
                         android:text="Failed"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -424,19 +368,14 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="Passed % "
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
-
 
                     <TextView
                         android:layout_width="match_parent"
@@ -445,49 +384,37 @@
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="Failed %"
-
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
- />
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold" />
 
                     <View
-
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark" />
 
-
                     <TextView
                         android:layout_width="match_parent"
-
                         android:layout_height="@dimen/_30sdp"
                         android:layout_weight="50"
                         android:padding="@dimen/_7sdp"
                         android:singleLine="true"
                         android:text="Class Position"
                         android:textColor="@color/color_black"
-
-                        android:textSize="@dimen/_10ssp"
-                                     android:fontFamily="@font/quicksand_bold"
-
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/quicksand_bold"
                         android:visibility="gone" />
-
 
                     <View
                         android:layout_width="match_parent"
-
                         android:layout_height="1dp"
                         android:background="@color/color_gray_dark"
                         android:visibility="gone" />
 
-
                 </LinearLayout>
 
-
+                <!-- Horizontally Scrollable Data Column -->
                 <androidx.recyclerview.widget.RecyclerView
-
                     android:id="@+id/result_rcv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -497,20 +424,59 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/subject_progress_item2" />
 
-
             </RelativeLayout>
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </HorizontalScrollView>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
+    <!-- Footer Container -->
+    <LinearLayout
+        android:id="@+id/footer_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/navy_blue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/topgrade_logo"
+                    android:contentDescription="@string/topgrade_logo"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/powered_by_topgrade_software"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
