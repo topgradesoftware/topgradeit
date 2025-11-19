@@ -16,7 +16,10 @@ import topgrade.parent.com.parentseeks.R;
 import topgrade.parent.com.parentseeks.Teacher.Model.StudentListSigel;
 import topgrade.parent.com.parentseeks.Teacher.Utils.Util;
 
-public class StudentListAdaptor extends RecyclerView.Adapter<StudentListAdaptor.StudentHolder> {
+public class StudentListAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     View v;
     List<StudentListSigel> list;
@@ -27,29 +30,49 @@ public class StudentListAdaptor extends RecyclerView.Adapter<StudentListAdaptor.
         android.util.Log.d("StudentListAdaptor", "Adapter created with " + (list != null ? list.size() : 0) + " items");
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        }
+        return TYPE_ITEM;
+    }
+
     @NonNull
     @Override
-    public StudentHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.students_list, viewGroup, false);
-        return new StudentHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View headerView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.student_list_header, viewGroup, false);
+            return new HeaderHolder(headerView);
+        } else {
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.students_list, viewGroup, false);
+            return new StudentHolder(v);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentHolder holder, int position) {
-
-        if (position % 2 != 0) {
-            holder.row.setBackgroundColor(Color.parseColor("#DFE5E2"));
-        } else {
-            holder.row.setBackgroundColor(Color.WHITE);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderHolder) {
+            // Header view - no binding needed
+            return;
         }
-        int new_position = position + 1;
-        StudentListSigel s = list.get(position);
+
+        StudentHolder studentHolder = (StudentHolder) holder;
+        int dataPosition = position - 1; // Adjust for header
+
+        if (dataPosition % 2 != 0) {
+            studentHolder.row.setBackgroundColor(Color.parseColor("#DFE5E2"));
+        } else {
+            studentHolder.row.setBackgroundColor(Color.WHITE);
+        }
+        int new_position = dataPosition + 1;
+        StudentListSigel s = list.get(dataPosition);
         
         // Handle null values safely
-        holder.Serial.setText(holder.itemView.getContext().getString(R.string.serial_number_format, new_position));
-        holder.Roll_No.setText(s.getRollNumber() != null ? s.getRollNumber() : "N/A");
-        holder.Name.setText(s.getFullName() != null ? s.getFullName() : "N/A");
-        holder.Father_Name.setText(s.getParentName() != null ? s.getParentName() : "N/A");
+        studentHolder.Serial.setText(studentHolder.itemView.getContext().getString(R.string.serial_number_format, new_position));
+        studentHolder.Roll_No.setText(s.getRollNumber() != null ? s.getRollNumber() : "N/A");
+        studentHolder.Name.setText(s.getFullName() != null ? s.getFullName() : "N/A");
+        studentHolder.Father_Name.setText(s.getParentName() != null ? s.getParentName() : "N/A");
         
         String format_time = "N/A";
         if (s.getCreatedDate() != null && !s.getCreatedDate().isEmpty()) {
@@ -59,13 +82,18 @@ public class StudentListAdaptor extends RecyclerView.Adapter<StudentListAdaptor.
                 format_time = s.getCreatedDate(); // Use original date if formatting fails
             }
         }
-        holder.Date_of_admission.setText(format_time);
-
+        studentHolder.Date_of_admission.setText(format_time);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list.size() + 1; // +1 for header
+    }
+
+    public static class HeaderHolder extends RecyclerView.ViewHolder {
+        public HeaderHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 
     public static class StudentHolder extends RecyclerView.ViewHolder {
@@ -85,10 +113,6 @@ public class StudentListAdaptor extends RecyclerView.Adapter<StudentListAdaptor.
             Name = itemView.findViewById(R.id.name_list);
             Father_Name = itemView.findViewById(R.id.father_name_list);
             Date_of_admission = itemView.findViewById(R.id.date_of_admission_list);
-
-
         }
-
-
     }
 }

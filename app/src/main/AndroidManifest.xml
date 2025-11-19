@@ -70,6 +70,7 @@
         <activity
             android:name="topgrade.parent.com.parentseeks.Parent.Activity.AttendanceSubjectWiseImproved"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name="topgrade.parent.com.parentseeks.Parent.Activity.AttendanceClassWise"
@@ -88,7 +89,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity
-            android:name="com.topgradesoftware.seeks.Parent.Activity.StudentDateSheet"
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.StudentDateSheet"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity

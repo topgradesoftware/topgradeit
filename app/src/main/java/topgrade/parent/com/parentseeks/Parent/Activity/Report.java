@@ -959,7 +959,7 @@ public class Report extends AppCompatActivity implements OnClickListener, View.O
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.search_filter) {
+        if (id == R.id.search_button || id == R.id.search_filter) {
             if (alertDialog != null) {
             alertDialog.dismiss();
             }
@@ -974,37 +974,42 @@ public class Report extends AppCompatActivity implements OnClickListener, View.O
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.progress_report_advanced_search_layout, null);
 
-            select_child_spinner = dialogView.findViewById(R.id.select_child_spinner);
-            dialog_search_filter = dialogView.findViewById(R.id.search_filter);
-            select_examp_session = dialogView.findViewById(R.id.select_examp_session);
-            session_layout = dialogView.findViewById(R.id.session_layout);
+            select_child_spinner = dialogView.findViewById(R.id.selectChildSpinner);
+            dialog_search_filter = dialogView.findViewById(R.id.search_button);
+            select_examp_session = dialogView.findViewById(R.id.selectExampSession);
+            // Note: session_layout doesn't exist in this layout, it's handled differently
             Cancel = dialogView.findViewById(R.id.Cancel);
             if (Cancel != null) {
                 Cancel.setOnClickListener(Report.this);
             }
 
-            select_child_spinner.setTitle("Select Child");
-            // Removed setPositiveButton("OK") to enable auto-dismiss behavior like staff timetable
+            if (select_child_spinner != null) {
+                select_child_spinner.setTitle("Select Child");
+                // Removed setPositiveButton("OK") to enable auto-dismiss behavior like staff timetable
+                select_child_spinner.setAdapter(child_adaptor);
+                select_child_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        seleted_child_id = studentList.get(position).getUniqueId();
+                        seleted_child_name = studentList.get(position).getFullName();
+                        load_exam_session(campus_id, seleted_child_id);
+                    }
 
-            select_examp_session.setTitle("Select Exam Session");
-            // Removed setPositiveButton("OK") to enable auto-dismiss behavior like staff timetable
-            dialog_search_filter.setOnClickListener(Report.this);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // Do nothing
+                    }
+                });
+            }
 
-            select_child_spinner.setAdapter(child_adaptor);
-
-            select_child_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    seleted_child_id = studentList.get(position).getUniqueId();
-                    seleted_child_name = studentList.get(position).getFullName();
-                    load_exam_session(campus_id, seleted_child_id);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Do nothing
-                }
-            });
+            if (select_examp_session != null) {
+                select_examp_session.setTitle("Select Exam Session");
+                // Removed setPositiveButton("OK") to enable auto-dismiss behavior like staff timetable
+            }
+            
+            if (dialog_search_filter != null) {
+                dialog_search_filter.setOnClickListener(Report.this);
+            }
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setView(dialogView);
@@ -1032,26 +1037,33 @@ public class Report extends AppCompatActivity implements OnClickListener, View.O
 
                         if (examSessionslist.size() > 0) {
                             if (examSessionslist.size() > 1) {
-                                session_layout.setVisibility(View.VISIBLE);
+                                // session_layout doesn't exist in this layout, exam session spinner is always visible
+                                if (session_layout != null) {
+                                    session_layout.setVisibility(View.VISIBLE);
+                                }
 
                                 session_adaptor = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1,
                                         exam_session_name_list);
 
-                                select_examp_session.setAdapter(session_adaptor);
+                                if (select_examp_session != null) {
+                                    select_examp_session.setAdapter(session_adaptor);
 
-                                select_examp_session.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        seleted_exam_session = examSessionslist.get(position).getUniqueId();
-                                        seleted_exam_session_name = examSessionslist.get(position).getFullName();
-                                    }
+                                    select_examp_session.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            seleted_exam_session = examSessionslist.get(position).getUniqueId();
+                                            seleted_exam_session_name = examSessionslist.get(position).getFullName();
+                                        }
 
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-                                    }
-                                });
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                        }
+                                    });
+                                }
                             } else {
-                                session_layout.setVisibility(View.GONE);
+                                if (session_layout != null) {
+                                    session_layout.setVisibility(View.GONE);
+                                }
                                 seleted_exam_session = examSessionslist.get(0).getUniqueId();
                                 seleted_exam_session_name = examSessionslist.get(0).getFullName();
                             }

@@ -64,9 +64,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
+        android:background="@drawable/gradient_navy_blue_card_background"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        app:cardBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/header_wave"
         app:layout_constraintBottom_toTopOf="@+id/footer_container"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +116,7 @@
                     app:iconGravity="textStart"
                     app:iconPadding="4dp"
                     app:iconSize="28dp"
-                    app:backgroundTint="@color/navy_blue"
+                    android:background="@drawable/gradient_navy_blue_submit"
                     app:cornerRadius="12dp"
                     android:elevation="4dp"
                     android:layout_marginBottom="24dp" />
@@ -144,7 +144,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="4dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/teal"
+                        android:background="@drawable/gradient_navy_blue_all"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -158,7 +158,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/teal"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"
@@ -189,7 +189,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="4dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/success_500"
+                        android:background="@drawable/gradient_navy_blue_solved"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -203,7 +203,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/success_500"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"
@@ -234,7 +234,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="4dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/orange"
+                        android:background="@drawable/gradient_navy_blue_discussion"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -248,7 +248,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/orange"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"
@@ -278,7 +278,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="4dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/error_500"
+                        android:background="@drawable/gradient_navy_blue_pending"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -292,7 +292,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/error_500"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"

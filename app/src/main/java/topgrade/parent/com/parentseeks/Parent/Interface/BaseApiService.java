@@ -48,6 +48,10 @@ public interface BaseApiService {
     Call<LoginResponse> login(@Body RequestBody body);
 
     @Headers("Content-Type:application/json")
+    @POST("api.php?page=teacher/login")
+    Call<topgrade.parent.com.parentseeks.Teacher.Model.StaffLoginResponse> staffLogin(@Body RequestBody body);
+
+    @Headers("Content-Type:application/json")
     @POST("api.php?page=parent/load_exam")
     Call<ReportModel> load_exam(@Body RequestBody body);
 

@@ -55,7 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/white"
+        android:background="@drawable/gradient_navy_blue_card_background"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
         app:layout_constraintTop_toBottomOf="@+id/header_wave"
@@ -112,7 +112,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="16dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/navy_blue"
+                        android:background="@drawable/gradient_navy_blue_submit"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -156,7 +156,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="16dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/orange"
+                        android:background="@drawable/gradient_navy_blue_all"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -170,7 +170,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/orange"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"
@@ -200,7 +200,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="16dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/error_500"
+                        android:background="@drawable/gradient_navy_blue_solved"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -214,7 +214,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/error_500"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"
@@ -243,7 +243,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="16dp"
                         app:iconSize="28dp"
-                        app:backgroundTint="@color/success_500"
+                        android:background="@drawable/gradient_navy_blue_discussion"
                         app:cornerRadius="12dp"
                         android:elevation="4dp" />
 
@@ -257,7 +257,7 @@
                         android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:text="@string/zero"
-                        android:textColor="@color/success_500"
+                        android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="@font/quicksand_bold"

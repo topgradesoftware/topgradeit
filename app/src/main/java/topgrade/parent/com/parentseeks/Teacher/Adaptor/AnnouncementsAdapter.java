@@ -116,7 +116,7 @@ public class AnnouncementsAdapter extends RecyclerView.Adapter<AnnouncementsAdap
         }
         
         String inputPattern = "yyyy-MM-dd";
-        String outputPattern = "dd MMM, yy EEE";
+        String outputPattern = "dd MMM EEE";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 

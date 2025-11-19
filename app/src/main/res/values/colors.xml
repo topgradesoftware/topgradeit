@@ -161,12 +161,19 @@
     <color name="staff_warning">#FF9800</color>
     <color name="staff_error">#F44336</color>
     
+    <!-- Navy Blue Gradient Shades (dark to light) -->
+    <color name="navy_blue_darkest">#000050</color>
+    <color name="navy_blue_dark">#000064</color>
+    <color name="navy_blue_medium_dark">#1a1a7a</color>
+    <color name="navy_blue_medium">#333390</color>
+    <color name="navy_blue_light">#4d4da6</color>
+    <color name="navy_blue_lighter">#6666b8</color>
+    
     <!-- Additional missing colors -->
     <color name="primary_color">@color/primary_500</color>
     <color name="light_gray">#F5F5F5</color>
     <color name="gray">#757575</color>
     <color name="gray_light">#BDBDBD</color>
-    <color name="navy_blue_light">#000060</color>
     <color name="yellow">#FB8C00</color>
     <color name="green">#214E23</color>
     <color name="colorGrey">#616060</color>

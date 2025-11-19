@@ -45,7 +45,13 @@ import topgrade.parent.com.parentseeks.Parent.Utils.Constants
 import topgrade.parent.com.parentseeks.R
 import io.paperdb.Paper
 import topgrade.parent.com.parentseeks.Teacher.Utils.Constant
+import topgrade.parent.com.parentseeks.Teacher.Utils.Util
 import components.searchablespinnerlibrary.SearchableSpinner
+import android.widget.PopupMenu
+import android.widget.ListView
+import android.view.Gravity
+import android.widget.PopupWindow
+import android.view.ViewGroup
 
 
 /**
@@ -157,13 +163,48 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
     private fun loadStudentsAndSetupAdapter() {
         lifecycleScope.launch {
             try {
-                val childModel = timetableDataStore.currentChildModel.first()
-                val students = childModel?.students ?: emptyList()
+                // Try to load from TimetableDataStore first
+                var childModel = timetableDataStore.currentChildModel.first()
+                var students = childModel?.students ?: emptyList()
+                
+                // If no students found in DataStore, try Paper DB (for parent users)
+                if (students.isEmpty()) {
+                    Log.d(TAG, "No students in DataStore, trying Paper DB...")
+                    try {
+                        val paperStudents = Paper.book().read<List<SharedStudent>>("students")
+                        if (paperStudents != null && paperStudents.isNotEmpty()) {
+                            students = paperStudents
+                            Log.d(TAG, "Loaded ${students.size} students from Paper DB")
+                            
+                            // Convert Paper DB students to ChildModel format and save to DataStore for future use
+                            if (students.isNotEmpty()) {
+                                childModel = ChildModel().apply {
+                                    setStudents(students)
+                                }
+                                timetableDataStore.saveCurrentChildModel(childModel)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error loading students from Paper DB", e)
+                    }
+                } else {
+                    Log.d(TAG, "Loaded ${students.size} students from DataStore")
+                }
                 
                 if (students.isNotEmpty()) {
                     val studentNames = students.map { "${it.className} - ${it.fullName}" }
                     val adapter = ArrayAdapter(this@ModernStudentTimeTable, android.R.layout.simple_list_item_1, studentNames.toMutableList())
                     selectChildSpinner.adapter = adapter
+                    
+                    // Auto-select first student if only one exists
+                    if (students.size == 1) {
+                        student = students[0]
+                        selectedChildId = student?.uniqueId ?: ""
+                        selectedStudentClassId = student?.studentClassId ?: ""
+                        selectedChildName = student?.fullName ?: ""
+                        updateStudentInfo()
+                        loadTimetableSessions()
+                    }
                     
                     // Setup selection listener
                     selectChildSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -179,6 +220,7 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
                         override fun onNothingSelected(parent: AdapterView<*>?) {}
                     }
                 } else {
+                    Log.e(TAG, "No students found in either DataStore or Paper DB")
                     showError("No students found. Please contact your school administrator.")
                 }
             } catch (e: Exception) {
@@ -196,7 +238,26 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
         
         lifecycleScope.launch {
             try {
-                val campusId = timetableDataStore.campusId.first()
+                // Try to get campusId from DataStore first, then fallback to Constant or Paper DB
+                var campusId = timetableDataStore.campusId.first()
+                
+                if (campusId.isEmpty()) {
+                    // Fallback to Constant.campus_id
+                    campusId = Constant.campus_id ?: ""
+                    Log.d(TAG, "CampusId from DataStore empty, using Constant.campus_id: $campusId")
+                }
+                
+                if (campusId.isEmpty()) {
+                    // Final fallback to Paper DB
+                    campusId = Paper.book().read<String>("campus_id") ?: ""
+                    Log.d(TAG, "CampusId from Constant empty, using Paper DB: $campusId")
+                }
+                
+                if (campusId.isEmpty()) {
+                    showError("Campus ID not available. Please login again.")
+                    Log.e(TAG, "loadTimetableSessions() - Campus ID is empty")
+                    return@launch
+                }
                 
                 val postParam = mapOf(
                     "parent_id" to campusId,
@@ -204,25 +265,53 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
                     "session_id" to Constant.current_session
                 )
                 
+                Log.d(TAG, "loadTimetableSessions() - Request parameters:")
+                Log.d(TAG, "  parent_id: $campusId")
+                Log.d(TAG, "  student_id: $selectedChildId")
+                Log.d(TAG, "  session_id: ${Constant.current_session}")
+                
                 val requestJson = JSONObject(postParam).toString()
                 val body = requestJson.toRequestBody("application/json; charset=utf-8".toMediaType())
                 
+                progressBar.visibility = View.VISIBLE
+                
                 Constant.mApiService.loadStudentTimetableSession(body).enqueue(object : Callback<StudentTimetableSessionResponse> {
                     override fun onResponse(call: Call<StudentTimetableSessionResponse>, response: Response<StudentTimetableSessionResponse>) {
-                        if (response.isSuccessful && response.body()?.status?.code == "1000") {
-                            val sessions = response.body()?.timetableSessionStudent ?: emptyList()
-                            setupSessionSpinner(sessions)
+                        progressBar.visibility = View.GONE
+                        
+                        Log.d(TAG, "loadTimetableSessions() - Response code: ${response.code()}")
+                        Log.d(TAG, "loadTimetableSessions() - Response successful: ${response.isSuccessful}")
+                        
+                        if (response.isSuccessful && response.body() != null) {
+                            val statusCode = response.body()?.status?.code
+                            val statusMessage = response.body()?.status?.message
+                            
+                            Log.d(TAG, "loadTimetableSessions() - Status code: $statusCode")
+                            Log.d(TAG, "loadTimetableSessions() - Status message: $statusMessage")
+                            
+                            if (statusCode == "1000") {
+                                val sessions = response.body()?.timetableSessionStudent ?: emptyList()
+                                Log.d(TAG, "loadTimetableSessions() - Loaded ${sessions.size} sessions")
+                                setupSessionSpinner(sessions)
+                            } else {
+                                val errorMsg = statusMessage ?: "Failed to load timetable sessions"
+                                Log.e(TAG, "loadTimetableSessions() - API error: $errorMsg")
+                                showError(errorMsg)
+                            }
                         } else {
-                            showError("Failed to load timetable sessions")
+                            Log.e(TAG, "loadTimetableSessions() - Response not successful or body is null")
+                            showError("Failed to load timetable sessions. Please try again.")
                         }
                     }
                     
                     override fun onFailure(call: Call<StudentTimetableSessionResponse>, t: Throwable) {
+                        progressBar.visibility = View.GONE
                         Log.e(TAG, "loadTimetableSessions() - API call failed", t)
                         showError("Network error: ${t.message}")
                     }
                 })
             } catch (e: Exception) {
+                progressBar.visibility = View.GONE
                 Log.e(TAG, "loadTimetableSessions() - Error", e)
                 showError("Error loading sessions: ${e.message}")
             }
@@ -348,18 +437,43 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
         val sb = StringBuilder()
         sb.append("Timetable for ${student?.fullName ?: "Student"}:\n\n")
         
+        // Extract all details and sort by start time (same as adapter)
+        val allDetails = mutableListOf<Detail>()
         list.forEach { timetable ->
-            timetable.detail?.forEach { detail ->
-                // Use safe property access for Detail model
-                val subject = detail.subject ?: "Unknown Subject"
-                val startTime = detail.startTime ?: "00:00"
-                val endTime = detail.endTime ?: "00:00"
-                
-                sb.append("$subject: $startTime-$endTime\n")
+            timetable.detail?.let { details ->
+                allDetails.addAll(details)
             }
         }
         
+        // Sort by start time in ascending order (same as adapter)
+        val sortedDetails = allDetails.sortedBy { detail ->
+            detail.startTime ?: "00:00"
+        }
+        
+        // Generate SMS in sorted order
+        sortedDetails.forEach { detail ->
+            // Use safe property access for Detail model
+            val subject = detail.subject ?: "Unknown Subject"
+            val startTime = formatTimeWithoutSeconds(detail.startTime ?: "00:00")
+            val endTime = formatTimeWithoutSeconds(detail.endTime ?: "00:00")
+            val teacher = detail.staff ?: "N/A"
+            
+            sb.append("$subject: $startTime-$endTime ($teacher)\n")
+        }
+        
         return sb.toString()
+    }
+    
+    /**
+     * Format time string to remove seconds (e.g., "07:45:00" -> "07:45")
+     */
+    private fun formatTimeWithoutSeconds(time: String): String {
+        return if (time.contains(":") && time.split(":").size > 2) {
+            // Remove seconds if present (format: HH:MM:SS -> HH:MM)
+            time.substring(0, time.lastIndexOf(":"))
+        } else {
+            time
+        }
     }
     
     private fun showError(message: String) {
@@ -376,11 +490,94 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.send_timetable_In_sms -> {
                 if (timetableSms.isNotEmpty()) {
-                    ShareUtils.shareText(this, "Student Timetable", timetableSms)
+                    showShareMenu(v)
                 } else {
                     showError("No timetable data to share")
                 }
             }
+        }
+    }
+    
+    /**
+     * Show share menu with multiple options - same as teacher feedback
+     * Uses PopupWindow to ensure it opens above the button and doesn't get hidden by navigation bar
+     */
+    private fun showShareMenu(view: View) {
+        val menuItems = listOf(
+            "Send via WhatsApp",
+            "Send via WhatsApp Business",
+            "Send via Local SMS",
+            "Share via Other Apps"
+        )
+        
+        val listView = ListView(this)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, menuItems)
+        listView.adapter = adapter
+        
+        val popupWindow = PopupWindow(
+            listView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        
+        // Set background and elevation for better appearance
+        popupWindow.setBackgroundDrawable(getDrawable(android.R.drawable.dialog_holo_light_frame))
+        popupWindow.elevation = 8f
+        
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val title = menuItems[position]
+            
+            // Copy timetable logic - read phone from PaperDB each time (same as feedback)
+            when (title) {
+                "Send via WhatsApp" -> {
+                    val phone = Paper.book().read<String>("phone") ?: ""
+                    Util.shareToWhatsAppWithNumber(this, timetableSms, phone, "com.whatsapp")
+                }
+                "Send via WhatsApp Business" -> {
+                    val phone_business = Paper.book().read<String>("phone") ?: ""
+                    Util.shareToWhatsAppWithNumber(this, timetableSms, phone_business, "com.whatsapp.w4b")
+                }
+                "Send via Local SMS" -> {
+                    val phone_sms = Paper.book().read<String>("phone") ?: ""
+                    Util.showSmsIntent(this, timetableSms, phone_sms)
+                }
+                "Share via Other Apps" -> {
+                    val phone_other = Paper.book().read<String>("phone") ?: ""
+                    Util.shareWithPhoneNumber(this, timetableSms, phone_other)
+                }
+            }
+            popupWindow.dismiss()
+        }
+        
+        // Post to ensure view is laid out before measuring
+        view.post {
+            // Measure popup to get its height
+            listView.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            val popupHeight = listView.measuredHeight
+            
+            // Get button location in window
+            val location = IntArray(2)
+            view.getLocationInWindow(location)
+            val buttonX = location[0]
+            val buttonY = location[1]
+            
+            // Convert 16dp to pixels for spacing
+            val spacingPx = (16 * resources.displayMetrics.density).toInt()
+            
+            // Calculate y position to show above button
+            val yPosition = buttonY - popupHeight - spacingPx
+            
+            // Show above the button using showAtLocation with window coordinates
+            popupWindow.showAtLocation(
+                window.decorView.rootView,
+                Gravity.NO_GRAVITY,
+                buttonX,
+                yPosition
+            )
         }
     }
     

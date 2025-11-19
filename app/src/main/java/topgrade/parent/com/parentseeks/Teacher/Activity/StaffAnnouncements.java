@@ -140,9 +140,6 @@ public class StaffAnnouncements extends AppCompatActivity {
         btnEvents.setText("Events");
         btnText.setText("News");
         
-        // Hide News tab since no News API exists
-        btnText.setVisibility(View.GONE);
-        
         // Setup filter button listeners
         setupFilterButtons();
         

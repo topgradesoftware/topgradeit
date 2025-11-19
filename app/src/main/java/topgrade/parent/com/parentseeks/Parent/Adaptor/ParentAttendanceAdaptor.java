@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
@@ -87,8 +88,13 @@ public class ParentAttendanceAdaptor extends OptimizedRecyclerViewAdapter<Parent
                 break;
             case "0":
                 holder.attendence_status.setText("OFF");
-                // Use ThemeHelper to get appropriate color based on user type
-                int primaryColor = ThemeHelper.getPrimaryColor(context, userType);
+                // Use dark_brown for parent theme, or ThemeHelper for other user types
+                int primaryColor;
+                if (userType != null && userType.equals("PARENT")) {
+                    primaryColor = ContextCompat.getColor(context, R.color.dark_brown);
+                } else {
+                    primaryColor = ThemeHelper.getPrimaryColor(context, userType);
+                }
                 holder.row.setBackgroundColor(primaryColor);
                 holder.date.setTextColor(Color.parseColor("#ffffff"));
                 holder.attendence_status.setTextColor(Color.parseColor("#ffffff"));

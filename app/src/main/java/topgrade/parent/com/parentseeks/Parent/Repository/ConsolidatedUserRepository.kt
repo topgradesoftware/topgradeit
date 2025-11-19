@@ -10,6 +10,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import topgrade.parent.com.parentseeks.Parent.Interface.BaseApiService
 import topgrade.parent.com.parentseeks.Parent.Model.LoginResponse
+import topgrade.parent.com.parentseeks.Parent.Model.LoginStatus
+import topgrade.parent.com.parentseeks.Parent.Model.LoginData
 import topgrade.parent.com.parentseeks.Shared.Models.SharedStudent
 import topgrade.parent.com.parentseeks.Parent.Model.Subject
 import topgrade.parent.com.parentseeks.Parent.Utils.Constants
@@ -122,6 +124,143 @@ class ConsolidatedUserRepository(
         } catch (e: Exception) {
             Log.e(TAG, "Login error", e)
             LoginResult.Error("Login failed: ${e.message}")
+        }
+    }
+    
+    /**
+     * Staff/Teacher login with email, password, and campus ID
+     * Uses different API endpoint and response structure
+     */
+    suspend fun staffLogin(
+        email: String,
+        password: String,
+        campusId: String,
+        fcmToken: String,
+        userType: String
+    ): LoginResult = withContext(Dispatchers.IO) {
+        try {
+            Log.d(TAG, "Attempting staff login for user: $email with type: $userType")
+            
+            // Create request body (staff login requires "operation": "login")
+            val postParam = HashMap<String, String>().apply {
+                put("login_email", email)
+                put("login_pass", password)
+                put("login_id", campusId)
+                put("fcm_token", fcmToken)
+                put("operation", "login")
+            }
+            
+            val jsonBody = JSONObject(postParam as Map<*, *>).toString()
+            val requestBody = jsonBody.toRequestBody("application/json".toMediaType())
+            
+            // Make API call using staff login endpoint
+            val response = apiService.staffLogin(requestBody).execute()
+            
+            if (response.isSuccessful && response.body() != null) {
+                val staffLoginResponse = response.body()!!
+                
+                if (staffLoginResponse.status.code == "1000") {
+                    // Save staff data
+                    saveStaffDataLegacy(staffLoginResponse, password, userType)
+                    val staffData = staffLoginResponse.data.firstOrNull()
+                    Log.d(TAG, "Staff login successful for user: ${staffData?.fullName}")
+                    
+                    // Convert to LoginResult.Success
+                    LoginResult.Success(
+                        LoginResponse(
+                            status = LoginStatus(
+                                code = staffLoginResponse.status.code,
+                                message = staffLoginResponse.status.message
+                            ),
+                            data = topgrade.parent.com.parentseeks.Parent.Model.LoginData(
+                                uniqueId = staffData?.uniqueId ?: "",
+                                parentId = staffLoginResponse.campus.uniqueId,
+                                fullName = staffData?.fullName ?: "",
+                                email = staffData?.email ?: "",
+                                phone = staffData?.phone ?: "",
+                                landline = staffData?.landline ?: "",
+                                address = staffData?.address ?: "",
+                                picture = staffData?.picture ?: ""
+                            ),
+                            students = null,
+                            campusSession = topgrade.parent.com.parentseeks.Parent.Model.CampusSession(
+                                uniqueId = staffLoginResponse.campusSession.uniqueId
+                            )
+                        )
+                    )
+                } else {
+                    Log.w(TAG, "Staff login failed: ${staffLoginResponse.status.message}")
+                    LoginResult.Error(staffLoginResponse.status.message)
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Network error occurred"
+                Log.e(TAG, "Staff login network error: $errorMessage")
+                LoginResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Staff login error", e)
+            LoginResult.Error("Staff login failed: ${e.message}")
+        }
+    }
+    
+    /**
+     * Save staff login data to Paper DB (legacy storage)
+     */
+    private fun saveStaffDataLegacy(
+        staffLoginResponse: topgrade.parent.com.parentseeks.Teacher.Model.StaffLoginResponse,
+        password: String,
+        userType: String
+    ) {
+        try {
+            val staffData = staffLoginResponse.data.firstOrNull()
+            if (staffData == null) {
+                Log.e(TAG, "Staff data is empty in response")
+                return
+            }
+            
+            val staffId = staffData.uniqueId
+            
+            // Convert to StaffModel for backward compatibility
+            val staffModel = staffData.toStaffModel()
+            
+            // Save Staff_Model (complete model)
+            Paper.book().write("Staff_Model", staffModel)
+            
+            // Save individual fields
+            Paper.book().write("staff_id", staffId)
+            Paper.book().write("full_name", staffData.fullName ?: "")
+            Paper.book().write("picture", staffData.picture ?: "")
+            Paper.book().write("phone", staffData.phone ?: "")
+            Paper.book().write("email", staffData.email ?: "")
+            Paper.book().write("landline", staffData.landline ?: "")
+            Paper.book().write("address", staffData.address ?: "")
+            Paper.book().write("password", password)
+            Paper.book().write("staff_password", password)
+            
+            // Save campus data
+            Paper.book().write("campus_id", staffLoginResponse.campus.uniqueId)
+            Paper.book().write("campus_name", staffLoginResponse.campus.fullName)
+            Paper.book().write("campus_address", staffLoginResponse.campus.address)
+            Paper.book().write("campus_phone", staffLoginResponse.campus.phone)
+            
+            // Save session data
+            Paper.book().write("current_session", staffLoginResponse.campusSession.uniqueId)
+            
+            // Save login state
+            Paper.book().write(Constants.is_login, true)
+            Paper.book().write(Constants.User_Type, userType)
+            
+            // Update static constants
+            topgrade.parent.com.parentseeks.Teacher.Utils.Constant.staff_id = staffId
+            topgrade.parent.com.parentseeks.Teacher.Utils.Constant.campus_id = staffLoginResponse.campus.uniqueId
+            topgrade.parent.com.parentseeks.Teacher.Utils.Constant.current_session = staffLoginResponse.campusSession.uniqueId
+            
+            Log.d(TAG, "Staff data saved to Paper DB")
+            Log.d(TAG, "Staff ID: $staffId")
+            Log.d(TAG, "Campus ID: ${staffLoginResponse.campus.uniqueId}")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error saving staff data", e)
+            throw e
         }
     }
     

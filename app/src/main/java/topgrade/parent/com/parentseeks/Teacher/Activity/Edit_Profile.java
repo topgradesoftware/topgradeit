@@ -269,16 +269,24 @@ public class Edit_Profile extends AppCompatActivity implements View.OnClickListe
         Name.setText(parentModel.getFull_name());
         parent_name.setText(parentModel.getParent_name());
         datePatternForApi = parentModel.getDob();
-        String inputPattern = "yyyy-MM-dd";
-        String outputPattern = "dd/MM/yyyy";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-        try {
-            Date date = inputFormat.parse(parentModel.getDob());
-            String strDate = outputFormat.format(date);
-            dob.setText(strDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        String dobValue = parentModel.getDob();
+        if (dobValue != null && !dobValue.isEmpty()) {
+            String inputPattern = "yyyy-MM-dd";
+            String outputPattern = "dd/MM/yyyy";
+            SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+            SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+            try {
+                Date date = inputFormat.parse(dobValue);
+                String strDate = outputFormat.format(date);
+                dob.setText(strDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Set empty if parsing fails
+                dob.setText("");
+            }
+        } else {
+            // Set empty if dob is null or empty
+            dob.setText("");
         }
         
         // Set initial values for gender, state, and city

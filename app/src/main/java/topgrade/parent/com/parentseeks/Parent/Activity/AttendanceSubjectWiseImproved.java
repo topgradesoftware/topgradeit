@@ -75,6 +75,7 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
     private final List<SubjectAttendeceModel.AttendanceList> attendanceList = new ArrayList<>();
     private final List<String> dateList = new ArrayList<>();
     private final List<String> subjectList = new ArrayList<>();
+    private List<String> sortedSubjectsList = new ArrayList<>(); // Sorted and deduplicated subjects for header and data rows
     // subjects_list converted to local variables in methods
     private List<SharedStudent> studentList = new ArrayList<>();
     private final List<String> student_name_list = new ArrayList<>();
@@ -169,10 +170,13 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             student_name_list.add(student.getFullName());
         }
         
-        // Setup child adapter
-        ArrayAdapter<String> child_adaptor = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, student_name_list);
-        child_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Setup child adapter - use same layout as class-wise attendance
+        ArrayAdapter<String> child_adaptor = new ArrayAdapter<>(context, R.layout.spinner_selected_item, student_name_list);
+        child_adaptor.setDropDownViewResource(android.R.layout.simple_list_item_1);
         select_child_spinner.setAdapter(child_adaptor);
+        if (!student_name_list.isEmpty()) {
+            select_child_spinner.setTitle("Select Child");
+        }
     }
 
     private void setupClickListeners() {
@@ -183,6 +187,10 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (studentList != null && position < studentList.size()) {
                     seleted_child_id = studentList.get(position).getUniqueId();
+                    // Update spinner title to show selected student
+                    if (position < student_name_list.size()) {
+                        select_child_spinner.setTitle(student_name_list.get(position));
+                    }
                     // Auto-load attendance if month is also selected
                     checkAndLoadAttendance();
                 }
@@ -232,13 +240,13 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             month_list.add(months[i]); // Add to month_list directly
         }
         
-        // Setup month adapter
-        ArrayAdapter<String> month_adaptor = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, month_list);
+        // Setup month adapter - use same layout as class-wise attendance
+        ArrayAdapter<String> month_adaptor = new ArrayAdapter<>(context, R.layout.spinner_selected_item, month_list);
+        month_adaptor.setDropDownViewResource(android.R.layout.simple_list_item_1);
         select_month_spinner.setAdapter(month_adaptor);
         
         // Set current month as default selection
         int currentMonth = calendar.get(Calendar.MONTH);
-        select_month_spinner.setSelection(currentMonth); // No offset needed since we removed "Select Month"
         
         // Set month selection listener
         select_month_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -253,8 +261,29 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
                 month_format = String.format(Locale.getDefault(), "%04d-%02d", year, Integer.parseInt(month_id));
                 Log.d(TAG, "Month selected: " + month_format + " (position: " + position + ", month_id: " + month_id + ")");
                 
-                // Month selected, ready for search
-                Log.d(TAG, "Month selected: " + month_format);
+                // Update spinner title to show selected month
+                if (position < month_list.size()) {
+                    select_month_spinner.setTitle(month_list.get(position));
+                }
+                
+                // Fix text truncation by updating the selected view
+                select_month_spinner.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            View selectedView = select_month_spinner.getSelectedView();
+                            if (selectedView instanceof TextView) {
+                                TextView textView = (TextView) selectedView;
+                                textView.setSingleLine(false);
+                                textView.setMaxLines(2);
+                                textView.setEllipsize(null);
+                                textView.setHorizontallyScrolling(false);
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error fixing month spinner text display", e);
+                        }
+                    }
+                });
                 
                 // Generate month dates locally first
                 generateMonthDates();
@@ -265,6 +294,45 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        
+        // Set current month selection and title immediately
+        if (currentMonth < month_list.size()) {
+            select_month_spinner.setTitle(month_list.get(currentMonth));
+        }
+        
+        // Set current month selection after listener is set up
+        select_month_spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                select_month_spinner.setSelection(currentMonth, false); // false = don't trigger listener
+                // Ensure title is set after selection
+                if (currentMonth < month_list.size()) {
+                    select_month_spinner.setTitle(month_list.get(currentMonth));
+                }
+                
+                // Fix text truncation by updating the selected view - use nested post to ensure view is ready
+                select_month_spinner.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            View selectedView = select_month_spinner.getSelectedView();
+                            if (selectedView instanceof TextView) {
+                                TextView textView = (TextView) selectedView;
+                                textView.setSingleLine(false);
+                                textView.setMaxLines(2);
+                                textView.setEllipsize(null);
+                                textView.setHorizontallyScrolling(false);
+                                // Force layout update
+                                textView.requestLayout();
+                                select_month_spinner.requestLayout();
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error fixing month spinner text display", e);
+                        }
+                    }
+                });
+            }
         });
     }
 
@@ -498,6 +566,105 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
     }
 
 
+    /**
+     * Get sorted and deduplicated subjects list
+     * This ensures consistent ordering between header and data rows
+     * Priority: Paper DB (ALL subjects from employee_subject) > SharedStudent subjects > API subjects (only subjects with attendance) > Sample subjects
+     * 
+     * Note: Paper DB should contain ALL subjects for the student (loaded during login/profile from employee_subject table),
+     * matching the PHP backend behavior where subjects are loaded from employee_subject table and stored in $value['subjects'].
+     * If Paper DB is empty, we fall back to SharedStudent.getSubjects() which also contains subjects from employee_subject.
+     * API only returns subjects that have attendance records for the selected month.
+     */
+    private void getSortedSubjectsList() {
+        List<String> subjectsToShow = new ArrayList<>();
+        
+        // PRIORITY 1: Load ALL subjects from Paper DB first (matches web behavior - loads from employee_subject table)
+        // Paper DB should have all subjects for the student, not just those with attendance records
+        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+            Log.d(TAG, "Loading ALL subjects from Paper DB with key: " + seleted_child_id);
+            List<Subject> tempSubjectsList = Paper.book().read(seleted_child_id, new ArrayList<>());
+            List<Subject> subjects_list = (tempSubjectsList != null) ? tempSubjectsList : new ArrayList<>();
+            Log.d(TAG, "Paper DB subjects found: " + subjects_list.size());
+            
+            for (Subject subject : subjects_list) {
+                if (subject != null && subject.getSubject_name() != null && !subject.getSubject_name().trim().isEmpty()) {
+                    String subjectName = subject.getSubject_name().trim();
+                    if (!subjectsToShow.contains(subjectName)) {
+                        subjectsToShow.add(subjectName);
+                        Log.d(TAG, "Added Paper DB subject: " + subjectName);
+                    }
+                }
+            }
+        } else {
+            Log.w(TAG, "seleted_child_id is null or empty: " + seleted_child_id);
+        }
+        
+        // PRIORITY 1.5: If Paper DB is empty, try loading from SharedStudent object (subjects are part of student data structure)
+        // This matches the PHP backend where $value['subjects'] is part of each student object from employee_subject table
+        if (subjectsToShow.isEmpty() && seleted_child_id != null && !seleted_child_id.isEmpty() && studentList != null) {
+            Log.d(TAG, "Paper DB empty, loading subjects from SharedStudent object for: " + seleted_child_id);
+            for (SharedStudent student : studentList) {
+                if (student != null && student.getUniqueId() != null && student.getUniqueId().equals(seleted_child_id)) {
+                    List<Subject> studentSubjects = student.getSubjects();
+                    if (studentSubjects != null && !studentSubjects.isEmpty()) {
+                        Log.d(TAG, "Found " + studentSubjects.size() + " subjects in SharedStudent object");
+                        for (Subject subject : studentSubjects) {
+                            if (subject != null && subject.getSubject_name() != null && !subject.getSubject_name().trim().isEmpty()) {
+                                String subjectName = subject.getSubject_name().trim();
+                                if (!subjectsToShow.contains(subjectName)) {
+                                    subjectsToShow.add(subjectName);
+                                    Log.d(TAG, "Added SharedStudent subject: " + subjectName);
+                                }
+                            }
+                        }
+                        // Also save to Paper DB for future use
+                        try {
+                            Paper.book().write(seleted_child_id, studentSubjects);
+                            Log.d(TAG, "Saved subjects to Paper DB for future use");
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error saving subjects to Paper DB", e);
+                        }
+                    }
+                    break; // Found the student, no need to continue
+                }
+            }
+        }
+        
+        // PRIORITY 2: Merge with API subjects (subjects that have attendance records for this month)
+        // This ensures we have all subjects, even if some don't have attendance records yet
+        if (!subjectList.isEmpty()) {
+            Log.d(TAG, "Merging API subjects (subjects with attendance records): " + subjectList.size());
+            for (String apiSubject : subjectList) {
+                if (apiSubject != null && !apiSubject.trim().isEmpty()) {
+                    String subjectName = apiSubject.trim();
+                    if (!subjectsToShow.contains(subjectName)) {
+                        subjectsToShow.add(subjectName);
+                        Log.d(TAG, "Added API subject (not in Paper DB or SharedStudent): " + subjectName);
+                    }
+                }
+            }
+            Log.d(TAG, "API subjects: " + subjectList);
+        } else {
+            Log.w(TAG, "No API subjects found in subjectList");
+        }
+        
+        // PRIORITY 3: Final fallback to sample subjects (only if all other sources are empty)
+        if (subjectsToShow.isEmpty()) {
+            Log.w(TAG, "No subjects found from Paper DB, SharedStudent, or API, using sample subjects");
+            subjectsToShow = new ArrayList<>(java.util.Arrays.asList("MATH", "ENG", "SCI", "HIST"));
+        }
+        
+        // Remove duplicates using LinkedHashSet to preserve order, then convert back to list
+        java.util.LinkedHashSet<String> uniqueSubjects = new java.util.LinkedHashSet<>(subjectsToShow);
+        sortedSubjectsList = new ArrayList<>(uniqueSubjects);
+        
+        // Sort alphabetically (case-insensitive)
+        java.util.Collections.sort(sortedSubjectsList, String.CASE_INSENSITIVE_ORDER);
+        
+        Log.d(TAG, "Final sorted and deduplicated subjects (" + sortedSubjectsList.size() + "): " + sortedSubjectsList);
+    }
+    
     private void createHeaderRow() {
         Log.d(TAG, "createHeaderRow() called");
         Log.d(TAG, "header_table is null: " + (header_table == null));
@@ -520,54 +687,20 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
         ));
         headerRow.setMinimumHeight(80); // Increased height for better visibility
         
-        // Date header - make it even smaller to give maximum space to subjects
-        TextView dateHeader = createHeaderCell("Date", 0.2f);
+        // Date header - reduced width to accommodate more subjects
+        TextView dateHeader = createHeaderCell("Date", 0.1f);
         headerRow.addView(dateHeader);
         Log.d(TAG, "Added Date header");
         
-        // Subject headers - use subjects from local storage like the old version
-        List<String> subjectsToShow = new ArrayList<>();
+        // Get sorted and deduplicated subjects list
+        getSortedSubjectsList();
         
-        // Get subjects from local storage (like the old version does)
-        // Use seleted_child_id as the key (same as student_id in old version)
-        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
-            List<Subject> tempSubjectsList = Paper.book().read(seleted_child_id, new ArrayList<>());
-            List<Subject> subjects_list = (tempSubjectsList != null) ? tempSubjectsList : new ArrayList<>();
-            Log.d(TAG, "Looking for subjects with key: " + seleted_child_id);
-            Log.d(TAG, "Local storage subjects found: " + subjects_list.size());
-            for (Subject subject : subjects_list) {
-                if (subject != null && subject.getSubject_name() != null && !subject.getSubject_name().trim().isEmpty()) {
-                    subjectsToShow.add(subject.getSubject_name());
-                    Log.d(TAG, "Added local subject: " + subject.getSubject_name());
-                } else {
-                    Log.w(TAG, "Skipping null/empty subject");
-                }
-            }
-        } else {
-            Log.w(TAG, "seleted_child_id is null or empty: " + seleted_child_id);
-        }
-        
-        Log.d(TAG, "Subjects from local storage: " + subjectsToShow);
-        Log.d(TAG, "API subjects: " + subjectList);
-        
-        // Fallback to API subjects if local storage is empty
-        if (subjectsToShow.isEmpty() && !subjectList.isEmpty()) {
-            Log.d(TAG, "Using API subjects as fallback");
-            subjectsToShow = subjectList;
-        }
-        
-        // Final fallback to sample subjects
-        if (subjectsToShow.isEmpty()) {
-            Log.w(TAG, "No subjects found anywhere, using sample subjects");
-            subjectsToShow = java.util.Arrays.asList("MATH", "ENG", "SCI", "HIST");
-        }
-            
-        Log.d(TAG, "Final subjects to show: " + subjectsToShow);
+        Log.d(TAG, "Final sorted subjects to show in header: " + sortedSubjectsList);
         
         // Calculate weight per subject (remaining space divided by number of subjects)
-        float subjectWeight = (1.0f - 0.2f) / subjectsToShow.size(); // 0.2f is for Date column
+        float subjectWeight = (1.0f - 0.1f) / sortedSubjectsList.size(); // 0.1f is for Date column
         
-        for (String subject : subjectsToShow) {
+        for (String subject : sortedSubjectsList) {
             TextView subjectHeader = createHeaderCell(subject, subjectWeight);
             headerRow.addView(subjectHeader);
             Log.d(TAG, "Added subject header: " + subject + " with weight: " + subjectWeight);
@@ -626,48 +759,28 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
         
         Log.d(TAG, "Setting up table with " + dateList.size() + " dates and " + attendanceList.size() + " subjects");
         
-        // Get subjects from local storage (same as header)
-        List<String> subjectsToShow = new ArrayList<>();
-        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
-            List<Subject> tempSubjectsList = Paper.book().read(seleted_child_id, new ArrayList<>());
-            List<Subject> subjects_list = (tempSubjectsList != null) ? tempSubjectsList : new ArrayList<>();
-            Log.d(TAG, "setupAttendanceRows - Looking for subjects with key: " + seleted_child_id);
-            Log.d(TAG, "setupAttendanceRows - Local storage subjects found: " + subjects_list.size());
-            for (Subject subject : subjects_list) {
-                subjectsToShow.add(subject.getSubject_name());
-                Log.d(TAG, "setupAttendanceRows - Added local subject: " + subject.getSubject_name());
-            }
-        }
+        // Use the same sorted subjects list as header
+        getSortedSubjectsList();
         
-        // Fallback to API subjects if local storage is empty
-        if (subjectsToShow.isEmpty() && !subjectList.isEmpty()) {
-            subjectsToShow = subjectList;
-        }
-        
-        // Final fallback to sample subjects
-        if (subjectsToShow.isEmpty()) {
-            subjectsToShow = java.util.Arrays.asList("MATH", "ENG", "SCI", "HIST");
-        }
-        
-        // Create attendance matrix: [date][subject] - use local storage subjects
-        String[][] attendanceMatrix = new String[dateList.size()][subjectsToShow.size()];
+        // Create attendance matrix: [date][subject] - use sorted subjects list
+        String[][] attendanceMatrix = new String[dateList.size()][sortedSubjectsList.size()];
         
         // Initialize matrix with empty values
         for (int i = 0; i < dateList.size(); i++) {
-            for (int j = 0; j < subjectsToShow.size(); j++) {
+            for (int j = 0; j < sortedSubjectsList.size(); j++) {
                 attendanceMatrix[i][j] = "-"; // Default empty value
             }
         }
         
         // Fill matrix with actual attendance data
-        // Map API subjects to local storage subjects
+        // Map API subjects to sorted subjects list
         for (int apiSubjectIndex = 0; apiSubjectIndex < attendanceList.size(); apiSubjectIndex++) {
             SubjectAttendeceModel.AttendanceList subjectAttendance = attendanceList.get(apiSubjectIndex);
             String apiSubjectName = subjectAttendance.getSubject();
             List<SubjectAttendeceModel.Attendance> records = subjectAttendance.getAttendance();
             
-            // Find matching subject index in local storage subjects
-            int localSubjectIndex = subjectsToShow.indexOf(apiSubjectName);
+            // Find matching subject index in sorted subjects list
+            int localSubjectIndex = sortedSubjectsList.indexOf(apiSubjectName);
             if (localSubjectIndex == -1) {
                 Log.w(TAG, "Subject not found in local storage: " + apiSubjectName);
                 continue; // Skip this subject if not found in local storage
@@ -697,16 +810,19 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             ));
             row.setMinimumHeight(80);
             
-            // Date cell (weight 0.2)
+            // Date cell (reduced weight to accommodate more subjects) - use theme color
             String formattedDate = formatDateForDisplay(dateList.get(i));
-            TextView dateCell = createCell(formattedDate, "#8B4513", android.graphics.Color.WHITE, 0.2f);
+            String userType = Paper.book().read(Constants.User_Type, "");
+            String dateCellColor = (userType != null && userType.equals("STUDENT")) ? 
+                "#004d40" : "#8B4513"; // Teal for student, dark brown for parent
+            TextView dateCell = createCell(formattedDate, dateCellColor, android.graphics.Color.WHITE, 0.1f);
             row.addView(dateCell);
             
             // Check if this date is a Sunday
             boolean isSunday = isDateSunday(dateList.get(i));
             
             // Calculate weight per subject (same as header)
-            float subjectWeight = (1.0f - 0.2f) / attendanceMatrix[i].length; // 0.2f is for Date column
+            float subjectWeight = (1.0f - 0.1f) / attendanceMatrix[i].length; // 0.1f is for Date column
             
             // Attendance cells for each subject
             for (int j = 0; j < attendanceMatrix[i].length; j++) {
@@ -720,7 +836,9 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
                 String bgColor;
                 int textColor;
                 if (status.equals("Sunday")) {
-                    bgColor = "#8B4513"; // Dark brown for Sunday days (matching theme)
+                    // Use theme color for Sunday - dark brown for parent, teal for student
+                    bgColor = (userType != null && userType.equals("STUDENT")) ? 
+                        "#004d40" : "#8B4513"; // Teal for student, dark brown for parent
                     textColor = android.graphics.Color.WHITE;
                 } else if (status.equals("A")) {
                     bgColor = "#DF4242"; // Red for absent
@@ -759,9 +877,9 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
     
     private String formatDateForDisplay(String dateStr) {
         try {
-            // Parse the date and format it for display
+            // Parse the date and format it for display (day and month only)
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
             Date date = inputFormat.parse(dateStr);
             return outputFormat.format(date);
         } catch (Exception e) {
@@ -791,30 +909,10 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             generateMonthDates();
         }
         
-        // Get subjects from local storage
-        List<String> subjectsToShow = new ArrayList<>();
-        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
-            List<Subject> tempSubjectsList = Paper.book().read(seleted_child_id, new ArrayList<>());
-            List<Subject> subjects_list = (tempSubjectsList != null) ? tempSubjectsList : new ArrayList<>();
-            Log.d(TAG, "createEmptyRowsWithLocalSubjects - Looking for subjects with key: " + seleted_child_id);
-            Log.d(TAG, "createEmptyRowsWithLocalSubjects - Local storage subjects found: " + subjects_list.size());
-            for (Subject subject : subjects_list) {
-                if (subject != null && subject.getSubject_name() != null && !subject.getSubject_name().trim().isEmpty()) {
-                    subjectsToShow.add(subject.getSubject_name());
-                    Log.d(TAG, "createEmptyRowsWithLocalSubjects - Added local subject: " + subject.getSubject_name());
-                } else {
-                    Log.w(TAG, "createEmptyRowsWithLocalSubjects - Skipping null/empty subject");
-                }
-            }
-        }
+        // Use the same sorted subjects list as header
+        getSortedSubjectsList();
         
-        // Fallback to sample subjects only if local storage is empty
-        if (subjectsToShow.isEmpty()) {
-            Log.w(TAG, "createEmptyRowsWithLocalSubjects - No local subjects found, using sample subjects");
-            subjectsToShow = java.util.Arrays.asList("MATH", "ENG", "SCI", "HIST");
-        }
-        
-        Log.d(TAG, "createEmptyRowsWithLocalSubjects - Creating empty rows with subjects: " + subjectsToShow);
+        Log.d(TAG, "createEmptyRowsWithLocalSubjects - Creating empty rows with sorted subjects: " + sortedSubjectsList);
         
         // Header row is already created by parseAttendanceResponse(), so we don't need to create it again
         // Create empty rows for each date
@@ -826,19 +924,22 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
             ));
             row.setMinimumHeight(80);
             
-            // Date cell (weight 0.2)
+            // Date cell (reduced weight to accommodate more subjects) - use theme color
             String formattedDate = formatDateForDisplay(dateList.get(i));
-            TextView dateCell = createCell(formattedDate, "#8B4513", android.graphics.Color.WHITE, 0.2f);
+            String userType = Paper.book().read(Constants.User_Type, "");
+            String dateCellColor = (userType != null && userType.equals("STUDENT")) ? 
+                "#004d40" : "#8B4513"; // Teal for student, dark brown for parent
+            TextView dateCell = createCell(formattedDate, dateCellColor, android.graphics.Color.WHITE, 0.1f);
             row.addView(dateCell);
             
             // Check if this date is a Sunday
             boolean isSunday = isDateSunday(dateList.get(i));
             
             // Calculate weight per subject (same as header)
-            float subjectWeight = (1.0f - 0.2f) / subjectsToShow.size(); // 0.2f is for Date column
+            float subjectWeight = (1.0f - 0.1f) / sortedSubjectsList.size(); // 0.1f is for Date column
             
             // Empty attendance cells for each subject
-            for (int j = 0; j < subjectsToShow.size(); j++) {
+            for (int j = 0; j < sortedSubjectsList.size(); j++) {
                 String status;
                 if (isSunday) {
                     status = "Sunday"; // Show "Sunday" for Sundays
@@ -849,7 +950,9 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
                 String bgColor;
                 int textColor;
                 if (status.equals("Sunday")) {
-                    bgColor = "#8B4513"; // Dark brown for Sunday days
+                    // Use theme color for Sunday - dark brown for parent, teal for student
+                    bgColor = (userType != null && userType.equals("STUDENT")) ? 
+                        "#004d40" : "#8B4513"; // Teal for student, dark brown for parent
                     textColor = android.graphics.Color.WHITE;
                 } else {
                     bgColor = "#FFFFFF"; // White for empty
@@ -974,9 +1077,10 @@ public class AttendanceSubjectWiseImproved extends AppCompatActivity implements 
         cell.setTextSize(16); // Increased from 14 to 16 for better visibility
         cell.setGravity(android.view.Gravity.CENTER);
         
-        // Use bordered backgrounds instead of solid colors
-        if (bgColor.equals("#8B4513")) {
-            cell.setBackgroundResource(R.drawable.date_cell_background);
+        // Use theme colors directly for date/Sunday cells, drawables for status cells
+        if (bgColor.equals("#8B4513") || bgColor.equals("#004d40")) {
+            // Dark brown for parent theme or teal for student theme - set color directly
+            cell.setBackgroundColor(android.graphics.Color.parseColor(bgColor));
         } else if (bgColor.equals("#DF4242")) {
             cell.setBackgroundResource(R.drawable.attendance_absent_background);
         } else {

@@ -1,6 +1,7 @@
 @file:Suppress("DEPRECATION")
 package topgrade.parent.com.parentseeks.Parent.Utils
 
+import android.content.Context
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -221,12 +222,23 @@ val color = ContextCompat.getColor(activity, colorRes)
                 return false
             }
             
+            // Additional check: Resource IDs should be positive and in valid range
+            // System-generated IDs (like 0x2, 0x3) are typically very small
+            // Valid resource IDs are usually much larger (0x7f...)
+            if (viewId < 0x01000000) {
+                // This is likely a system-generated ID without a resource name
+                return false
+            }
+            
             val viewIdName = view.context.resources.getResourceEntryName(viewId)
             
             // Check by ID name patterns
             viewIdName.contains("footer", ignoreCase = true) ||
             viewIdName.contains("footer_container", ignoreCase = true) ||
             viewIdName.contains("footer_layout", ignoreCase = true)
+        } catch (e: android.content.res.Resources.NotFoundException) {
+            // Resource ID doesn't have a name (system-generated ID), silently ignore
+            false
         } catch (e: Exception) {
             android.util.Log.e("ThemeHelper", "Error checking footer container", e)
             false

@@ -173,8 +173,6 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
             }
         }
 
-        month_list_id.add(new MonthModel("", "Select Month"));
-
         months = new DateFormatSymbols().getMonths();
         for (int i = 0; i < months.length; i++) {
             int new_position = i + 1;
@@ -185,14 +183,9 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
             month_list.add(month_list_id.get(i).getMonth());
         }
         
-        // Set current month as default
-        setCurrentMonth();
-        
         // Setup inline filters (after months array is initialized)
+        // This will set current month and load attendance automatically
         setupInlineFilters();
-        
-        // Load attendance for current month automatically
-        loadCurrentMonthAttendance();
 
 
     }
@@ -288,11 +281,14 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
             if (tvStudentName != null) {
                 tvStudentName.setText(studentList.get(0).getFullName());
             }
+            // Note: Attendance will be loaded after month spinner is set up
         } else {
             // Show student spinner for multiple students
             select_child_spinner.setVisibility(View.VISIBLE);
-            child_adaptor = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, student_name_list);
+            child_adaptor = new ArrayAdapter<>(context, R.layout.spinner_selected_item, student_name_list);
+            child_adaptor.setDropDownViewResource(android.R.layout.simple_list_item_1);
             select_child_spinner.setAdapter(child_adaptor);
+            select_child_spinner.setTitle("Select Child");
             
             select_child_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -300,6 +296,10 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
                     seleted_child_id = studentList.get(position).getUniqueId();
                     if (tvStudentName != null) {
                         tvStudentName.setText(studentList.get(position).getFullName());
+                    }
+                    // Update spinner title to show selected student
+                    if (position < student_name_list.size()) {
+                        select_child_spinner.setTitle(student_name_list.get(position));
                     }
                     // Auto-load attendance when student is selected
                     load_attendance(parent_id, campus_id, seleted_child_id);
@@ -311,20 +311,20 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
         }
 
         // Setup month spinner with custom dark brown theme
-        month_adaptor = new ArrayAdapter<>(context, R.layout.custom_spinner_item, month_list);
+        month_adaptor = new ArrayAdapter<>(context, R.layout.spinner_selected_item, month_list);
+        month_adaptor.setDropDownViewResource(android.R.layout.simple_list_item_1);
         select_month_spinner.setAdapter(month_adaptor);
 
         select_month_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    month_format = "";
-                } else {
-                    Calendar c = Calendar.getInstance();
-                    int year = c.get(Calendar.YEAR);
-                    String month_id = month_list_id.get(position).getId();
-                    month_format = month_id + "/" + year;
-                }
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                String month_id = month_list_id.get(position).getId();
+                month_format = month_id + "/" + year;
+                // Update spinner title to show selected month
+                String selectedMonth = month_list.get(position);
+                select_month_spinner.setTitle(selectedMonth);
                 // Auto-load attendance when month is selected
                 if (!seleted_child_id.isEmpty()) {
                     load_attendance(parent_id, campus_id, seleted_child_id);
@@ -337,15 +337,31 @@ public class AttendanceClassWise extends AppCompatActivity implements View.OnCli
 
         // Set current month as default selection
         if (months != null) {
-            DateFormat dateFormat = new SimpleDateFormat("MMMM", java.util.Locale.getDefault());
-            Date currentDate = new Date();
-            String current_month = dateFormat.format(currentDate);
-            for (int i = 0; i < months.length; i++) {
-                if (current_month.equals(months[i])) {
-                    select_month_spinner.setSelection(i + 1);
-                    break;
+            Calendar calendar = Calendar.getInstance();
+            int currentMonthIndex = calendar.get(Calendar.MONTH); // 0-based (0=January, 11=December)
+            int currentYear = calendar.get(Calendar.YEAR);
+            
+            // Set month format to match the format used in onItemSelected
+            month_format = (currentMonthIndex + 1) + "/" + currentYear;
+            
+            // Set spinner selection (position matches month index now that "Select Month" is removed)
+            // Use post to ensure spinner is ready before setting selection
+            select_month_spinner.post(new Runnable() {
+                @Override
+                public void run() {
+                    select_month_spinner.setSelection(currentMonthIndex, false); // false = don't trigger listener
+                    
+                    // Update title to show current month
+                    if (currentMonthIndex < month_list.size()) {
+                        select_month_spinner.setTitle(month_list.get(currentMonthIndex));
+                    }
+                    
+                    // Auto-load attendance for current month if student is already selected
+                    if (!seleted_child_id.isEmpty()) {
+                        load_attendance(parent_id, campus_id, seleted_child_id);
+                    }
                 }
-            }
+            });
         }
     }
 

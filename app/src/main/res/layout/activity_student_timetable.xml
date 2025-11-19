@@ -103,7 +103,7 @@
                     android:layout_marginBottom="2dp"
                     android:labelFor="@+id/selectChildSpinner" />
 
-                <Spinner
+                <components.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/selectChildSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -124,7 +124,7 @@
                     android:layout_marginBottom="2dp"
                     android:labelFor="@+id/selectExamSession" />
 
-                <Spinner
+                <components.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/selectExamSession"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -197,6 +197,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="384dp"
             android:layout_marginBottom="80dp"
             android:text="@string/send_timetable_in_sms"
             android:textColor="@color/white"
@@ -211,6 +212,7 @@
             app:iconTint="@color/white"
             app:iconPadding="8dp"
             app:iconGravity="textStart"
+            app:layout_constraintTop_toBottomOf="@id/total_records"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

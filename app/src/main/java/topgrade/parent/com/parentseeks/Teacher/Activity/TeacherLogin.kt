@@ -17,35 +17,43 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.textfield.TextInputLayout
+import io.paperdb.Paper
+// Deprecated Volley imports - only used in deprecated methods
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.checkbox.MaterialCheckBox
-import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
-import io.paperdb.Paper
 import org.json.JSONException
 import org.json.JSONObject
+import topgrade.parent.com.parentseeks.Teacher.Model.StaffModel
 import topgrade.parent.com.parentseeks.Parent.Activity.Splash
-import topgrade.parent.com.parentseeks.Parent.Utils.API
 import topgrade.parent.com.parentseeks.Parent.Utils.BiometricManager as AppBiometricManager
 import topgrade.parent.com.parentseeks.Parent.Utils.Constants
 import topgrade.parent.com.parentseeks.Parent.Utils.ThemeHelper
+import topgrade.parent.com.parentseeks.Parent.Utils.RetrofitClient
+import topgrade.parent.com.parentseeks.Parent.Interface.BaseApiService
+import topgrade.parent.com.parentseeks.Parent.Repository.ConsolidatedUserRepository
+import topgrade.parent.com.parentseeks.Parent.Utils.API
 import topgrade.parent.com.parentseeks.R
-import topgrade.parent.com.parentseeks.Teacher.Model.StaffModel
-import topgrade.parent.com.parentseeks.Teacher.Utils.Constant
+import topgrade.parent.com.parentseeks.Teacher.ViewModel.StaffLoginViewModel
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import topgrade.parent.com.parentseeks.Utils.CustomPopupMenu
 import android.widget.ImageView
 import topgrade.parent.com.parentseeks.Parent.Activity.PasswordsChange
 import topgrade.parent.com.parentseeks.Parent.Utils.UserType
+import topgrade.parent.com.parentseeks.Teacher.Utils.Constant
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -65,6 +73,18 @@ class TeacherLogin : AppCompatActivity() {
     
     // Background executor for async operations (replaces deprecated AsyncTask)
     private val backgroundExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+    
+    // ViewModel instance
+    private val loginViewModel: StaffLoginViewModel by lazy {
+        val apiService = RetrofitClient.getClient(API.base_url).create(BaseApiService::class.java)
+        val userRepository = ConsolidatedUserRepository(this@TeacherLogin, apiService)
+        ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return StaffLoginViewModel(userRepository) as T
+            }
+        })[StaffLoginViewModel::class.java]
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,11 +192,109 @@ class TeacherLogin : AppCompatActivity() {
             
             // Auto-login after a short delay
             login_user.postDelayed({
-                login_api_hint(email, password, campusId)
+                performLogin(email, password, campusId)
             }, 500)
+        }
+
+        observeLoginState()
+    }
+
+    private fun performLogin(username: String, password: String, campusId: String) {
+        // Load FCM token in background to avoid StrictMode violation
+        loadFcmTokenInBackground(username, password, campusId)
+    }
+    
+    /**
+     * Load FCM token in background thread to avoid StrictMode violations
+     * Uses ExecutorService instead of deprecated AsyncTask
+     */
+    private fun loadFcmTokenInBackground(username: String, password: String, campusId: String) {
+        backgroundExecutor.execute {
+            try {
+                // Read FCM token in background
+                val token = Paper.book().read(Constants.PREFERENCE_EXTRA_REGISTRATION_ID, "123").toString()
+                
+                // Handle UI updates on main thread
+                runOnUiThread {
+                    if (!isActivityDestroyed) {
+                        fcm_token = token
+                        Log.d("TeacherLogin", "Attempting login with userType: $userType")
+                        loginViewModel.login(username, password, campusId, fcm_token, userType)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("TeacherLogin", "Error loading FCM token", e)
+                runOnUiThread {
+                    if (!isActivityDestroyed) {
+                        // Use default token on error
+                        fcm_token = "123"
+                        Log.d("TeacherLogin", "Attempting login with userType: $userType (using default token)")
+                        loginViewModel.login(username, password, campusId, fcm_token, userType)
+                    }
+                }
+            }
         }
     }
 
+    private fun observeLoginState() {
+        loginViewModel.loginState.observe(this, Observer { result ->
+            when (result) {
+                is ConsolidatedUserRepository.LoginResult.Success -> {
+                    progress_bar.visibility = View.GONE
+
+                    // Save user type and login state (already saved by repository)
+                    Paper.book().write(Constants.User_Type, userType)
+                    Paper.book().write(Constants.is_login, true)
+
+                    Log.d("TeacherLogin", "=== LOGIN SUCCESS DEBUG ===")
+                    Log.d("TeacherLogin", "Login successful - UserType: $userType")
+                    Log.d("TeacherLogin", "Login state saved to Paper DB")
+                    Log.d("TeacherLogin", "Paper DB - User_Type: ${Paper.book().read(Constants.User_Type, "NOT_FOUND")}")
+                    Log.d("TeacherLogin", "Paper DB - is_login: ${Paper.book().read(Constants.is_login, "NOT_FOUND")}")
+                    Log.d("TeacherLogin", "Paper DB - staff_id: ${Paper.book().read("staff_id", "NOT_FOUND")}")
+                    Log.d("TeacherLogin", "Paper DB - campus_id: ${Paper.book().read("campus_id", "NOT_FOUND")}")
+
+                    // ✅ Store credentials for biometric login if this was a manual login
+                    val isBiometricLogin = intent.getBooleanExtra("biometric_login", false)
+                    if (!isBiometricLogin) {
+                        // Use the actual login credentials that were used
+                        val email = usernam ?: ""
+                        val userPassword = password ?: ""
+                        val campusId = seleted_campus ?: ""
+                        
+                        if (email.isNotEmpty() && userPassword.isNotEmpty() && campusId.isNotEmpty()) {
+                            try {
+                                val biometricManager = AppBiometricManager(this@TeacherLogin)
+                                biometricManager.enableBiometric(userType, email, email, userPassword, campusId)
+                                
+                                // Show biometric setup suggestion dialog after successful login
+                                showBiometricSetupSuggestion()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                // Continue with login even if biometric setup fails
+                            }
+                        }
+                    }
+                    
+                    progress_bar.visibility = View.GONE
+                    startActivity(Intent(this@TeacherLogin, Splash::class.java)
+                        .putExtra("from_login", true)
+                    )
+                    finish()
+                }
+                is ConsolidatedUserRepository.LoginResult.Error -> {
+                    progress_bar.visibility = View.GONE
+                    Toast.makeText(this, result.message, Toast.LENGTH_LONG).show()
+                    Log.e("TeacherLogin", "Login failed: ${result.message}")
+                }
+                is ConsolidatedUserRepository.LoginResult.Loading -> {
+                    progress_bar.visibility = View.VISIBLE
+                }
+            }
+        })
+    }
+
+    @Deprecated("Replaced by MVVM pattern - use performLogin() instead")
     private fun login_api_hint(name: String, password: String, campus_id: String) {
         progress_bar!!.visibility = View.VISIBLE
         val requestQueue = Volley.newRequestQueue(this)
@@ -529,7 +647,7 @@ class TeacherLogin : AppCompatActivity() {
                     findViewById<EditText>(R.id.user_enter_password)?.setText(password)
                     findViewById<EditText>(R.id.Campus_ID)?.setText(campusId)
                     findViewById<MaterialCheckBox>(R.id.privacy_policy_checkbox)?.isChecked = true
-                    login_api_hint(email, password, campusId)
+                    performLogin(email, password, campusId)
                 },
                 onError = { errorMessage ->
                     val friendlyMessage = getBiometricErrorMessage(errorMessage)
@@ -627,35 +745,6 @@ class TeacherLogin : AppCompatActivity() {
         backgroundExecutor.shutdown()
     }
     
-    /**
-     * Load FCM token in background thread to avoid StrictMode violations
-     * Uses ExecutorService instead of deprecated AsyncTask
-     */
-    private fun loadFcmTokenInBackground(username: String, password: String, campusId: String) {
-        backgroundExecutor.execute {
-            try {
-                // Read FCM token in background
-                val token = Paper.book().read(Constants.PREFERENCE_EXTRA_REGISTRATION_ID, "123").toString()
-                
-                // Handle UI updates on main thread
-                runOnUiThread {
-                    if (!isActivityDestroyed) {
-                        fcm_token = token
-                        login_api_hint(username, password, campusId)
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("TeacherLogin", "Error loading FCM token", e)
-                runOnUiThread {
-                    if (!isActivityDestroyed) {
-                        // Use default token on error
-                        fcm_token = "123"
-                        login_api_hint(username, password, campusId)
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * Setup window insets to respect system bars (status bar, navigation bar, notches)
