@@ -6,18 +6,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="1dp">
+    android:padding="0dp">
 
     <!-- ===== TABLE HEADER ===== -->
     <LinearLayout
         android:id="@+id/header_rv_date_sheet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/parent_primary"
         android:divider="@drawable/style_divider_white"
         android:orientation="horizontal"
         android:showDividers="middle"
-        android:weightSum="6"
+        android:weightSum="7"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -26,10 +26,10 @@
         <TextView
             android:id="@+id/header_serial_no"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.7"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
+            android:padding="0dp"
             android:text="@string/serial_number"
             android:textColor="@color/white"
             android:textSize="@dimen/text_sm"
@@ -40,10 +40,10 @@
         <TextView
             android:id="@+id/header_date"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.8"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
+            android:padding="0dp"
             android:text="@string/date"
             android:textColor="@color/white"
             android:textSize="@dimen/text_sm"
@@ -54,25 +54,42 @@
         <TextView
             android:id="@+id/header_subject"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
+            android:padding="0dp"
             android:text="@string/subject"
             android:textColor="@color/white"
             android:textSize="@dimen/text_sm"
             android:fontFamily="@font/quicksand_bold"
             android:maxLines="1" />
 
-        <!-- Time/Syllabus Header -->
+        <!-- Time Header -->
         <TextView
-            android:id="@+id/header_time_syllabus"
+            android:id="@+id/header_time"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="@string/time"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_sm"
+            android:fontFamily="@font/quicksand_bold"
+            android:maxLines="1" />
+
+        <!-- Syllabus Header -->
+        <TextView
+            android:id="@+id/header_syllabus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2.0"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:text="@string/time"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/syllabus"
             android:textColor="@color/white"
             android:textSize="@dimen/text_sm"
             android:fontFamily="@font/quicksand_bold"
@@ -84,30 +101,17 @@
         android:id="@+id/date_sheet_rcv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="100dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:scrollbars="vertical"
-        android:nestedScrollingEnabled="false"
+        android:nestedScrollingEnabled="true"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/header_rv_date_sheet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/date_sheet_item_row" />
-
-    <!-- ===== TOTAL RECORDS COUNTER ===== -->
-    <TextView
-        android:id="@+id/total_records_date_sheet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:text="@string/total_records_default"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="@dimen/text_sm"
-        android:fontFamily="@font/quicksand_bold"
-        android:contentDescription="@string/total_records_desc"
-        app:layout_constraintTop_toBottomOf="@id/date_sheet_rcv"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

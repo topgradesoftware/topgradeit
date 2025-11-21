@@ -9,19 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import io.paperdb.Paper;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,9 +48,9 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
     private ImageView back_icon;
     private Context context;
 
-    private List<String> categoryList = new ArrayList<>();
-    private List<String> categoryTitleIds = new ArrayList<>();
-    private List<String> priorityList = new ArrayList<>();
+    private final List<String> categoryList = new ArrayList<>();
+    private final List<String> categoryTitleIds = new ArrayList<>();
+    private final List<String> priorityList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +62,12 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_parent_submit_complaint);
         
         // Configure status bar for dark brown background with white icons
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
-            
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                int flags = getWindow().getDecorView().getSystemUiVisibility();
-                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                getWindow().getDecorView().setSystemUiVisibility(flags);
-            }
-        }
+        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
+        
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        getWindow().getDecorView().setSystemUiVisibility(flags);
         
         // Setup window insets
         setupWindowInsets();
@@ -111,7 +104,7 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
 
                         android.view.View footerContainer = findViewById(R.id.footer_container);
                         if (footerContainer != null) {
-                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            int bottomMargin = Math.max(0, systemInsets.bottom);
                             android.view.ViewGroup.MarginLayoutParams params = 
                                 (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
                             if (params != null) {
@@ -138,14 +131,28 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
     private void initViews() {
         complaint_subject = findViewById(R.id.complaint_subject);
         complaint_description = findViewById(R.id.complaint_description);
-        complaint_category = findViewById(R.id.complaint_category);
+        complaint_category = findViewById(R.id.complainant_category); // Fixed: was complaint_category
         complaint_priority = findViewById(R.id.complaint_priority);
         submit_complaint_btn = findViewById(R.id.submit_complaint_btn);
         progress_bar = findViewById(R.id.progress_bar);
         back_icon = findViewById(R.id.back_icon);
+        
+        // Log if views are null for debugging
+        if (complaint_category == null) {
+            Log.e(TAG, "complaint_category (complainant_category) is null!");
+        }
+        if (complaint_priority == null) {
+            Log.w(TAG, "complaint_priority is null (expected if not in layout)");
+        }
     }
     
     private void setupPrioritySpinner() {
+        // Check if priority spinner exists in layout
+        if (complaint_priority == null) {
+            Log.w(TAG, "Priority spinner not found in layout, skipping setup");
+            return;
+        }
+        
         // Setup priority levels (static - not loaded from API)
         priorityList.clear();
         priorityList.add("Select Priority");
@@ -164,7 +171,7 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
         try {
             String campusId = Paper.book().read("campus_id", "");
             
-            if (campusId.isEmpty()) {
+            if (campusId == null || campusId.isEmpty()) {
                 Log.e(TAG, "Campus ID not found");
                 setupDefaultCategories();
                 return;
@@ -172,7 +179,9 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
             
             // Show loading indicator
             progress_bar.setVisibility(View.VISIBLE);
-            complaint_category.setEnabled(false);
+            if (complaint_category != null) {
+                complaint_category.setEnabled(false);
+            }
             
             // Create request body for read_complain_title operation
             HashMap<String, String> postParam = new HashMap<>();
@@ -181,19 +190,21 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
             
             String requestBody = (new JSONObject(postParam)).toString();
             RequestBody body = RequestBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
-                requestBody
+                requestBody,
+                MediaType.parse("application/json; charset=utf-8")
             );
             
             // Make API call
             BaseApiService apiService = API.getAPIService();
             Call<ParentComplaintModel> call = apiService.parent_complain(body);
             
-            call.enqueue(new Callback<ParentComplaintModel>() {
+            call.enqueue(new Callback<>() {
                 @Override
-                public void onResponse(Call<ParentComplaintModel> call, Response<ParentComplaintModel> response) {
+                public void onResponse(@NonNull Call<ParentComplaintModel> call, @NonNull Response<ParentComplaintModel> response) {
                     progress_bar.setVisibility(View.GONE);
-                    complaint_category.setEnabled(true);
+                    if (complaint_category != null) {
+                        complaint_category.setEnabled(true);
+                    }
                     
                     if (response.isSuccessful() && response.body() != null) {
                         ParentComplaintModel model = response.body();
@@ -214,9 +225,11 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
                 }
                 
                 @Override
-                public void onFailure(Call<ParentComplaintModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ParentComplaintModel> call, @NonNull Throwable t) {
                     progress_bar.setVisibility(View.GONE);
-                    complaint_category.setEnabled(true);
+                    if (complaint_category != null) {
+                        complaint_category.setEnabled(true);
+                    }
                     Log.e(TAG, "Error loading complaint titles: " + t.getMessage());
                     setupDefaultCategories();
                 }
@@ -229,6 +242,12 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
     }
     
     private void setupCategoriesFromAPI(List<ParentComplaintModel.ComplaintTitle> titles) {
+        // Check if category spinner exists
+        if (complaint_category == null) {
+            Log.e(TAG, "Category spinner is null, cannot setup categories from API");
+            return;
+        }
+        
         categoryList.clear();
         categoryTitleIds.clear();
         
@@ -236,8 +255,11 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
         categoryTitleIds.add("");
         
         for (ParentComplaintModel.ComplaintTitle title : titles) {
-            categoryList.add(title.getTitle());
-            categoryTitleIds.add(title.getTitleId());
+            if (title != null && title.getTitle() != null) {
+                categoryList.add(title.getTitle());
+                String titleId = title.getTitleId() != null ? title.getTitleId() : "";
+                categoryTitleIds.add(titleId);
+            }
         }
         
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryList);
@@ -249,6 +271,12 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
     }
     
     private void setupDefaultCategories() {
+        // Check if category spinner exists
+        if (complaint_category == null) {
+            Log.e(TAG, "Category spinner is null, cannot setup default categories");
+            return;
+        }
+        
         categoryList.clear();
         categoryTitleIds.clear();
         
@@ -300,12 +328,13 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
             return;
         }
         
-        if (complaint_category.getSelectedItemPosition() == 0) {
+        if (complaint_category == null || complaint_category.getSelectedItemPosition() == 0) {
             Toast.makeText(context, "Please select a category", Toast.LENGTH_SHORT).show();
             return;
         }
         
-        if (complaint_priority.getSelectedItemPosition() == 0) {
+        // Check priority only if spinner exists
+        if (complaint_priority != null && complaint_priority.getSelectedItemPosition() == 0) {
             Toast.makeText(context, "Please select a priority", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -319,14 +348,14 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
             String parentId = Paper.book().read("parent_id", "");
             String campusId = Paper.book().read("campus_id", "");
             
-            if (parentId.isEmpty() || campusId.isEmpty()) {
+            if (parentId == null || parentId.isEmpty() || campusId == null || campusId.isEmpty()) {
                 Toast.makeText(context, "Parent information not found", Toast.LENGTH_SHORT).show();
                 hideProgressBar();
                 return;
             }
             
             // Get selected category title_id
-            int selectedCategoryPosition = complaint_category.getSelectedItemPosition();
+            int selectedCategoryPosition = complaint_category != null ? complaint_category.getSelectedItemPosition() : 0;
             String categoryTitleId = "";
             if (selectedCategoryPosition > 0 && selectedCategoryPosition <= categoryTitleIds.size()) {
                 categoryTitleId = categoryTitleIds.get(selectedCategoryPosition);
@@ -345,17 +374,17 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
             
             String requestBody = (new JSONObject(postParam)).toString();
             RequestBody body = RequestBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
-                requestBody
+                requestBody,
+                MediaType.parse("application/json; charset=utf-8")
             );
             
             // Make API call using parent API endpoint
             BaseApiService apiService = API.getAPIService();
             Call<ParentComplaintModel> call = apiService.parent_complain(body);
             
-            call.enqueue(new Callback<ParentComplaintModel>() {
+            call.enqueue(new Callback<>() {
                 @Override
-                public void onResponse(Call<ParentComplaintModel> call, Response<ParentComplaintModel> response) {
+                public void onResponse(@NonNull Call<ParentComplaintModel> call, @NonNull Response<ParentComplaintModel> response) {
                     hideProgressBar();
                     
                     if (response.isSuccessful() && response.body() != null) {
@@ -373,7 +402,7 @@ public class ParentSubmitComplaint extends AppCompatActivity implements View.OnC
                 }
                 
                 @Override
-                public void onFailure(Call<ParentComplaintModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ParentComplaintModel> call, @NonNull Throwable t) {
                     hideProgressBar();
                     Log.e(TAG, "Error submitting complaint: " + t.getMessage());
                     Toast.makeText(context, "Network error. Please try again.", Toast.LENGTH_SHORT).show();

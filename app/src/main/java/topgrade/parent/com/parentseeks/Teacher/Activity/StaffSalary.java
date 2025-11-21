@@ -207,44 +207,63 @@ public class StaffSalary extends AppCompatActivity implements View.OnClickListen
     private void setupWindowInsets() {
         mainHandler.post(() -> {
             try {
-                android.view.View rootLayout = findViewById(android.R.id.content);
-                
-                if (rootLayout != null) {
-                    androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
-                        try {
-                            androidx.core.graphics.Insets systemInsets = insets.getInsets(
-                                androidx.core.view.WindowInsetsCompat.Type.systemBars()
-                            );
+                // Wait a bit to ensure layout is fully inflated
+                mainHandler.postDelayed(() -> {
+                    try {
+                        android.view.View rootLayout = findViewById(android.R.id.content);
+                        
+                        if (rootLayout != null) {
+                            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                                try {
+                                    androidx.core.graphics.Insets systemInsets = insets.getInsets(
+                                        androidx.core.view.WindowInsetsCompat.Type.systemBars()
+                                    );
 
-                            // Add bottom margin to buttons layout to push it above navigation bar
-                            LinearLayout buttonsLayout = findViewById(R.id.layout);
-                            if (buttonsLayout != null) {
-                                // Set bottom margin to navigation bar height + extra padding to ensure buttons are visible
-                                int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                                android.view.ViewGroup.MarginLayoutParams params = 
-                                    (android.view.ViewGroup.MarginLayoutParams) buttonsLayout.getLayoutParams();
-                                if (params != null) {
-                                    // 16dp base margin + navigation bar height + 8dp extra padding
-                                    params.bottomMargin = bottomMargin + 24; 
-                                    buttonsLayout.setLayoutParams(params);
+                                    // Add bottom margin to footer container to push it above navigation bar
+                                    LinearLayout footerContainer = findViewById(R.id.footer_container);
+                                    if (footerContainer != null) {
+                                        // Set bottom margin to navigation bar height to ensure footer is visible
+                                        int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                                        android.view.ViewGroup.LayoutParams layoutParams = footerContainer.getLayoutParams();
+                                        if (layoutParams instanceof androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) {
+                                            androidx.constraintlayout.widget.ConstraintLayout.LayoutParams params = 
+                                                (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) layoutParams;
+                                            params.bottomMargin = bottomMargin;
+                                            footerContainer.setLayoutParams(params);
+                                            Log.d(TAG, "Footer bottom margin set to: " + bottomMargin + " (ConstraintLayout)");
+                                        } else if (layoutParams instanceof android.view.ViewGroup.MarginLayoutParams) {
+                                            android.view.ViewGroup.MarginLayoutParams params = 
+                                                (android.view.ViewGroup.MarginLayoutParams) layoutParams;
+                                            params.bottomMargin = bottomMargin;
+                                            footerContainer.setLayoutParams(params);
+                                            Log.d(TAG, "Footer bottom margin set to: " + bottomMargin + " (MarginLayoutParams)");
+                                        }
+                                    } else {
+                                        Log.w(TAG, "footer_container not found - cannot set bottom margin");
+                                    }
+                                    
+                                    // No padding on root layout to avoid touch interference
+                                    view.setPadding(0, 0, 0, 0);
+
+                                    // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
+                                    return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error in window insets listener: " + e.getMessage(), e);
+                                    return androidx.core.view.WindowInsetsCompat.CONSUMED;
                                 }
-                            }
+                            });
                             
-                            // No padding on root layout to avoid touch interference
-                            view.setPadding(0, 0, 0, 0);
-
-                            // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
-                            return androidx.core.view.WindowInsetsCompat.CONSUMED;
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error in window insets listener: " + e.getMessage());
-                            return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                            // Force initial application of insets
+                            androidx.core.view.ViewCompat.requestApplyInsets(rootLayout);
+                        } else {
+                            Log.e(TAG, "rootLayout is null - cannot setup window insets");
                         }
-                    });
-                } else {
-                    Log.e(TAG, "rootLayout is null - cannot setup window insets");
-                }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error setting up window insets: " + e.getMessage(), e);
+                    }
+                }, 100); // Small delay to ensure layout is inflated
             } catch (Exception e) {
-                Log.e(TAG, "Error setting up window insets: " + e.getMessage(), e);
+                Log.e(TAG, "Error in setupWindowInsets: " + e.getMessage(), e);
             }
         });
     }

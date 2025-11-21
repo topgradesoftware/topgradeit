@@ -440,18 +440,10 @@ getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.student_prima
                 }
                 
             } else {
-                // Apply unified parent theme for child detail page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for child detail
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for child detail
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Child Details");
-                
-                // Set header wave for parent theme
-                ImageView headerWave = findViewById(R.id.header_wave);
-                if (headerWave != null) {
-                    headerWave.setImageResource(R.drawable.bg_wave_dark_brown);
-                }
+                // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+                // System bars are already configured in onCreate() to match child list
+                // Header title is set in setupHeader() method
+                Log.d(TAG, "Parent theme - system bars already configured in onCreate()");
                 
                 // Set edit button color for parent theme
                 Button editButton = findViewById(R.id.btn_edit_profile);
@@ -464,8 +456,6 @@ getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.student_prima
                 if (editIcon != null) {
                     editIcon.setBackgroundColor(ContextCompat.getColor(this, R.color.parent_primary));
                 }
-                
-                // Footer card already set to dark brown in XML - no action needed
             }
         } catch (Exception e) {
             Log.e(TAG, "Error applying theme", e);

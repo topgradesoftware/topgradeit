@@ -140,14 +140,10 @@ public class Edit_ProfileParent extends AppCompatActivity {
                 
                 Log.d("Edit_ProfileParent", "Student theme applied successfully");
             } else {
-                // Apply unified parent theme for edit profile page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for edit profile
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for edit profile
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Edit Profile");
-                
-                Log.d("Edit_ProfileParent", "Parent theme applied successfully");
+                // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+                // System bars are already configured in onCreate() to match child list
+                // Header title is set in XML layout
+                Log.d("Edit_ProfileParent", "Parent theme - system bars already configured in onCreate()");
             }
         } catch (Exception e) {
             Log.e("Edit_ProfileParent", "Error applying theme", e);

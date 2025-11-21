@@ -287,6 +287,22 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentDiaryMenu"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentViewClassDiary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.DiaryDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name="topgrade.parent.com.parentseeks.Parent.Activity.ParentViewSubjectDiary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
             android:name="topgrade.parent.com.parentseeks.Teacher.Activity.StaffTimeTable"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
@@ -411,6 +427,7 @@
         <activity
             android:name="topgrade.parent.com.parentseeks.Parent.Activity.FeeChalan"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name="topgrade.parent.com.parentseeks.Parent.Activity.Report"

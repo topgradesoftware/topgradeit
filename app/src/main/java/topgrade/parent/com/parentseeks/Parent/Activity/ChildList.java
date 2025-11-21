@@ -89,18 +89,11 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                 
                 Log.d("ChildList", "Student theme applied successfully");
             } else {
-                // Apply unified parent theme for child list page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for child list
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for child list
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Child List");
-                
-                Log.d("ChildList", "Parent theme applied successfully - UserType: " + userType);
+                // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+                // System bars are already configured in onCreate() to match complaint menu
+                // Header title is already set in onCreate()
+                Log.d("ChildList", "Parent theme - system bars already configured in onCreate()");
             }
-            
-            // Apply footer theming based on user type
-            ThemeHelper.applyFooterTheme(this, userType);
             
         } catch (Exception e) {
             Log.e("ChildList", "Error applying theme", e);
@@ -117,76 +110,70 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         // Set edge-to-edge display
-        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         setContentView(R.layout.activity_child_list);
-
-        // Configure status bar for dark brown background with white icons - COMPREHENSIVE FIX
+        
+        // Configure status bar for dark brown background with white icons
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // Set transparent status bar to allow header wave to cover it
             getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.dark_brown));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
+            
+            // For Android M and above, ensure white status bar icons on dark background
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 int flags = getWindow().getDecorView().getSystemUiVisibility();
+                // Clear the LIGHT_STATUS_BAR flag to ensure white icons on dark background
                 flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 getWindow().getDecorView().setSystemUiVisibility(flags);
             }
         }
+
+        // Configure status bar and navigation bar icons for Android R and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             if (getWindow().getInsetsController() != null) {
                 getWindow().getInsetsController().setSystemBarsAppearance(
-                    0, // No light icons for status bar and navigation bar (white icons on dark background)
+                    0, // No light icons for status bar (white icons on dark background)
                     android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
                 );
             }
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            int flags = getWindow().getDecorView().getSystemUiVisibility();
-            flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            }
-            getWindow().getDecorView().setSystemUiVisibility(flags);
-        }
+        
+        // Setup window insets
         setupWindowInsets();
-
-        // Apply student theme using ThemeHelper
+        
+        // Initialize Paper database
+        Paper.init(this);
+        
+        // Apply theme based on user type (only for student theme, parent theme already configured above)
         applyTheme();
 
-        // Set up back button with new header structure
+        // Initialize back button
         ImageView backIcon = findViewById(R.id.back_icon);
-        TextView headerTitle = findViewById(R.id.header_title);
-        
         if (backIcon != null) {
-            backIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+            backIcon.setOnClickListener(v -> finish());
         }
         
+        // Initialize header title
+        TextView headerTitle = findViewById(R.id.header_title);
         if (headerTitle != null) {
             headerTitle.setText(getString(R.string.child_list));
         }
 
+        // Initialize views
         swipe_refresh = findViewById(R.id.swipe_refresh);
         myrecycleview = findViewById(R.id.wanted_search);
         no_list = findViewById(R.id.no_list);
-        // toolbar_title removed - using new header structure
-
-        context = ChildList.this;
         
-        // Title is now set in the header_title TextView in the new header structure
-        Paper.init(context);
+        context = ChildList.this;
         students = new ArrayList<>();
         
         // Setup swipe-to-refresh functionality
-        swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                onResume(); // reload data
-                swipe_refresh.setRefreshing(false);
-            }
+        swipe_refresh.setOnRefreshListener(() -> {
+            onResume(); // reload data
+            swipe_refresh.setRefreshing(false);
         });
     }
 
@@ -233,7 +220,8 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
     
     /**
      * Setup window insets to respect system bars (status bar, navigation bar, notches)
-     * This ensures the content won't be hidden behind the system bars
+     * Uses margin approach like complaint page - footer pushed above navigation bar,
+     * navigation bar's dark_brown color creates transparent/blended appearance
      */
     private void setupWindowInsets() {
         try {
@@ -246,34 +234,29 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                             androidx.core.view.WindowInsetsCompat.Type.systemBars()
                         );
 
-                        // Add bottom margin to footer container to push it above navigation bar
-                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        android.view.View footerContainer = findViewById(R.id.footer_container);
                         if (footerContainer != null) {
-                            // Set bottom margin to navigation bar height to ensure footer is visible
                             int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                            Log.d("ChildList", "Setting footer bottom margin: " + bottomMargin + "dp");
                             android.view.ViewGroup.MarginLayoutParams params = 
                                 (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
                             if (params != null) {
                                 params.bottomMargin = bottomMargin;
                                 footerContainer.setLayoutParams(params);
-                                Log.d("ChildList", "Footer margin applied successfully");
                             }
                         }
                         
-                        // No padding on root layout to avoid touch interference
                         view.setPadding(0, 0, 0, 0);
-
-                        // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     } catch (Exception e) {
                         Log.e("ChildList", "Error in window insets listener: " + e.getMessage());
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     }
                 });
+            } else {
+                Log.e("ChildList", "rootLayout is null - cannot setup window insets");
             }
         } catch (Exception e) {
-            Log.e("ChildList", "Error setting up window insets: " + e.getMessage());
+            Log.e("ChildList", "Error setting up window insets: " + e.getMessage(), e);
         }
     }
 }

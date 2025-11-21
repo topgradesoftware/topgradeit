@@ -101,18 +101,11 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
                 
                 Log.d("ParentFeedback", "Student theme applied successfully");
             } else {
-                // Apply unified parent theme for feedback page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for feedback
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for feedback
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Feedback");
-                
-                Log.d("ParentFeedback", "Parent theme applied successfully");
+                // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+                // System bars are already configured in onCreate() to match child list
+                // Header title is already set in onCreate()
+                Log.d("ParentFeedback", "Parent theme - system bars already configured in onCreate()");
             }
-            
-            // Apply footer theming based on user type
-            ThemeHelper.applyFooterTheme(this, userType);
             
         } catch (Exception e) {
             Log.e("ParentFeedback", "Error applying theme", e);
@@ -122,48 +115,57 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         // Set edge-to-edge display
-        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         setContentView(R.layout.activity_feedback);
-
-        // Configure status bar for dark brown background with white icons - COMPREHENSIVE FIX
+        
+        // Configure status bar for dark brown background with white icons
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // Set transparent status bar to allow header wave to cover it
             getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.dark_brown));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
+            
+            // For Android M and above, ensure white status bar icons on dark background
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 int flags = getWindow().getDecorView().getSystemUiVisibility();
+                // Clear the LIGHT_STATUS_BAR flag to ensure white icons on dark background
                 flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 getWindow().getDecorView().setSystemUiVisibility(flags);
             }
         }
+
+        // Configure status bar and navigation bar icons for Android R and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             if (getWindow().getInsetsController() != null) {
                 getWindow().getInsetsController().setSystemBarsAppearance(
-                    0, // No light icons for status bar and navigation bar (white icons on dark background)
+                    0, // No light icons for status bar (white icons on dark background)
                     android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
                 );
             }
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            int flags = getWindow().getDecorView().getSystemUiVisibility();
-            flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            }
-            getWindow().getDecorView().setSystemUiVisibility(flags);
-        }
+        
+        // Setup window insets
         setupWindowInsets();
-
-        // Apply student theme using ThemeHelper
+        
+        // Initialize Paper database
+        Paper.init(this);
+        
+        // Apply theme based on user type (only for student theme, parent theme already configured above)
         applyTheme();
 
-        ImageView back_icon = findViewById(R.id.back_icon);
-        back_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        // Initialize back button
+        ImageView backIcon = findViewById(R.id.back_icon);
+        if (backIcon != null) {
+            backIcon.setOnClickListener(v -> finish());
+        }
+        
+        // Initialize header title
+        TextView headerTitle = findViewById(R.id.header_title);
+        if (headerTitle != null) {
+            headerTitle.setText(getString(R.string.teacher_remarks));
+        }
 
         innitlization();
         // Student loading and spinner setup now handled in setupInlineFilters() -> loadStudentsAndSetupAdapter()
@@ -171,10 +173,7 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
 
 
     private void innitlization() {
-
-
         context = ParentFeedback.this;
-        Paper.init(context);
 
         // Load all constants from Paper DB
         Constant.loadFromPaper();
@@ -184,6 +183,20 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
         feedback_list = findViewById(R.id.feedback_list);
         select_child_spinner = findViewById(R.id.select_child_spinner);
         load_feedback_btn = findViewById(R.id.load_feedback_btn);
+        
+        // Ensure RecyclerView is properly initialized and visible
+        if (feedback_rcv != null) {
+            feedback_rcv.setVisibility(View.VISIBLE);
+            // Ensure layout manager is set
+            if (feedback_rcv.getLayoutManager() == null) {
+                feedback_rcv.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(context));
+            }
+            // Set empty adapter initially
+            feedback_rcv.setAdapter(new FeedbackAdaptor(new ArrayList<>()));
+            Log.d("ParentFeedback", "RecyclerView initialized with layout manager");
+        } else {
+            Log.e("ParentFeedback", "RecyclerView is null!");
+        }
 
         // Setup spinner with timetable-style configuration
         setupInlineFilters();
@@ -256,6 +269,12 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
                         Log.d("ParentFeedback", "onItemSelected() - Selected student: " + selectedStudent.getFullName());
                         Log.d("ParentFeedback", "onItemSelected() - Student ID: " + seleted_child_id);
                         
+                        // Auto-load feedback when child is selected (like other screens)
+                        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                            Log.d("ParentFeedback", "Auto-loading feedback for selected child");
+                            Load_Feedback();
+                        }
+                        
                         // Popup will dismiss automatically when item is selected (timetable behavior)
                     }
                 }
@@ -280,8 +299,41 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
                 }
                 if (index > -1) {
                     select_child_spinner.setSelection(index);
+                    seleted_child_id = studentList.get(index).getUniqueId();
+                    load_feedback_btn.setEnabled(true);
                     Log.d("ParentFeedback", "Pre-selected child from intent: " + studentList.get(index).getFullName());
+                    // Auto-load feedback for pre-selected child
+                    if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                        // Post to ensure UI is ready
+                        select_child_spinner.post(() -> Load_Feedback());
+                    }
                 }
+            } else if (studentList.size() == 1) {
+                // Auto-select and load if only one child
+                seleted_child_id = studentList.get(0).getUniqueId();
+                select_child_spinner.setSelection(0);
+                load_feedback_btn.setEnabled(true);
+                Log.d("ParentFeedback", "Auto-selected single child: " + studentList.get(0).getFullName());
+                // Auto-load feedback for single child
+                if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                    // Post to ensure UI is ready
+                    select_child_spinner.post(() -> Load_Feedback());
+                }
+            } else if (studentList.size() > 1) {
+                // If multiple children, check if spinner already has a selection
+                select_child_spinner.post(() -> {
+                    int selectedPosition = select_child_spinner.getSelectedItemPosition();
+                    if (selectedPosition >= 0 && selectedPosition < studentList.size()) {
+                        SharedStudent selectedStudent = studentList.get(selectedPosition);
+                        seleted_child_id = selectedStudent.getUniqueId();
+                        load_feedback_btn.setEnabled(true);
+                        Log.d("ParentFeedback", "Found existing selection: " + selectedStudent.getFullName());
+                        // Auto-load feedback for existing selection
+                        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                            Load_Feedback();
+                        }
+                    }
+                });
             }
 
             Log.d("ParentFeedback", "setupInlineFilters() - Child spinner enabled with " + studentList.size() + " students");
@@ -318,46 +370,103 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<FeedbackModel> call, Response<FeedbackModel> response) {
                 Log.d("ParentFeedback", "API Response received");
+                progress_bar.setVisibility(View.GONE);
+                
                 if (response.body() != null) {
                     Log.d("ParentFeedback", "Response body not null");
                     Log.d("ParentFeedback", "SharedStatus code: " + response.body().getStatus().getCode());
                     Log.d("ParentFeedback", "SharedStatus message: " + response.body().getStatus().getMessage());
                     
                     if (response.body().getStatus().getCode().equals("1000")) {
-                        final List<Feedback> list = response.body().getFeedback();
+                        List<Feedback> list = response.body().getFeedback();
+                        
+                        // Handle null list
+                        if (list == null) {
+                            Log.e("ParentFeedback", "Feedback list is null");
+                            list = new ArrayList<>();
+                        }
+                        
                         Log.d("ParentFeedback", "Feedback list size: " + list.size());
+                        Log.d("ParentFeedback", "Feedback list content: " + list);
+                        
+                        // Log each feedback item
+                        for (int i = 0; i < list.size(); i++) {
+                            Feedback fb = list.get(i);
+                            Log.d("ParentFeedback", "Feedback[" + i + "]: Teacher=" + 
+                                (fb.getTeacherName() != null ? fb.getTeacherName() : "null") +
+                                ", Subject=" + (fb.getSubject_name() != null ? fb.getSubject_name() : "null") +
+                                ", Text=" + (fb.getFeedback() != null ? fb.getFeedback() : "null"));
+                        }
 
                         if (list.size() > 0) {
-                            Log.d("ParentFeedback", "Setting adapter with feedback data");
-                            feedback_rcv.setAdapter(new FeedbackAdaptor(list));
+                            Log.d("ParentFeedback", "Setting adapter with " + list.size() + " items");
+                            
+                            // Ensure RecyclerView is properly configured
+                            if (feedback_rcv.getLayoutManager() == null) {
+                                Log.d("ParentFeedback", "Setting LinearLayoutManager for RecyclerView");
+                                feedback_rcv.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(context));
+                            }
+                            
+                            // Ensure RecyclerView is visible
+                            feedback_rcv.setVisibility(View.VISIBLE);
+                            
+                            // Create and set adapter
+                            FeedbackAdaptor adapter = new FeedbackAdaptor(list);
+                            feedback_rcv.setAdapter(adapter);
+                            
+                            // Force layout update (matching working code pattern)
+                            feedback_rcv.requestLayout();
+                            feedback_rcv.invalidate();
+                            
                             feedback_list.setVisibility(View.VISIBLE);
-                            progress_bar.setVisibility(View.GONE);
+                            
+                            Log.d("ParentFeedback", "Feedback adapter set successfully");
+                            Log.d("ParentFeedback", "RecyclerView child count: " + feedback_rcv.getChildCount());
+                            Log.d("ParentFeedback", "Adapter item count: " + adapter.getItemCount());
+                            Log.d("ParentFeedback", "RecyclerView visibility: " + (feedback_rcv.getVisibility() == View.VISIBLE ? "VISIBLE" : "NOT VISIBLE"));
+                            Log.d("ParentFeedback", "RecyclerView width: " + feedback_rcv.getWidth() + ", height: " + feedback_rcv.getHeight());
+                            
+                            // Post a delayed check to see if items are displayed
+                            feedback_rcv.postDelayed(() -> {
+                                Log.d("ParentFeedback", "=== DELAYED CHECK ===");
+                                Log.d("ParentFeedback", "RecyclerView child count after delay: " + feedback_rcv.getChildCount());
+                                Log.d("ParentFeedback", "Adapter item count after delay: " + adapter.getItemCount());
+                                Log.d("ParentFeedback", "RecyclerView is attached to window: " + feedback_rcv.isAttachedToWindow());
+                                Log.d("ParentFeedback", "=====================");
+                            }, 1000);
                         } else {
                             Log.d("ParentFeedback", "No feedback data available");
                             Toast.makeText(context, "No Feedback Uploaded", Toast.LENGTH_SHORT).show();
 
-                            feedback_rcv.setAdapter(new FeedbackAdaptor(list));
+                            // Set empty adapter to clear previous data
+                            feedback_rcv.setAdapter(new FeedbackAdaptor(new ArrayList<>()));
                             feedback_list.setVisibility(View.GONE);
-                            progress_bar.setVisibility(View.GONE);
                         }
 
                     } else {
-                        progress_bar.setVisibility(View.GONE);
                         Toast.makeText(context, response.body().getStatus().getMessage(), Toast.LENGTH_SHORT).show();
-
+                        // Clear RecyclerView on error
+                        feedback_rcv.setAdapter(new FeedbackAdaptor(new ArrayList<>()));
+                        feedback_list.setVisibility(View.GONE);
                     }
                 } else {
-                    progress_bar.setVisibility(View.GONE);
-
-                    Toast.makeText(context, response.raw().message(), Toast.LENGTH_SHORT).show();
-
+                    Log.e("ParentFeedback", "Response body is null");
+                    Toast.makeText(context, "Failed to load feedback. Please try again.", Toast.LENGTH_SHORT).show();
+                    // Clear RecyclerView on error
+                    feedback_rcv.setAdapter(new FeedbackAdaptor(new ArrayList<>()));
+                    feedback_list.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<FeedbackModel> call, Throwable e) {
                 e.printStackTrace();
+                Log.e("ParentFeedback", "API call failed", e);
                 progress_bar.setVisibility(View.GONE);
+                Toast.makeText(context, "Failed to load feedback: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                // Clear RecyclerView on failure
+                feedback_rcv.setAdapter(new FeedbackAdaptor(new ArrayList<>()));
+                feedback_list.setVisibility(View.GONE);
             }
         });
     }
@@ -375,7 +484,8 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
     
     /**
      * Setup window insets to respect system bars (status bar, navigation bar, notches)
-     * This ensures the content won't be hidden behind the system bars
+     * Uses margin approach like child list - footer pushed above navigation bar,
+     * navigation bar's dark_brown color creates transparent/blended appearance
      */
     private void setupWindowInsets() {
         try {
@@ -388,34 +498,29 @@ public class ParentFeedback extends AppCompatActivity implements View.OnClickLis
                             androidx.core.view.WindowInsetsCompat.Type.systemBars()
                         );
 
-                        // Add bottom margin to footer container to push it above navigation bar
-                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        android.view.View footerContainer = findViewById(R.id.footer_container);
                         if (footerContainer != null) {
-                            // Set bottom margin to navigation bar height to ensure footer is visible
                             int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                            Log.d("ParentFeedback", "Setting footer bottom margin: " + bottomMargin + "dp");
                             android.view.ViewGroup.MarginLayoutParams params = 
                                 (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
                             if (params != null) {
                                 params.bottomMargin = bottomMargin;
                                 footerContainer.setLayoutParams(params);
-                                Log.d("ParentFeedback", "Footer margin applied successfully");
                             }
                         }
                         
-                        // No padding on root layout to avoid touch interference
                         view.setPadding(0, 0, 0, 0);
-
-                        // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     } catch (Exception e) {
                         Log.e("ParentFeedback", "Error in window insets listener: " + e.getMessage());
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     }
                 });
+            } else {
+                Log.e("ParentFeedback", "rootLayout is null - cannot setup window insets");
             }
         } catch (Exception e) {
-            Log.e("ParentFeedback", "Error setting up window insets: " + e.getMessage());
+            Log.e("ParentFeedback", "Error setting up window insets: " + e.getMessage(), e);
         }
     }
 }

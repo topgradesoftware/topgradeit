@@ -1,158 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/_8sdp"
-    android:background="?android:windowBackground"
-    android:layout_margin="@dimen/_4sdp">
+    android:layout_marginHorizontal="@dimen/_16sdp"
+    android:layout_marginVertical="@dimen/_8sdp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/parent_primary">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Top Section: Class, Subject, Calendar Icon, Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subject: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_12sdp"
+            android:background="@color/parent_primary">
 
-        <TextView
-            android:id="@+id/tv_subject_name"
-            android:layout_width="0dp"
+            <!-- Class Name (Left) -->
+            <TextView
+                android:id="@+id/tv_class_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10th"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start|center_vertical" />
+
+            <!-- Separator -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="•"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_4sdp" />
+
+            <!-- Subject Name -->
+            <TextView
+                android:id="@+id/tv_subject_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Math"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start|center_vertical"
+                android:visibility="gone" />
+
+            <!-- Calendar Icon (Center) -->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_calendar"
+                app:tint="@color/white"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_12sdp" />
+
+            <!-- Date (Right) -->
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2025-11-20"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="end|center_vertical" />
+
+        </LinearLayout>
+
+        <!-- Bottom Section: Body Content with Arrow -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:padding="@dimen/_12sdp"
+            android:minHeight="60dp">
+
+            <!-- Body/Description Text -->
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="test"
+                android:textColor="@color/parent_primary"
+                android:textSize="14sp"
+                android:fontFamily="@font/quicksand_medium"
+                android:gravity="start|center_vertical"
+                android:maxLines="3"
+                android:ellipsize="end" />
+
+            <!-- Arrow Icon (Right) -->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/parent_primary"
+                android:contentDescription="View details" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Class: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_class_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Section: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_section_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Student: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_student_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Teacher: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_teacher_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date: "
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="?android:textColorPrimary" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description:"
-        android:textStyle="bold"
-        android:textColor="?android:textColorPrimary"
-        android:layout_marginBottom="4dp" />
-
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?android:textColorPrimary"
-        android:background="#F5F5F5"
-        android:padding="8dp" />
-
-</LinearLayout> 
+</com.google.android.material.card.MaterialCardView>

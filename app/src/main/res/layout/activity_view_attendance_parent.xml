@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
+    tools:context=".Parent.Activity.AttendanceMenu">
 
-    <!-- Background wave -->
+    <!-- ===== HEADER WAVE ===== -->
     <ImageView
         android:id="@+id/header_wave"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_wave_dark_brown"
         android:contentDescription="@string/header_wave_background"
@@ -19,38 +22,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ic_arrow_back -->
+    <!-- ===== BACK BUTTON ===== -->
     <ImageView
         android:id="@+id/back_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:padding="@dimen/_8sdp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
         app:tint="@color/white"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onBackPressed"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="parent" 
-        android:contentDescription="@string/back_button"/>
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Header Title -->
+    <!-- ===== HEADER TITLE ===== -->
     <TextView
         android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Attendance Menu"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:fontFamily="@font/quicksand_bold"
-        android:lineSpacingExtra="2dp"
-        android:textAlignment="center"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="@+id/header_wave"
-        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Content Container -->
     <LinearLayout
@@ -111,68 +112,43 @@
             app:iconPadding="8dp"
             app:iconGravity="textStart" />
 
-
-        <!-- Test Text -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="If you can see this text, the menu is working!"
-            android:textColor="@color/parent_primary"
-            android:textSize="14sp"
-            android:fontFamily="@font/quicksand_medium"
-            android:layout_marginTop="20dp" />
-
     </LinearLayout>
 
-    <!-- Footer Container -->
+    <!-- ===== FOOTER ===== -->
     <LinearLayout
         android:id="@+id/footer_container"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/footer_background_brown"
-        android:elevation="8dp"
-        android:minHeight="40dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
+        android:background="@color/dark_brown"
+        android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Footer Content -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:gravity="center_vertical|center_horizontal">
+            android:padding="6dp">
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
                 android:src="@drawable/topgrade_logo"
                 android:contentDescription="@string/topgrade_logo"
                 android:scaleType="fitCenter" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/quicksand_bold"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                android:maxLines="1"
+                android:layout_height="wrap_content"
                 android:text="@string/powered_by_topgrade_software"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:fontFamily="@font/quicksand_bold" />
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

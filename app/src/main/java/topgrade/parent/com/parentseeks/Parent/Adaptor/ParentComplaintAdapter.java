@@ -48,13 +48,19 @@ public class ParentComplaintAdapter extends RecyclerView.Adapter<ParentComplaint
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ParentComplaintModel.Complaint complaint = complaints.get(position);
         
-        holder.titleText.setText(complaint.getComplaintTitle());
-        holder.descriptionText.setText(complaint.getComplaintDescription());
-        holder.statusText.setText(complaint.getComplaintStatus());
+        holder.titleText.setText(complaint.getComplaintTitle() != null ? complaint.getComplaintTitle() : "");
+        holder.descriptionText.setText(complaint.getComplaintDescription() != null ? complaint.getComplaintDescription() : "");
+        
+        // Handle null status safely
+        String complaintStatus = complaint.getComplaintStatus();
+        if (complaintStatus == null || complaintStatus.isEmpty()) {
+            complaintStatus = "Unknown";
+        }
+        holder.statusText.setText(complaintStatus);
         holder.dateText.setText(formatDate(complaint.getComplaintDate()));
         
         // Set status color based on complaint status
-        String status = complaint.getComplaintStatus().toLowerCase();
+        String status = complaintStatus.toLowerCase();
         if (status.contains("pending")) {
             holder.statusText.setTextColor(context.getResources().getColor(R.color.warning_500));
         } else if (status.contains("solved") || status.contains("resolved")) {

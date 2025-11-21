@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -57,7 +61,16 @@ public class ExamManagementDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() - ExamManagementDashboard started");
         
+        // Set edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         setContentView(R.layout.activity_exam_management_dashboard);
+        
+        // Configure status bar and navigation bar
+        setupSystemBars();
+        
+        // Setup window insets to respect system bars
+        setupWindowInsets();
 
         // Initialize Paper DB and load constants
         initializeData();
@@ -65,6 +78,95 @@ public class ExamManagementDashboard extends AppCompatActivity {
         initViews();
         setupListeners();
         showMainMenu();
+    }
+    
+    /**
+     * Setup status bar and navigation bar configuration
+     */
+    private void setupSystemBars() {
+        // Configure status bar for navy blue background with white icons
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // Set transparent status bar to allow header wave to cover it
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navy_blue));
+            
+            // For Android M and above, ensure white status bar icons on dark background
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                int flags = getWindow().getDecorView().getSystemUiVisibility();
+                // Clear the LIGHT_STATUS_BAR flag to ensure white icons on dark background
+                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                getWindow().getDecorView().setSystemUiVisibility(flags);
+            }
+        }
+        
+        // Configure status bar and navigation bar icons for Android R and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (getWindow().getInsetsController() != null) {
+                getWindow().getInsetsController().setSystemBarsAppearance(
+                    0, // No light icons for status bar (white icons on dark background)
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                );
+            }
+        }
+    }
+    
+    /**
+     * Setup window insets to respect system bars (status bar, navigation bar, notches)
+     * This ensures the footer is visible above the navigation bar, not hidden behind it
+     */
+    private void setupWindowInsets() {
+        try {
+            android.view.View rootLayout = findViewById(android.R.id.content);
+            
+            if (rootLayout != null) {
+                androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                    try {
+                        androidx.core.graphics.Insets systemInsets = insets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.systemBars()
+                        );
+
+                        // Add bottom margin to footer container to push it above navigation bar
+                        LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        if (footerContainer != null) {
+                            // Set bottom margin to navigation bar height to ensure footer is visible
+                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            android.view.ViewGroup.LayoutParams layoutParams = footerContainer.getLayoutParams();
+                            if (layoutParams instanceof androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) {
+                                androidx.constraintlayout.widget.ConstraintLayout.LayoutParams params = 
+                                    (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) layoutParams;
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
+                                Log.d(TAG, "Footer bottom margin set to: " + bottomMargin + " (ConstraintLayout)");
+                            } else if (layoutParams instanceof android.view.ViewGroup.MarginLayoutParams) {
+                                android.view.ViewGroup.MarginLayoutParams params = 
+                                    (android.view.ViewGroup.MarginLayoutParams) layoutParams;
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
+                                Log.d(TAG, "Footer bottom margin set to: " + bottomMargin + " (MarginLayoutParams)");
+                            }
+                        } else {
+                            Log.w(TAG, "footer_container not found - cannot set bottom margin");
+                        }
+                        
+                        // No padding on root layout to avoid touch interference
+                        view.setPadding(0, 0, 0, 0);
+
+                        // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
+                        return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error in window insets listener: " + e.getMessage(), e);
+                        return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                    }
+                });
+                
+                // Force initial application of insets
+                androidx.core.view.ViewCompat.requestApplyInsets(rootLayout);
+            } else {
+                Log.e(TAG, "rootLayout is null - cannot setup window insets");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up window insets: " + e.getMessage(), e);
+        }
     }
     
     /**

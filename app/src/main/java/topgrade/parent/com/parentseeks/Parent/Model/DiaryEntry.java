@@ -41,6 +41,62 @@ public class DiaryEntry {
     @Expose
     private String imageUrl;
 
+    @SerializedName("body")
+    @Expose
+    private String body;
+
+    @SerializedName("full_name")
+    @Expose
+    private String fullName;
+
+    @SerializedName("picture")
+    @Expose
+    private String picture;
+
+    @SerializedName("parent_id")
+    @Expose
+    private String parentId;
+
+    @SerializedName("unique_id")
+    @Expose
+    private String uniqueId;
+
+    @SerializedName("session_id")
+    @Expose
+    private String sessionId;
+
+    @SerializedName("student_class_id")
+    @Expose
+    private String studentClassId;
+
+    @SerializedName("is_active")
+    @Expose
+    private Integer isActive;
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public String getSubjectId() {
         return subjectId;
     }

@@ -1,11 +1,9 @@
 package topgrade.parent.com.parentseeks.Parent.Activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -64,8 +62,7 @@ public class FeeChalan extends AppCompatActivity implements OnClickListener, Vie
     List<Challan> challanList = new ArrayList<>();
     Context context;
     SearchableSpinner select_child_spinner;
-    Button search_filter;
-    ImageView back_icon, Cancel;
+    ImageView back_icon;
 
     String seleted_child_id = "";
     ArrayAdapter<String> child_adaptor;
@@ -76,8 +73,6 @@ public class FeeChalan extends AppCompatActivity implements OnClickListener, Vie
     String campus_id;
     int scrollX = 0;
     ProgressBar progress_bar;
-    TextView show_advanced_filter;
-    AlertDialog alertDialog;
 
     private void applyTheme() {
         try {
@@ -129,7 +124,7 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                 ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
                 ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for challan
                 ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for challan
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
+                ParentThemeHelper.setFooterVisibility(this, false); // Footer removed
                 ParentThemeHelper.setHeaderTitle(this, "Fee Challan");
                 
                 // Ensure header background is brown for parent theme
@@ -278,10 +273,9 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
 
         back_icon = findViewById(R.id.back_icon);
         horizontal_scroll = findViewById(R.id.table_scroll);
-        show_advanced_filter = findViewById(R.id.show_advanced_filter);
+        select_child_spinner = findViewById(R.id.select_child_spinner);
         myrecycleview = findViewById(R.id.attendance_rcv);
         progress_bar = findViewById(R.id.progress_bar);
-        show_advanced_filter.setOnClickListener(FeeChalan.this);
         back_icon.setOnClickListener(FeeChalan.this);
         
         // Configure RecyclerView for proper height adjustment
@@ -302,11 +296,57 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
             studentList = new ArrayList<>();
             Toast.makeText(context, "No students found. Please add students first.", Toast.LENGTH_SHORT).show();
         }
-        child_adaptor = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1,
-                student_name_list);
+        
+        // Setup child spinner adapter - use same layout as subject-wise attendance
+        child_adaptor = new ArrayAdapter<>(context, R.layout.spinner_selected_item, student_name_list);
+        child_adaptor.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        if (select_child_spinner != null) {
+            select_child_spinner.setAdapter(child_adaptor);
+            if (!student_name_list.isEmpty()) {
+                select_child_spinner.setTitle("Select Child");
+            }
+            
+            // Setup spinner item selection listener
+            select_child_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // Check if studentList is not null and position is valid
+                    if (studentList != null && position < studentList.size() && position >= 0) {
+                        seleted_child_id = studentList.get(position).getUniqueId();
+                        Log.d("FeeChalan", "=== STUDENT SELECTION DEBUG ===");
+                        Log.d("FeeChalan", "Selected student position: " + position);
+                        Log.d("FeeChalan", "Selected student name: " + studentList.get(position).getFullName());
+                        Log.d("FeeChalan", "Selected student ID: " + seleted_child_id);
+                        Log.d("FeeChalan", "=== END STUDENT SELECTION DEBUG ===");
+                        
+                        // Automatically load challan when student is selected
+                        if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                            load_attendance(parent_id, campus_id, seleted_child_id);
+                        }
+                    } else {
+                        Log.e("FeeChalan", "Invalid student selection - position: " + position + ", studentList size: " + (studentList != null ? studentList.size() : "null"));
+                    }
+                }
 
-
-        show_advanced_filter.performClick();
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Do nothing
+                }
+            });
+            
+            // Auto-select if only one child
+            if (studentList != null && studentList.size() == 1) {
+                seleted_child_id = studentList.get(0).getUniqueId();
+                select_child_spinner.setSelection(0);
+                // Auto-load challan for single child
+                if (seleted_child_id != null && !seleted_child_id.isEmpty()) {
+                    load_attendance(parent_id, campus_id, seleted_child_id);
+                }
+            } else if (studentList != null && studentList.size() > 1) {
+                // Multiple children - user can click spinner to select
+                // SearchableSpinner will show dialog when clicked
+            }
+        }
 
 
     }
@@ -456,79 +496,8 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.search_filter) {
-            alertDialog.dismiss();
-            load_attendance(parent_id, campus_id, seleted_child_id);
-
-        } else if (id == R.id.back_icon) {
+        if (id == R.id.back_icon) {
             finish();
-
-        } else if (id == R.id.Cancel) {
-            alertDialog.dismiss();
-
-        } else if (id == R.id.show_advanced_filter) {
-            LayoutInflater inflater = this.getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.fee_chalan_advanced_search_layout, null);
-
-            select_child_spinner = dialogView.findViewById(R.id.select_child_spinner);
-            search_filter = dialogView.findViewById(R.id.search_filter);
-
-            // Apply parent theme colors programmatically
-            // MaterialButton will use app:backgroundTint from XML
-            // SearchableSpinner will inherit from MaterialCardView styling
-
-            select_child_spinner.setTitle("Select Child");
-            // Removed setPositiveButton("OK") to enable auto-dismiss behavior like staff timetable
-            search_filter.setOnClickListener(FeeChalan.this);
-            Cancel = dialogView.findViewById(R.id.Cancel);
-            Cancel.setOnClickListener(FeeChalan.this);
-
-            select_child_spinner.setAdapter(child_adaptor);
-
-            select_child_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    // Check if studentList is not null and position is valid
-                    if (studentList != null && position < studentList.size()) {
-                        seleted_child_id = studentList.get(position).getUniqueId();
-                        Log.d("FeeChalan", "=== STUDENT SELECTION DEBUG ===");
-                        Log.d("FeeChalan", "Selected student position: " + position);
-                        Log.d("FeeChalan", "Selected student name: " + studentList.get(position).getFullName());
-                        Log.d("FeeChalan", "Selected student ID: " + seleted_child_id);
-                        Log.d("FeeChalan", "=== END STUDENT SELECTION DEBUG ===");
-                    } else {
-                        Log.e("FeeChalan", "Invalid student selection - position: " + position + ", studentList size: " + (studentList != null ? studentList.size() : "null"));
-                        Toast.makeText(context, "Invalid student selection.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Do nothing
-                }
-            });
-
-            if (studentList != null && studentList.size() > 1) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-                dialogBuilder.setView(dialogView);
-
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else {
-                // Check if studentList is not null and has at least one element
-                if (studentList != null && studentList.size() > 0) {
-                    Log.d("FeeChalan", "=== AUTO-SELECT FIRST STUDENT DEBUG ===");
-                    Log.d("FeeChalan", "StudentList size: " + studentList.size());
-                    seleted_child_id = studentList.get(0).getUniqueId();
-                    Log.d("FeeChalan", "Auto-selected student name: " + studentList.get(0).getFullName());
-                    Log.d("FeeChalan", "Auto-selected student ID: " + seleted_child_id);
-                    Log.d("FeeChalan", "=== END AUTO-SELECT DEBUG ===");
-                    load_attendance(parent_id, campus_id, seleted_child_id);
-                } else {
-                    Log.e("FeeChalan", "No students available for auto-selection");
-                    Toast.makeText(context, "No students available.", Toast.LENGTH_SHORT).show();
-                }
-            }
         }
     }
 
@@ -570,21 +539,6 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                             androidx.core.view.WindowInsetsCompat.Type.systemBars()
                         );
 
-                        // Add bottom margin to footer container to push it above navigation bar
-                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
-                        if (footerContainer != null) {
-                            // Set bottom margin to navigation bar height to ensure footer is visible
-                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                            Log.d("FeeChalan", "Setting footer bottom margin: " + bottomMargin + "dp");
-                            android.view.ViewGroup.MarginLayoutParams params = 
-                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
-                            if (params != null) {
-                                params.bottomMargin = bottomMargin;
-                                footerContainer.setLayoutParams(params);
-                                Log.d("FeeChalan", "Footer margin applied successfully");
-                            }
-                        }
-                        
                         // No padding on root layout to avoid touch interference
                         view.setPadding(0, 0, 0, 0);
 

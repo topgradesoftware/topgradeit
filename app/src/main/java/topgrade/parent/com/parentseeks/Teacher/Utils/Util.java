@@ -96,9 +96,10 @@ public class Util {
             whatsappIntent.putExtra(Intent.EXTRA_TEXT, message);
             whatsappIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(whatsappIntent);
+            // Toast removed when data is available
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(context, "WhatsApp not installed");
+            // Toast removed when data is available - only log error
         }
     }
 
@@ -133,7 +134,7 @@ public class Util {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
-                showToast(context, "Message copied to clipboard. Paste it in WhatsApp.");
+                // Toast removed when data is available
             } else {
                 String encodedMessage = Uri.encode(message);
                 String url = "https://api.whatsapp.com/send?phone=" + formattedPhone + "&text=" + encodedMessage;
@@ -142,10 +143,11 @@ public class Util {
                 intent.setPackage(packageName);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                // Toast removed when data is available
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(context, "WhatsApp not installed");
+            // Toast removed when data is available - only log error
         }
     }
 
@@ -191,9 +193,10 @@ public class Util {
             intent.setData(Uri.parse("sms:" + number));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            // Toast removed when data is available
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(context, "Application Not Found");
+            // Toast removed when data is available - only log error
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.google.android.material.button.MaterialButton;
 import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -154,6 +155,19 @@ public class PaymentHistory extends AppCompatActivity implements View.OnClickLis
                     androidx.core.graphics.Insets systemInsets = insets.getInsets(
                         androidx.core.view.WindowInsetsCompat.Type.systemBars()
                     );
+
+                    // Add bottom margin to footer container to push it above navigation bar
+                    LinearLayout footerContainer = findViewById(R.id.footer_container);
+                    if (footerContainer != null) {
+                        // Set bottom margin to navigation bar height to ensure footer is visible
+                        int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                        android.view.ViewGroup.MarginLayoutParams params = 
+                            (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
+                        if (params != null) {
+                            params.bottomMargin = bottomMargin;
+                            footerContainer.setLayoutParams(params);
+                        }
+                    }
 
                     // No padding on root layout to avoid touch interference
                     view.setPadding(0, 0, 0, 0);

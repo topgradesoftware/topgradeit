@@ -218,7 +218,7 @@ public class AcademicDashboard extends AppCompatActivity {
         java.util.List<topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard> cards = new java.util.ArrayList<>();
         
         cards.add(new topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard(
-            1, "SharedStudent List", "View SharedStudent Details", R.drawable.student,
+            1, "Student List", "View Student Details", R.drawable.student,
             topgrade.parent.com.parentseeks.Teacher.Activity.StaffStudentList.class, null, "student_list"));
             
         cards.add(new topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard(
@@ -234,7 +234,7 @@ public class AcademicDashboard extends AppCompatActivity {
                             topgrade.parent.com.parentseeks.Teacher.Activites.Activity.StaffProgress.class, null, "progress_report"));
             
         cards.add(new topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard(
-            5, "Feedback Students", "SharedStudent Feedback", R.drawable.feedback,
+            5, "Feedback Students", "Student Feedback", R.drawable.feedback,
             topgrade.parent.com.parentseeks.Teacher.Activity.FeedbackMenu.class, null, "feedback"));
             
         cards.add(new topgrade.parent.com.parentseeks.Teacher.Model.StaffDashboardCard(

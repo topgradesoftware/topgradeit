@@ -244,7 +244,7 @@ public interface BaseApiService {
 
 
     @Headers("Content-Type:application/json")
-    @POST("api.php?page=teacher/load_exam_session")
+    @POST("api.php?page=parent/load_datesheet")
     Call<DateSheetResponse> loadStudentDateSheet(@Body RequestBody body);
 
     @Headers("Content-Type:application/json")

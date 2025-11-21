@@ -20,83 +20,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Back Button -->
-    <ImageView
-        android:id="@+id/back_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:padding="@dimen/_8sdp"
-        android:src="@drawable/ic_arrow_back"
-        app:tint="@color/white"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/back_button"/>
-
-    <!-- Header Title -->
-    <TextView
-        android:id="@+id/header_title"
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/fee_challan"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:fontFamily="@font/quicksand_bold"
-        android:lineSpacingExtra="2dp"
-        android:textAlignment="center"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="@+id/header_wave"
-        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Advanced Filter Button -->
-    <TextView
-        android:id="@+id/show_advanced_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:minHeight="48dp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/select_children"
-        android:text="@string/select_children"
-        android:textColor="@color/white"
-        android:fontFamily="@font/quicksand_bold"
-        android:drawablePadding="@dimen/_10sdp"
-        app:drawableEndCompat="@drawable/ic_arrow_drop_down_white_24dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave" />
+        <!-- ic_arrow_back -->
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back_button"/>
+
+        <!-- Student Selection -->
+        <components.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/select_child_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/spinner_background"
+            android:gravity="start"
+            android:contentDescription="@string/select_student" />
+
+    </LinearLayout>
 
     <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        android:indeterminateOnly="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/header_wave"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Synchronized Scrollable Table Container -->
+    <!-- Horizontal Scroll Container for wide tables (landscape support) -->
     <HorizontalScrollView
         android:id="@+id/table_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/fee_challan_table"
         android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/footer_container"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="false"
+        android:contentDescription="@string/fee_challan_table"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -273,55 +263,5 @@
         </LinearLayout>
 
     </HorizontalScrollView>
-
-    <!-- Footer Container -->
-    <LinearLayout
-        android:id="@+id/footer_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="@color/dark_brown">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical|center_horizontal">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/topgrade_logo"
-                    android:contentDescription="@string/topgrade_logo"
-                    android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/quicksand_bold"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/powered_by_topgrade_software"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

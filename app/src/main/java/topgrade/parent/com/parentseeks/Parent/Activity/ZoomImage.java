@@ -47,6 +47,14 @@ public class ZoomImage extends AppCompatActivity {
     private TextView header_title;
     private ImageView headerWave;
     private LinearLayout footerContainer;
+    
+    // Multiple images support
+    private java.util.ArrayList<String> imageUrls;
+    private int currentImageIndex = 0;
+    private LinearLayout navigationContainer;
+    private ImageView btnPrevious;
+    private ImageView btnNext;
+    private TextView imageCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,12 @@ public class ZoomImage extends AppCompatActivity {
         progess_bar = findViewById(R.id.progess_bar);
         back_icon = findViewById(R.id.back_icon);
         header_title = findViewById(R.id.header_title);
+        
+        // Initialize multiple images navigation views
+        navigationContainer = findViewById(R.id.navigation_container);
+        btnPrevious = findViewById(R.id.btn_previous);
+        btnNext = findViewById(R.id.btn_next);
+        imageCounter = findViewById(R.id.image_counter);
 
         // Setup back button click listener
         back_icon.setOnClickListener(v -> finish());
@@ -257,14 +271,42 @@ int flags = getWindow().getDecorView().getSystemUiVisibility();
     
     /**
      * Handle image loading with improved intent handling
+     * Supports both single image and multiple images with navigation
      */
     private void handleImageLoading() {
         try {
-            // Use Objects.requireNonNull for safer intent handling
-            if (Objects.requireNonNull(getIntent()).hasExtra("image_url")) {
-                loadImage(getIntent().getStringExtra("image_url"), getIntent().getStringExtra("name"));
-            } else if (getIntent().hasExtra("link")) {
-                loadImage(getIntent().getStringExtra("link"), getIntent().getStringExtra("name"));
+            Intent intent = Objects.requireNonNull(getIntent());
+            
+            // Check if multiple images are provided
+            if (intent.hasExtra("image_urls")) {
+                // Multiple images mode
+                imageUrls = intent.getStringArrayListExtra("image_urls");
+                currentImageIndex = intent.getIntExtra("current_index", 0);
+                
+                if (imageUrls == null || imageUrls.isEmpty()) {
+                    Toast.makeText(this, "No images provided", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+                
+                // Ensure current index is valid
+                if (currentImageIndex < 0 || currentImageIndex >= imageUrls.size()) {
+                    currentImageIndex = 0;
+                }
+                
+                // Setup navigation controls
+                setupImageNavigation();
+                
+                // Load the current image
+                String imageName = intent.getStringExtra("name");
+                loadImage(imageUrls.get(currentImageIndex), imageName);
+                
+            } else if (intent.hasExtra("image_url")) {
+                // Single image mode
+                loadImage(intent.getStringExtra("image_url"), intent.getStringExtra("name"));
+            } else if (intent.hasExtra("link")) {
+                // Legacy single image mode
+                loadImage(intent.getStringExtra("link"), intent.getStringExtra("name"));
             } else {
                 Toast.makeText(this, "No image data provided", Toast.LENGTH_SHORT).show();
                 finish();
@@ -278,6 +320,125 @@ int flags = getWindow().getDecorView().getSystemUiVisibility();
             Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+    
+    /**
+     * Setup navigation controls for multiple images
+     */
+    private void setupImageNavigation() {
+        if (imageUrls == null || imageUrls.size() <= 1) {
+            // Hide navigation if only one or no images
+            if (navigationContainer != null) {
+                navigationContainer.setVisibility(View.GONE);
+            }
+            return;
+        }
+        
+        // Show navigation controls
+        if (navigationContainer != null) {
+            navigationContainer.setVisibility(View.VISIBLE);
+            
+            // Set background based on user theme
+            try {
+                String userType = Paper.book().read(Constants.User_Type, "");
+                if (userType != null && userType.equals("STUDENT")) {
+                    // Student theme - Teal
+                    navigationContainer.setBackgroundResource(R.drawable.footer_background_teal);
+                } else if (userType != null && (userType.equals("STAFF") || userType.equals("TEACHER") || userType.equals("Teacher"))) {
+                    // Staff theme - Navy Blue
+                    navigationContainer.setBackgroundResource(R.drawable.footer_background_staff_navy);
+                } else {
+                    // Parent theme - Dark Brown (default)
+                    navigationContainer.setBackgroundResource(R.drawable.footer_background_brown);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error setting navigation background theme", e);
+                // Default to parent theme
+                navigationContainer.setBackgroundResource(R.drawable.footer_background_brown);
+            }
+        }
+        
+        // Update image counter
+        updateImageCounter();
+        
+        // Setup previous button
+        if (btnPrevious != null) {
+            btnPrevious.setOnClickListener(v -> showPreviousImage());
+            // Disable if on first image
+            btnPrevious.setAlpha(currentImageIndex == 0 ? 0.5f : 1.0f);
+            btnPrevious.setEnabled(currentImageIndex > 0);
+        }
+        
+        // Setup next button
+        if (btnNext != null) {
+            btnNext.setOnClickListener(v -> showNextImage());
+            // Disable if on last image
+            btnNext.setAlpha(currentImageIndex >= imageUrls.size() - 1 ? 0.5f : 1.0f);
+            btnNext.setEnabled(currentImageIndex < imageUrls.size() - 1);
+        }
+    }
+    
+    /**
+     * Update image counter text (e.g., "1 / 3")
+     */
+    private void updateImageCounter() {
+        if (imageCounter != null && imageUrls != null) {
+            imageCounter.setText((currentImageIndex + 1) + " / " + imageUrls.size());
+        }
+    }
+    
+    /**
+     * Show previous image
+     */
+    private void showPreviousImage() {
+        if (imageUrls == null || currentImageIndex <= 0) {
+            return;
+        }
+        
+        currentImageIndex--;
+        String imageName = getIntent().getStringExtra("name");
+        loadImage(imageUrls.get(currentImageIndex), imageName);
+        updateNavigationButtons();
+    }
+    
+    /**
+     * Show next image
+     */
+    private void showNextImage() {
+        if (imageUrls == null || currentImageIndex >= imageUrls.size() - 1) {
+            return;
+        }
+        
+        currentImageIndex++;
+        String imageName = getIntent().getStringExtra("name");
+        loadImage(imageUrls.get(currentImageIndex), imageName);
+        updateNavigationButtons();
+    }
+    
+    /**
+     * Update navigation buttons state (enable/disable based on current position)
+     */
+    private void updateNavigationButtons() {
+        if (imageUrls == null) {
+            return;
+        }
+        
+        // Update previous button
+        if (btnPrevious != null) {
+            boolean canGoPrevious = currentImageIndex > 0;
+            btnPrevious.setAlpha(canGoPrevious ? 1.0f : 0.5f);
+            btnPrevious.setEnabled(canGoPrevious);
+        }
+        
+        // Update next button
+        if (btnNext != null) {
+            boolean canGoNext = currentImageIndex < imageUrls.size() - 1;
+            btnNext.setAlpha(canGoNext ? 1.0f : 0.5f);
+            btnNext.setEnabled(canGoNext);
+        }
+        
+        // Update counter
+        updateImageCounter();
     }
     
     /**
@@ -313,6 +474,10 @@ int flags = getWindow().getDecorView().getSystemUiVisibility();
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         progess_bar.setVisibility(View.GONE);
+                        // Update navigation buttons after image loads (for multiple images)
+                        if (imageUrls != null && imageUrls.size() > 1) {
+                            updateNavigationButtons();
+                        }
                         return false;
                     }
                 })

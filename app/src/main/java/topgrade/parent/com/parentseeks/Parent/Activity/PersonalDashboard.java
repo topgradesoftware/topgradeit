@@ -18,8 +18,16 @@ import topgrade.parent.com.parentseeks.Parent.Utils.Constants;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.LinearLayout;
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,13 +93,44 @@ public class PersonalDashboard extends AppCompatActivity implements OnMenuCLick 
             // Apply anti-flickering flags
             ActivityTransitionHelper.applyAntiFlickeringFlags(this);
             
+            // Set edge-to-edge display
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+            
             setContentView(R.layout.activity_parent_personal_dashboard);
             
             // Initialize context
             context = this;
             
+            // Set navigation bar color to dark_brown to match login screen (like StaffMainDashboard)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
+                
+                // Ensure white icons on dark background
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    int flags = getWindow().getDecorView().getSystemUiVisibility();
+                    flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                    getWindow().getDecorView().setSystemUiVisibility(flags);
+                }
+            }
+            
+            // Configure for Android R and above
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                if (getWindow().getInsetsController() != null) {
+                    getWindow().getInsetsController().setSystemBarsAppearance(
+                        0, // No light icons (white icons on dark background)
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | 
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                    );
+                }
+            }
+            
             // Apply parent theme
             applyTheme();
+            
+            // Setup window insets for footer positioning
+            setupWindowInsets();
             
             // Initialize views
             initializeViews();
@@ -582,6 +621,96 @@ public class PersonalDashboard extends AppCompatActivity implements OnMenuCLick 
             } catch (Exception fallbackError) {
                 Log.e(TAG, "Error applying fallback theme", fallbackError);
             }
+        }
+    }
+    
+    /**
+     * Setup window insets to handle footer margins like parent login screen
+     * This ensures the footer is visible above the navigation bar, not hidden behind it
+     */
+    private void setupWindowInsets() {
+        try {
+            android.view.View rootLayout = findViewById(android.R.id.content);
+            if (rootLayout != null) {
+                ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                    try {
+                        Insets systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+                        // Extend footer card to bottom of screen and add padding inside for navigation bar
+                        // This fills the navigation bar area with dark_brown color, eliminating white gap
+                        LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        CardView footerCard = null;
+                        
+                        // Find the CardView inside footer_container
+                        if (footerContainer != null && footerContainer.getChildCount() > 0) {
+                            android.view.View child = footerContainer.getChildAt(0);
+                            if (child instanceof CardView) {
+                                footerCard = (CardView) child;
+                            }
+                        }
+                        
+                        if (footerCard != null) {
+                            // Get navigation bar height
+                            int bottomPadding = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            
+                            // Find the inner LinearLayout with the content
+                            LinearLayout contentLayout = null;
+                            if (footerCard.getChildCount() > 0) {
+                                android.view.View child = footerCard.getChildAt(0);
+                                if (child instanceof LinearLayout) {
+                                    contentLayout = (LinearLayout) child;
+                                }
+                            }
+                            
+                            if (contentLayout != null) {
+                                // Add bottom padding to content layout to push content above navigation bar
+                                // The CardView background will fill the navigation bar space with dark_brown
+                                int currentPadding = contentLayout.getPaddingBottom();
+                                if (currentPadding != bottomPadding) {
+                                    contentLayout.setPadding(
+                                        contentLayout.getPaddingLeft(),
+                                        contentLayout.getPaddingTop(),
+                                        contentLayout.getPaddingRight(),
+                                        bottomPadding
+                                    );
+                                    Log.d(TAG, "Footer card padding set to: " + bottomPadding + "px");
+                                }
+                            }
+                            
+                            // Ensure footer container extends to bottom with no margin
+                            android.view.ViewGroup.LayoutParams layoutParams = footerContainer.getLayoutParams();
+                            if (layoutParams instanceof LayoutParams) {
+                                LayoutParams params = (LayoutParams) layoutParams;
+                                params.bottomMargin = 0; // No margin - extend to bottom
+                                footerContainer.setLayoutParams(params);
+                            } else if (layoutParams instanceof android.view.ViewGroup.MarginLayoutParams) {
+                                android.view.ViewGroup.MarginLayoutParams params = 
+                                    (android.view.ViewGroup.MarginLayoutParams) layoutParams;
+                                params.bottomMargin = 0; // No margin - extend to bottom
+                                footerContainer.setLayoutParams(params);
+                            }
+                        } else {
+                            Log.w(TAG, "footer_card not found - cannot set padding");
+                        }
+                        
+                        // No padding on root layout to avoid touch interference
+                        view.setPadding(0, 0, 0, 0);
+
+                        // Return CONSUMED to prevent child views from getting default padding
+                        return WindowInsetsCompat.CONSUMED;
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error in window insets listener: " + e.getMessage(), e);
+                        return WindowInsetsCompat.CONSUMED;
+                    }
+                });
+                
+                // Force initial application of insets
+                ViewCompat.requestApplyInsets(rootLayout);
+            } else {
+                Log.e(TAG, "rootLayout is null - cannot setup window insets");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up window insets", e);
         }
     }
 }

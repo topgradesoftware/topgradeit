@@ -31,6 +31,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.ViewCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -158,14 +161,24 @@ public class StudentProfileUpdateActivity extends AppCompatActivity {
                 
                 Log.d("StudentProfileUpdate", "Applied STUDENT theme (teal)");
             } else {
-                // Apply unified parent theme for student profile update page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for profile update
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for profile update
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Update Student Profile");
+                // For parent theme, system bars are already configured in onCreate()
+                // Only update UI elements here (not system bars)
+                ImageView headerWave = findViewById(R.id.header_wave);
+                if (headerWave != null) {
+                    headerWave.setImageResource(R.drawable.bg_wave_dark_brown);
+                }
                 
-                Log.d("StudentProfileUpdate", "Applied PARENT theme (brown)");
+                ImageView editImageButton = findViewById(R.id.iv_edit_image_student);
+                if (editImageButton != null) {
+                    editImageButton.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_brown));
+                }
+                
+                Button updateButton = findViewById(R.id.btn_student_profile_update);
+                if (updateButton != null) {
+                    updateButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_brown));
+                }
+                
+                Log.d("StudentProfileUpdate", "Applied PARENT theme (dark brown)");
             }
             
         } catch (Exception e) {
@@ -175,23 +188,68 @@ public class StudentProfileUpdateActivity extends AppCompatActivity {
         }
     }
     
+    private void setupWindowInsets() {
+        try {
+            android.view.View rootLayout = findViewById(android.R.id.content);
+            
+            if (rootLayout != null) {
+                androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
+                    try {
+                        androidx.core.graphics.Insets systemInsets = insets.getInsets(
+                            androidx.core.view.WindowInsetsCompat.Type.systemBars()
+                        );
+
+                        android.view.View footerContainer = findViewById(R.id.footer_container);
+                        if (footerContainer != null) {
+                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
+                            android.view.ViewGroup.MarginLayoutParams params = 
+                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
+                            if (params != null) {
+                                params.bottomMargin = bottomMargin;
+                                footerContainer.setLayoutParams(params);
+                            }
+                        }
+                        
+                        view.setPadding(0, 0, 0, 0);
+                        return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                    } catch (Exception e) {
+                        Log.e("StudentProfileUpdate", "Error in window insets listener: " + e.getMessage());
+                        return androidx.core.view.WindowInsetsCompat.CONSUMED;
+                    }
+                });
+            } else {
+                Log.e("StudentProfileUpdate", "rootLayout is null - cannot setup window insets");
+            }
+        } catch (Exception e) {
+            Log.e("StudentProfileUpdate", "Error setting up window insets: " + e.getMessage(), e);
+        }
+    }
+    
     @Override
     protected void onResume() {
         super.onResume();
         
-        // Reapply theme in case it was overridden
-        getWindow().getDecorView().postDelayed(() -> {
-            applyTheme();
-        }, 50); // Small delay to ensure it overrides system settings
+        // Reapply theme in case it was overridden (only for student theme)
+        String userType = Paper.book().read(Constants.User_Type, "");
+        if ("STUDENT".equals(userType)) {
+            getWindow().getDecorView().postDelayed(() -> {
+                applyTheme();
+            }, 50); // Small delay to ensure it overrides system settings
+        }
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Set edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         setContentView(R.layout.activity_student_edit_profile);
 
-        // Apply student theme (teal) for student user type
+        // Get user type
         String userType = Paper.book().read(Constants.User_Type, "");
+        
         if ("STUDENT".equals(userType)) {
             // Apply student theme using StudentThemeHelper
             topgrade.parent.com.parentseeks.Parent.Utils.StudentThemeHelper.applyStudentTheme(this, 100);
@@ -200,7 +258,36 @@ public class StudentProfileUpdateActivity extends AppCompatActivity {
             topgrade.parent.com.parentseeks.Parent.Utils.StudentThemeHelper.setFooterVisibility(this, true);
             topgrade.parent.com.parentseeks.Parent.Utils.StudentThemeHelper.setHeaderTitle(this, "Edit Profile");
         } else {
-            // Apply theme based on user type for non-student users
+            // Configure system bars for parent theme
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                // Set transparent status bar to allow header wave to cover it
+                getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_brown));
+                
+                // For Android M and above, ensure white status bar icons on dark background
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    int flags = getWindow().getDecorView().getSystemUiVisibility();
+                    // Clear the LIGHT_STATUS_BAR flag to ensure white icons on dark background
+                    flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    getWindow().getDecorView().setSystemUiVisibility(flags);
+                }
+            }
+            
+            // Configure status bar and navigation bar icons for Android R and above
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                if (getWindow().getInsetsController() != null) {
+                    getWindow().getInsetsController().setSystemBarsAppearance(
+                        0, // No light icons for status bar (white icons on dark background)
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | 
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                    );
+                }
+            }
+            
+            // Setup window insets for footer positioning
+            setupWindowInsets();
+            
+            // Apply theme-specific UI elements (not system bars - already configured above)
             applyTheme();
         }
 
@@ -340,6 +427,11 @@ public class StudentProfileUpdateActivity extends AppCompatActivity {
     }
 
     private void listeners() {
+        // Back button click listener
+        ImageView backIcon = findViewById(R.id.back_icon);
+        if (backIcon != null) {
+            backIcon.setOnClickListener(v -> finish());
+        }
 
         tvUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override

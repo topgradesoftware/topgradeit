@@ -42,6 +42,10 @@ import topgrade.parent.com.parentseeks.Parent.Utils.TimetableMigrationHelper
 import topgrade.parent.com.parentseeks.Parent.Utils.ThemeHelper
 import topgrade.parent.com.parentseeks.Parent.Utils.ParentThemeHelper
 import topgrade.parent.com.parentseeks.Parent.Utils.Constants
+import androidx.core.view.WindowCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import topgrade.parent.com.parentseeks.R
 import io.paperdb.Paper
 import topgrade.parent.com.parentseeks.Teacher.Utils.Constant
@@ -86,6 +90,10 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Set edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        
         setContentView(R.layout.activity_student_timetable)
         
         // Apply student theme (teal) for student user type
@@ -98,9 +106,39 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
             topgrade.parent.com.parentseeks.Parent.Utils.StudentThemeHelper.setFooterVisibility(this, true)
             topgrade.parent.com.parentseeks.Parent.Utils.StudentThemeHelper.setHeaderTitle(this, "Time Table")
         } else {
-            // Apply theme based on user type for non-student users
-            applyTheme()
+            // Configure status bar for dark brown background with white icons
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                // Set transparent status bar to allow header wave to cover it
+                window.statusBarColor = android.graphics.Color.TRANSPARENT
+                window.navigationBarColor = ContextCompat.getColor(this, R.color.dark_brown)
+                
+                // For Android M and above, ensure white status bar icons on dark background
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    var flags = window.decorView.systemUiVisibility
+                    // Clear the LIGHT_STATUS_BAR flag to ensure white icons on dark background
+                    flags = flags and android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                    window.decorView.systemUiVisibility = flags
+                }
+            }
+
+            // Configure status bar and navigation bar icons for Android R and above
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                window.insetsController?.setSystemBarsAppearance(
+                    0, // No light icons for status bar (white icons on dark background)
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            }
+            
+            // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+            // System bars are already configured above to match child list
+            Log.d(TAG, "Parent theme - system bars already configured in onCreate()")
         }
+        
+        // Setup window insets
+        setupWindowInsets()
+        
+        // Initialize Paper database
+        Paper.init(this)
         
         initDataStore()
         initViews()
@@ -108,6 +146,9 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
         setupBackButton()
         setupInlineFilters()
         listeners()
+        
+        // Initialize header title
+        findViewById<TextView>(R.id.header_title)?.text = getString(R.string.timetable)
         
         Log.d(TAG, "onCreate() - Modern Student Timetable initialized")
     }
@@ -608,22 +649,46 @@ class ModernStudentTimeTable : AppCompatActivity(), View.OnClickListener {
                 }
                 
                 Log.d(TAG, "Student theme applied")
-            } else {
-                // Apply parent theme (dark brown) when accessed from parent context
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for timetable
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for timetable
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Student Timetable");
-                
-                Log.d(TAG, "Parent theme applied successfully")
             }
-            
-            // Apply footer theme
-            ThemeHelper.applyFooterTheme(this, userType ?: "")
             
         } catch (e: Exception) {
             Log.e(TAG, "Error applying theme", e)
+        }
+    }
+    
+    /**
+     * Setup window insets to respect system bars (status bar, navigation bar, notches)
+     * Uses margin approach like child list - footer pushed above navigation bar,
+     * navigation bar's dark_brown color creates transparent/blended appearance
+     */
+    private fun setupWindowInsets() {
+        try {
+            val rootLayout = findViewById<View>(android.R.id.content)
+            
+            rootLayout?.let { root ->
+                ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+                    try {
+                        val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                        findViewById<View>(R.id.footer_container)?.let { footerContainer ->
+                            val bottomMargin = if (systemInsets.bottom > 0) systemInsets.bottom else 0
+                            val params = footerContainer.layoutParams as? android.view.ViewGroup.MarginLayoutParams
+                            params?.let {
+                                it.bottomMargin = bottomMargin
+                                footerContainer.layoutParams = it
+                            }
+                        }
+                        
+                        view.setPadding(0, 0, 0, 0)
+                        WindowInsetsCompat.CONSUMED
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error in window insets listener: ${e.message}")
+                        WindowInsetsCompat.CONSUMED
+                    }
+                }
+            } ?: Log.e(TAG, "rootLayout is null - cannot setup window insets")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting up window insets: ${e.message}", e)
         }
     }
 } 

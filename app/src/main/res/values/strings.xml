@@ -330,6 +330,7 @@
     <string name="name_loading">Name: Loading...</string>
     <string name="class_loading">Class: Loading...</string>
     <string name="header_time">Time</string>
+    <string name="syllabus">Syllabus</string>
     <string name="send_date_sheet_sms">Send Date Sheet in SMS</string>
     <string name="search_date_sheet">Search Date Sheet</string>
     <string name="loading_date_sheet_data">Loading date sheet data</string>
@@ -412,6 +413,10 @@
     <string name="send_diary_class_incharge">Send Class Diary</string>
     <string name="send_diary_section_incharge">Send Section Diary</string>
     <string name="send_diary_subject_teacher">Send Subject Diary</string>
+    <string name="class_diary">Class Diary</string>
+    <string name="section_diary">Section Diary</string>
+    <string name="subject_diary">Subject Diary</string>
+    <string name="view_diary">View Diary</string>
     <string name="class_diary_details">Class Diary Details</string>
     <string name="section_diary_details">Section Diary Details</string>
     <string name="subject_diary_details">Subject Diary Details</string>
@@ -426,6 +431,12 @@
     <string name="send_diary_to_section">Send Diary to Section</string>
     <string name="send_subject_diary">Send Subject Diary</string>
     <string name="no_date_selected">No date selected</string>
+    <string name="diary">Diary</string>
+    <string name="diary_description">View Class, Section or Subject Diary</string>
+    <string name="view_diary_menu">View Diary Menu</string>
+    <string name="view_class_diary">View Class Diary</string>
+    <string name="view_section_diary">View Section Diary</string>
+    <string name="view_subject_diary">View Subject Diary</string>
     
     <!-- ========================== ANNOUNCEMENTS ========================== -->
     <string name="announcements_title">Announcements</string>

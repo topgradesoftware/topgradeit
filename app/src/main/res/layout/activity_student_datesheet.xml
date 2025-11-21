@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
     tools:context=".Parent.Activity.StudentDateSheet">
 
-    <!-- Main Content -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_gray_background">
+    <!-- ===== HEADER WAVE ===== -->
+    <ImageView
+        android:id="@+id/header_wave"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_wave_dark_brown"
+        android:contentDescription="@string/header_wave_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Header Wave -->
-        <ImageView
-            android:id="@+id/header_wave"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/bg_wave"
-            android:contentDescription="@string/header_background"
-            android:importantForAccessibility="noHideDescendants"
-            android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <!-- ===== BACK BUTTON ===== -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Back Button -->
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:contentDescription="@string/back_button"
-            android:focusable="true"
-            android:padding="4dp"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@android:color/white"
-            app:layout_constraintTop_toTopOf="@id/header_wave"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/header_wave" />
-
-        <!-- Header Title -->
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/date_sheet"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:lineSpacingExtra="2dp"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="@id/header_wave"
-            app:layout_constraintBottom_toBottomOf="@id/header_wave"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <!-- ===== HEADER TITLE ===== -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_sheet"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
         <!-- Filter Card (Fixed) -->
@@ -125,8 +117,9 @@
 
         <!-- Date Sheet Data Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/date_sheet_card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -134,7 +127,6 @@
             app:cardElevation="4dp"
             app:cardBackgroundColor="?attr/colorSurface"
             app:layout_constraintTop_toBottomOf="@id/filter_card"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -143,7 +135,7 @@
                 android:id="@+id/date_sheet_table"
                 layout="@layout/date_sheet_complete"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
             <!-- Progress Bar -->
             <ProgressBar
@@ -156,19 +148,92 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Total Records -->
+        <!-- View Images Button (Forward Arrow) - Only visible when images are present -->
+        <LinearLayout
+            android:id="@+id/btn_view_date_sheet_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@color/dark_brown"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/date_sheet_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/total_records">
+
+            <TextView
+                android:id="@+id/tv_view_images_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Images"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:fontFamily="@font/quicksand_medium" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/white"
+                android:contentDescription="View images" />
+        </LinearLayout>
+
+        <!-- Total Records - Right side at bottom of container -->
         <TextView
             android:id="@+id/total_records"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/total_records"
             android:textColor="?attr/colorOnSurface"
             android:textSize="12sp"
             android:fontFamily="sans-serif"
+            android:visibility="gone"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/date_sheet_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/send_datesheet_in_sms" />
+
+        <!-- Debug Response TextView (for debugging API response) - HIDDEN -->
+        <ScrollView
+            android:id="@+id/debug_response_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="#F5F5F5"
+            android:padding="8dp"
+            android:maxHeight="300dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/send_datesheet_in_sms"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_card">
+
+            <TextView
+                android:id="@+id/debug_response_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Debug Response"
+                android:textSize="10sp"
+                android:textColor="#333333"
+                android:fontFamily="monospace"
+                android:textIsSelectable="true" />
+        </ScrollView>
 
         <!-- Send Date Sheet in SMS Button -->
         <com.google.android.material.button.MaterialButton
@@ -181,10 +246,10 @@
             android:text="@string/send_date_sheet_sms"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/quicksand_bold"
             android:onClick="send_sms"
-            android:visibility="gone"
-            app:backgroundTint="?attr/colorPrimary"
+            android:visibility="visible"
+            app:backgroundTint="@color/dark_brown"
             app:cornerRadius="8dp"
             app:rippleColor="@color/white"
             app:icon="@drawable/ic_send"
@@ -195,16 +260,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Navigation Drawer -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="@dimen/nav_drawer_width"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="?attr/colorSurface"
-        app:headerLayout="@layout/nav_header_parent"
-        app:menu="@menu/menu_parent_drawer" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import topgrade.parent.com.parentseeks.BuildConfig;
+import topgrade.parent.com.parentseeks.Parent.Model.StatusModel;
+import topgrade.parent.com.parentseeks.Parent.Model.StatusModelDeserializer;
 
 public class RetrofitClient {
 
@@ -29,6 +31,7 @@ public class RetrofitClient {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
+                .registerTypeAdapter(StatusModel.class, new StatusModelDeserializer())
                 .create();
 
         if (retrofit == null) {

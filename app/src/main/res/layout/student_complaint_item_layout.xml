@@ -43,7 +43,7 @@
                 android:contentDescription="@string/options_menu"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="4dp"
-                app:tint="@color/teal" />
+                app:tint="@color/dark_brown" />
 
         </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#F5F5F5"
+            android:background="@color/light_gray"
             android:padding="12dp"
             android:visibility="gone">
 
@@ -121,7 +121,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_response"
-                    app:tint="@color/teal"
+                    app:tint="@color/dark_brown"
                     android:contentDescription="@string/response_icon"
                     android:layout_marginEnd="6dp" />
 
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/admin_response"
-                    android:textColor="@color/teal"
+                    android:textColor="@color/dark_brown"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:fontFamily="@font/quicksand_bold" />

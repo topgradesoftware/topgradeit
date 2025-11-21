@@ -271,7 +271,8 @@ public class ParentComplaintList extends AppCompatActivity {
         
         List<ParentComplaintModel.Complaint> filteredList = new ArrayList<>();
         for (ParentComplaintModel.Complaint complaint : complaints) {
-            if (complaint.getComplaintStatus().equalsIgnoreCase(filterType)) {
+            String status = complaint.getComplaintStatus();
+            if (status != null && status.equalsIgnoreCase(filterType)) {
                 filteredList.add(complaint);
             }
         }

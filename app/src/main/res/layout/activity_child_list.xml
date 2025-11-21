@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingBottom="0dp"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
+    tools:context=".Parent.Activity.ChildList">
 
-    <!-- Header Wave Background -->
+    <!-- ===== HEADER WAVE ===== -->
     <ImageView
         android:id="@+id/header_wave"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_wave_dark_brown"
         android:contentDescription="@string/header_wave_background"
@@ -20,35 +22,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Back Button -->
+    <!-- ===== BACK BUTTON ===== -->
     <ImageView
         android:id="@+id/back_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:padding="@dimen/_8sdp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_button"
         app:tint="@color/white"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/back_button"/>
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Header Title -->
+    <!-- ===== HEADER TITLE ===== -->
     <TextView
         android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/child_list"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:fontFamily="@font/quicksand_bold"
-        android:lineSpacingExtra="2dp"
-        android:textAlignment="center"
-        app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintStart_toStartOf="@+id/header_wave"
-        app:layout_constraintEnd_toEndOf="@+id/header_wave" />
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        app:layout_constraintTop_toTopOf="@id/header_wave"
+        app:layout_constraintBottom_toBottomOf="@id/header_wave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Progress Bar -->
     <ProgressBar
@@ -98,54 +101,41 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- Footer Container -->
+    <!-- ===== FOOTER ===== -->
     <LinearLayout
         android:id="@+id/footer_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/dark_brown"
+        android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="@color/dark_brown">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="6dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/topgrade_logo"
+                android:contentDescription="@string/topgrade_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical|center_horizontal">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/topgrade_logo"
-                    android:contentDescription="@string/topgrade_logo"
-                    android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/quicksand_bold"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/powered_by_topgrade_software"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
+                android:text="@string/powered_by_topgrade_software"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:fontFamily="@font/quicksand_bold" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

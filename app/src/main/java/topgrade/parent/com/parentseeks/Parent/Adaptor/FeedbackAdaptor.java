@@ -33,21 +33,55 @@ public class FeedbackAdaptor extends RecyclerView.Adapter<FeedbackAdaptor.Holder
 
     @Override
     public void onBindViewHolder(@NonNull FeedbackAdaptor.Holder holder, int position) {
-        String teacherWithSubject = holder.itemView.getContext().getString(
-                R.string.teacher_with_subject,
-                list.get(position).getTeacherName(),
-                list.get(position).getSubject_name()
-        );
-        holder.teacher_name.setText(teacherWithSubject);
-        holder.feeback_body.setText(list.get(position).getFeedback());
-        String time = Util.formatDate("yyyy-MM-dd h:mm:ss",
-                "dd-MM-yyyy hh:mm:a", list.get(position).getTimestamp());
-        holder.date.setText(time);
+        if (list == null || position >= list.size() || list.get(position) == null) {
+            android.util.Log.e("FeedbackAdaptor", "Invalid position or null item at position: " + position);
+            return;
+        }
+        
+        Feedback feedback = list.get(position);
+        android.util.Log.d("FeedbackAdaptor", "Binding position " + position + ": " + 
+            "Teacher=" + feedback.getTeacherName() + 
+            ", Subject=" + feedback.getSubject_name() + 
+            ", Feedback=" + feedback.getFeedback());
+        
+        try {
+            String teacherName = feedback.getTeacherName() != null ? feedback.getTeacherName() : "Unknown";
+            String subjectName = feedback.getSubject_name() != null ? feedback.getSubject_name() : "";
+            
+            // Try to use string resource, fallback to concatenation if not available
+            String teacherWithSubject;
+            try {
+                teacherWithSubject = holder.itemView.getContext().getString(
+                    R.string.teacher_with_subject,
+                    teacherName,
+                    subjectName
+                );
+            } catch (Exception e) {
+                // Fallback if string resource doesn't exist
+                teacherWithSubject = teacherName + (subjectName.isEmpty() ? "" : " - " + subjectName);
+            }
+            holder.teacher_name.setText(teacherWithSubject);
+            
+            String feedbackText = feedback.getFeedback() != null ? feedback.getFeedback() : "";
+            holder.feeback_body.setText(feedbackText);
+            
+            if (feedback.getTimestamp() != null && !feedback.getTimestamp().isEmpty()) {
+                String time = Util.formatDate("yyyy-MM-dd h:mm:ss",
+                        "dd-MM-yyyy hh:mm:a", feedback.getTimestamp());
+                holder.date.setText(time);
+            } else {
+                holder.date.setText("");
+            }
+        } catch (Exception e) {
+            android.util.Log.e("FeedbackAdaptor", "Error binding view at position " + position, e);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        int count = list != null ? list.size() : 0;
+        android.util.Log.d("FeedbackAdaptor", "getItemCount: " + count);
+        return count;
     }
 
     public static class Holder extends RecyclerView.ViewHolder {

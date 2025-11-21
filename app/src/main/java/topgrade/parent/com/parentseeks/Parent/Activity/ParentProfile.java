@@ -89,14 +89,15 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                 
                 Log.d("ParentProfile", "Student theme applied successfully");
             } else {
-                // Apply unified parent theme for profile page
-                ParentThemeHelper.applyParentTheme(this, 100); // 100dp for content pages
-                ParentThemeHelper.setHeaderIconVisibility(this, false); // No icon for profile
-                ParentThemeHelper.setMoreOptionsVisibility(this, false); // No more options for profile
-                ParentThemeHelper.setFooterVisibility(this, true); // Show footer
-                ParentThemeHelper.setHeaderTitle(this, "Parent Profile");
+                // For parent theme, don't use ParentThemeHelper as it overwrites navigation bar color
+                // System bars are already configured in onCreate() to match complaint menu
+                // Just update header title if needed
+                TextView headerTitle = findViewById(R.id.header_title);
+                if (headerTitle != null) {
+                    headerTitle.setText("Parent Profile");
+                }
                 
-                Log.d("ParentProfile", "Parent theme applied successfully");
+                Log.d("ParentProfile", "Parent theme - system bars already configured in onCreate()");
             }
         } catch (Exception e) {
             Log.e("ParentProfile", "Error applying theme", e);
@@ -152,11 +153,15 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
         
         // Setup window insets to respect system bars (status bar, navigation bar, notches)
         setupWindowInsets();
-
-        context = ParentProfile.this;
-        Paper.init(context);
         
-        // Apply theme based on user type
+        // Initialize Paper database
+        Paper.init(this);
+        
+        // Load constants from Paper (if needed)
+        // Note: Not using ParentThemeHelper for parent theme to avoid overwriting navigation bar color
+        // System bars are already configured above, matching complaint menu approach
+        
+        // Apply theme based on user type (only for student theme)
         applyTheme();
 
         // Initialize views with null safety
@@ -323,7 +328,8 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
     
     /**
      * Setup window insets to respect system bars (status bar, navigation bar, notches)
-     * This ensures the content won't be hidden behind the system bars
+     * Uses margin approach like complaint page - footer pushed above navigation bar,
+     * navigation bar's dark_brown color creates transparent/blended appearance
      */
     private void setupWindowInsets() {
         try {
@@ -336,38 +342,38 @@ int tealColor = ContextCompat.getColor(this, R.color.student_primary);
                             androidx.core.view.WindowInsetsCompat.Type.systemBars()
                         );
 
-                        // Add bottom margin to footer container to push it above navigation bar
-                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
+                        android.view.View footerContainer = findViewById(R.id.footer_container);
                         if (footerContainer != null) {
-                            // Set bottom margin to navigation bar height to ensure footer is visible
                             int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                            Log.d("ParentProfile", "Setting footer bottom margin: " + bottomMargin + "dp");
                             android.view.ViewGroup.MarginLayoutParams params = 
                                 (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
                             if (params != null) {
                                 params.bottomMargin = bottomMargin;
                                 footerContainer.setLayoutParams(params);
-                                Log.d("ParentProfile", "Footer margin applied successfully");
                             }
                         }
                         
-                        // No padding on root layout to avoid touch interference
                         view.setPadding(0, 0, 0, 0);
-
-                        // Return CONSUMED to prevent child views from getting default padding and allow header wave to cover status bar
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     } catch (Exception e) {
                         Log.e("ParentProfile", "Error in window insets listener: " + e.getMessage());
                         return androidx.core.view.WindowInsetsCompat.CONSUMED;
                     }
                 });
+            } else {
+                Log.e("ParentProfile", "rootLayout is null - cannot setup window insets");
             }
         } catch (Exception e) {
-            Log.e("ParentProfile", "Error setting up window insets: " + e.getMessage());
+            Log.e("ParentProfile", "Error setting up window insets: " + e.getMessage(), e);
         }
     }
 
     public void editParentProfile(View view) {
-            startActivity(new Intent(context, Edit_ProfileParent.class));
+        try {
+            startActivity(new Intent(this, Edit_ProfileParent.class));
+        } catch (Exception e) {
+            Log.e("ParentProfile", "Error opening edit profile: " + e.getMessage(), e);
+            Toast.makeText(this, "Unable to open edit profile", Toast.LENGTH_SHORT).show();
+        }
     }
 }

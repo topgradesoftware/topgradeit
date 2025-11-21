@@ -9,4 +9,19 @@ public class StatusModel {
     @SerializedName("status")
     @Expose
     public SharedStatus status;
+    
+    // Direct access methods for when status is nested
+    public String getCode() {
+        if (status != null) {
+            return status.getCode();
+        }
+        return null;
+    }
+    
+    public String getMessage() {
+        if (status != null) {
+            return status.getMessage();
+        }
+        return null;
+    }
 }
