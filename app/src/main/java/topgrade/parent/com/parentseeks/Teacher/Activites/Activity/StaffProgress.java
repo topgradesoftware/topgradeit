@@ -10,9 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import components.searchablespinnerlibrary.SearchableSpinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -55,7 +56,7 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
     Context context;
     private RecyclerView result_rcv, subject_rcv;
     TextView show_advanced_filter;
-    Spinner select_examp_session;
+    SearchableSpinner select_examp_session;
     Button search_filter;
     AlertDialog alertDialog;
 
@@ -71,7 +72,8 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
         // Configure status bar for navy blue background with white icons
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navy_blue));
+            // Remove navigation bar color (transparent/default)
+            getWindow().setNavigationBarColor(android.graphics.Color.TRANSPARENT);
             
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 int flags = getWindow().getDecorView().getSystemUiVisibility();
@@ -103,6 +105,10 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
 
         context = StaffProgress.this;
         Paper.init(context);
+        
+        // Load constants from Paper database
+        Constant.loadFromPaper();
+        
         progress_bar = findViewById(R.id.progress_bar);
         result_rcv = findViewById(R.id.result_rcv);
         subject_rcv = findViewById(R.id.subject_rcv);
@@ -128,23 +134,6 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
             if (rootLayout != null) {
                 androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (view, insets) -> {
                     try {
-                        androidx.core.graphics.Insets systemInsets = insets.getInsets(
-                            androidx.core.view.WindowInsetsCompat.Type.systemBars()
-                        );
-
-                        // Add bottom margin to footer container to push it above navigation bar
-                        android.widget.LinearLayout footerContainer = findViewById(R.id.footer_container);
-                        if (footerContainer != null) {
-                            // Set bottom margin to navigation bar height to ensure footer is visible
-                            int bottomMargin = systemInsets.bottom > 0 ? systemInsets.bottom : 0;
-                            android.view.ViewGroup.MarginLayoutParams params =
-                                (android.view.ViewGroup.MarginLayoutParams) footerContainer.getLayoutParams();
-                            if (params != null) {
-                                params.bottomMargin = bottomMargin;
-                                footerContainer.setLayoutParams(params);
-                            }
-                        }
-
                         // No padding on root layout to avoid touch interference
                         view.setPadding(0, 0, 0, 0);
 
@@ -164,6 +153,33 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
     }
 
     private void Load_Progress_Report() {
+        // Ensure constants are loaded
+        Constant.loadFromPaper();
+        
+        // Validate required parameters
+        if (Constant.staff_id == null || Constant.staff_id.isEmpty() || 
+            Constant.campus_id == null || Constant.campus_id.isEmpty()) {
+            android.util.Log.e("StaffProgress", "Missing required parameters in Load_Progress_Report:");
+            android.util.Log.e("StaffProgress", "staff_id: " + Constant.staff_id);
+            android.util.Log.e("StaffProgress", "campus_id: " + Constant.campus_id);
+            Toast.makeText(context, "Missing login information. Please login again.", Toast.LENGTH_SHORT).show();
+            progress_bar.setVisibility(View.GONE);
+            return;
+        }
+        
+        // Validate session_id is set
+        if (session_id == null || session_id.isEmpty()) {
+            android.util.Log.e("StaffProgress", "Exam session ID is not selected");
+            Toast.makeText(context, "Please select an exam session first", Toast.LENGTH_SHORT).show();
+            progress_bar.setVisibility(View.GONE);
+            return;
+        }
+        
+        android.util.Log.d("StaffProgress", "Load_Progress_Report API parameters:");
+        android.util.Log.d("StaffProgress", "staff_id: " + Constant.staff_id);
+        android.util.Log.d("StaffProgress", "parent_id (campus_id): " + Constant.campus_id);
+        android.util.Log.d("StaffProgress", "exam_session_id: " + session_id);
+        
         final HashMap<String, String> postParam = new HashMap<String, String>();
         postParam.put("staff_id", Constant.staff_id);
         postParam.put("parent_id", Constant.campus_id);
@@ -185,7 +201,9 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
 
                         List<String> subject_name = new ArrayList<>();
                         for (int i = 0; i < report_list.size(); i++) {
-                            subject_name.add(report_list.get(i).getClassName() + " (" + report_list.get(i).getSubjectName() + " )");
+                            String className = report_list.get(i).getClassName() != null ? report_list.get(i).getClassName().trim() : "";
+                            String subjectName = report_list.get(i).getSubjectName() != null ? report_list.get(i).getSubjectName().trim() : "";
+                            subject_name.add(className + " (" + subjectName + ")");
 
                         }
 
@@ -233,22 +251,66 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                if (alertDialog != null && alertDialog.isShowing()) {
+                    alertDialog.dismiss();
+                }
             }
         });
 
-        // Note: Using regular Spinner instead of SearchableSpinner
-        // setTitle and setPositiveButton methods are not available on regular Spinner
+        // Set SearchableSpinner title and positive button (working code pattern)
+        try {
+            select_examp_session.setTitle("Select Exam Session");
+            select_examp_session.setPositiveButton("OK");
+        } catch (Exception e) {
+            android.util.Log.w("StaffProgress", "SearchableSpinner methods not available, continuing without them");
+        }
+
         search_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                if (alertDialog != null && alertDialog.isShowing()) {
+                    alertDialog.dismiss();
+                }
                 Load_Progress_Report();
             }
         });
         
-        // Load exam sessions using the same pattern as ExamSubmit.java
-        loadExamSession();
+        // Load exam sessions from Paper (working code pattern - simpler approach)
+        examSessionslist = Paper.book().read(Constants.exam_session);
+        if (examSessionslist != null && examSessionslist.size() > 0) {
+            exam_session_name_list = new ArrayList<>();
+            for (int i = 0; i < examSessionslist.size(); i++) {
+                exam_session_name_list.add(examSessionslist.get(i).getFullName());
+            }
+
+            session_adaptor = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1,
+                    exam_session_name_list);
+
+            select_examp_session.setAdapter(session_adaptor);
+
+            select_examp_session.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (examSessionslist != null && position < examSessionslist.size()) {
+                        session_id = examSessionslist.get(position).getUniqueId();
+                        android.util.Log.d("StaffProgress", "Selected exam session: " + examSessionslist.get(position).getFullName() + " (ID: " + session_id + ")");
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        } else {
+            // If no local data, try to load from API
+            loadExamSessionsFromAPI(dialogView);
+        }
+        
+        // Create and show the dialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
     
     private void loadExamSessionsFromAPI(View dialogView) {
@@ -349,49 +411,28 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
         setupExamSessionSpinner(dialogView);
     }
     
-    private void loadExamSession() {
+    private void loadExamSession(View dialogView) {
         // Load exam sessions from local storage first (same pattern as ExamSubmit.java)
         examSessionslist = Paper.book().read(Constants.exam_session);
         
         if (examSessionslist == null || examSessionslist.isEmpty()) {
             android.util.Log.d("StaffProgress", "No local exam sessions found, loading from API");
             // If no local data, load from API
-            loadExamSessionsFromAPI(null);
+            loadExamSessionsFromAPI(dialogView);
         } else {
             android.util.Log.d("StaffProgress", "Using local exam sessions: " + examSessionslist.size());
             // Use local data and setup spinner
-            exam_session_name_list = new ArrayList<>();
-            for (int i = 0; i < examSessionslist.size(); i++) {
-                exam_session_name_list.add(examSessionslist.get(i).getFullName());
-            }
-
-            session_adaptor = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1,
-                    exam_session_name_list);
-
-            select_examp_session.setAdapter(session_adaptor);
-
-            select_examp_session.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    session_id = examSessionslist.get(position).getUniqueId();
-                    android.util.Log.d("StaffProgress", "Selected exam session: " + examSessionslist.get(position).getFullName() + " (ID: " + session_id + ")");
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
+            setupExamSessionSpinner(dialogView);
         }
     }
     
     private void setupExamSessionSpinner(View dialogView) {
-        // Check if activity is still valid before showing dialog
-        if (isFinishing() || isDestroyed()) {
+        // Check if activity is still valid
+        if (isFinishing() || isDestroyed() || select_examp_session == null) {
             return;
         }
         
         if (examSessionslist != null && examSessionslist.size() > 0) {
-
             exam_session_name_list = new ArrayList<>();
             for (int i = 0; i < examSessionslist.size(); i++) {
                 exam_session_name_list.add(examSessionslist.get(i).getFullName());
@@ -405,13 +446,14 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
             select_examp_session.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    session_id = examSessionslist.get(position).getUniqueId();
-
+                    if (examSessionslist != null && position < examSessionslist.size()) {
+                        session_id = examSessionslist.get(position).getUniqueId();
+                        android.util.Log.d("StaffProgress", "Selected exam session: " + examSessionslist.get(position).getFullName() + " (ID: " + session_id + ")");
+                    }
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
                 }
             });
 
@@ -427,18 +469,6 @@ public class StaffProgress extends AppCompatActivity implements View.OnClickList
             select_examp_session.setEnabled(false);
             
             Toast.makeText(context, "No exam sessions are currently available", Toast.LENGTH_SHORT).show();
-        }
-        
-        // Create and show the dialog only if activity is still valid
-        try {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            dialogBuilder.setView(dialogView);
-
-            alertDialog = dialogBuilder.create();
-            alertDialog.show();
-        } catch (Exception e) {
-            // Handle any dialog creation errors gracefully
-            e.printStackTrace();
         }
     }
     

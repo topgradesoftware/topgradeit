@@ -186,40 +186,114 @@ public class StaffComplaintMenu extends AppCompatActivity {
     }
     
     /**
-     * Load complaint counts from API (using mock data for now)
+     * Load complaint counts from API
      */
     private void loadComplaintCounts() {
         try {
-            // Use mock data for now
-            updateBadgeCountsWithMockData();
+            // Get staff details from Paper
+            String staffId = Paper.book().read("staff_id", "");
+            String campusId = Paper.book().read("campus_id", "");
+            
+            if (staffId.isEmpty() || campusId.isEmpty()) {
+                Log.e(TAG, "Staff ID or Campus ID not found in Paper");
+                updateBadgeCounts(0, 0, 0, 0);
+                return;
+            }
+            
+            // Create request body - load all complaints to count them
+            HashMap<String, Object> requestBody = new HashMap<>();
+            requestBody.put("staff_id", staffId);
+            requestBody.put("campus_id", campusId);
+            requestBody.put("session_id", Constant.current_session);
+            requestBody.put("filter_type", "all");
+            
+            RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(requestBody).toString()
+            );
+            
+            // Make API call
+            topgrade.parent.com.parentseeks.Parent.Interface.BaseApiService apiService =
+                topgrade.parent.com.parentseeks.Parent.Utils.API.getAPIService();
+            
+            Call<topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel> call = apiService.complain(body);
+            call.enqueue(new Callback<topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel>() {
+                @Override
+                public void onResponse(Call<topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel> call, Response<topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel staffComplainModel = response.body();
+                        
+                        if (staffComplainModel.getStatus() != null && "1000".equals(staffComplainModel.getStatus().getCode())) {
+                            List<topgrade.parent.com.parentseeks.Teacher.Model.ComplaintModel.Complaint> complaints = staffComplainModel.getData();
+                            if (complaints != null && !complaints.isEmpty()) {
+                                updateBadgeCountsFromData(complaints);
+                            } else {
+                                updateBadgeCounts(0, 0, 0, 0);
+                            }
+                        } else {
+                            updateBadgeCounts(0, 0, 0, 0);
+                        }
+                    } else {
+                        Log.e(TAG, "Response not successful: " + (response.body() != null ? response.code() : "null"));
+                        updateBadgeCounts(0, 0, 0, 0);
+                    }
+                }
+                
+                @Override
+                public void onFailure(Call<topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel> call, Throwable t) {
+                    Log.e(TAG, "Failed to load complaint counts: " + t.getMessage());
+                    updateBadgeCounts(0, 0, 0, 0);
+                }
+            });
             
         } catch (Exception e) {
             Log.e(TAG, "Error loading complaint counts: " + e.getMessage());
+            updateBadgeCounts(0, 0, 0, 0);
         }
     }
     
     /**
-     * Update badge counts with mock data
+     * Update badge counts from actual complaint data
      */
-    private void updateBadgeCountsWithMockData() {
+    private void updateBadgeCountsFromData(List<topgrade.parent.com.parentseeks.Teacher.Model.ComplaintModel.Complaint> complaints) {
         try {
-            // Set mock counts
-            allCount = 5;
-            pendingCount = 2;
-            underDiscussionCount = 1;
-            solvedCount = 2;
+            allCount = complaints.size();
+            pendingCount = 0;
+            underDiscussionCount = 0;
+            solvedCount = 0;
             
-            // Update UI on main thread
-            runOnUiThread(() -> {
-                badgeAllComplaints.setText(String.valueOf(allCount));
-                badgePendingComplaints.setText(String.valueOf(pendingCount));
-                badgeUnderDiscussionComplaints.setText(String.valueOf(underDiscussionCount));
-                badgeSolvedComplaints.setText(String.valueOf(solvedCount));
-            });
+            // Count complaints by status
+            for (topgrade.parent.com.parentseeks.Teacher.Model.ComplaintModel.Complaint complaint : complaints) {
+                String status = complaint.getComplaintStatus();
+                if (status != null) {
+                    if (status.equalsIgnoreCase("pending")) {
+                        pendingCount++;
+                    } else if (status.equalsIgnoreCase("under_discussion")) {
+                        underDiscussionCount++;
+                    } else if (status.equalsIgnoreCase("solved")) {
+                        solvedCount++;
+                    }
+                }
+            }
+            
+            updateBadgeCounts(allCount, pendingCount, underDiscussionCount, solvedCount);
             
         } catch (Exception e) {
-            Log.e(TAG, "Error updating badge counts: " + e.getMessage());
+            Log.e(TAG, "Error updating badge counts from data: " + e.getMessage());
+            updateBadgeCounts(0, 0, 0, 0);
         }
+    }
+    
+    /**
+     * Update badge counts on UI
+     */
+    private void updateBadgeCounts(int all, int pending, int underDiscussion, int solved) {
+        runOnUiThread(() -> {
+            badgeAllComplaints.setText(String.valueOf(all));
+            badgePendingComplaints.setText(String.valueOf(pending));
+            badgeUnderDiscussionComplaints.setText(String.valueOf(underDiscussion));
+            badgeSolvedComplaints.setText(String.valueOf(solved));
+        });
     }
     
     @Override

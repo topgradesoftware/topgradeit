@@ -16,7 +16,7 @@
             android:padding="@dimen/_7sdp"
             android:singleLine="true"
             android:text="0"
-            android:textColor="@color/color_black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_10ssp"
                          android:fontFamily="@font/quicksand_bold"
  />

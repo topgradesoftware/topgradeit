@@ -65,6 +65,7 @@
         <activity
             android:name="topgrade.parent.com.parentseeks.Teacher.Activites.Activity.StaffProgress"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <!-- ================= Parent Activities ================= -->
         <activity

@@ -221,28 +221,38 @@ public class StaffTask extends AppCompatActivity implements View.OnClickListener
     
     /**
      * Update header colors based on filter type
+     * All task views (View All, Pending, Incomplete, Complete) use staff theme (navy blue)
      */
     private void updateHeaderColors() {
-        // Keep status bar and navigation bar as navy blue (theme color)
-        // Only update the header background based on filter type
+        ImageView headerWave = findViewById(R.id.header_wave);
         
-        int headerColor = R.color.navy_blue; // Default color
-        
-        // Set color based on filter type
-        if (Constant.FILTER_ALL.equals(filterType)) {
-            headerColor = R.color.navy_blue;
-        } else if (Constant.FILTER_PENDING.equals(filterType)) {
-            headerColor = R.color.orange;
-        } else if (Constant.FILTER_INCOMPLETE.equals(filterType)) {
-            headerColor = R.color.error_500;
-        } else if (Constant.FILTER_COMPLETED.equals(filterType)) {
-            headerColor = R.color.success_500;
+        // All task filter types use staff theme (navy blue)
+        // This includes: View All Tasks, Pending, Incomplete, and Completed
+        if (headerWave != null) {
+            headerWave.setImageResource(R.drawable.bg_wave_navy_blue);
         }
         
-        // Apply color to header background only
-        View headerLayout = findViewById(R.id.header_layout);
-        if (headerLayout != null) {
-            headerLayout.setBackgroundColor(ContextCompat.getColor(this, headerColor));
+        // Always ensure status bar and navigation bar use staff theme (navy blue)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navy_blue));
+            
+            // Ensure white status bar icons on dark background
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                int flags = getWindow().getDecorView().getSystemUiVisibility();
+                flags &= ~android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                getWindow().getDecorView().setSystemUiVisibility(flags);
+            }
+        }
+        
+        // Configure status bar icons for Android R and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (getWindow().getInsetsController() != null) {
+                getWindow().getInsetsController().setSystemBarsAppearance(
+                    0, // No light icons for status bar (white icons on dark background)
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                );
+            }
         }
     }
     

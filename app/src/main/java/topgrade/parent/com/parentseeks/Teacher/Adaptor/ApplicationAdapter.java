@@ -119,35 +119,14 @@ public class ApplicationAdapter extends ListAdapter<StaffApplicationModel.Applic
         }
     }
     
+    /**
+     * Update header color - all staff leave application cards use navy blue (staff theme)
+     */
     private void updateHeaderColor(ApplicationAdapter.Holder holder, StaffApplicationModel.Application application) {
         View headerLayout = holder.itemView.findViewById(R.id.header_layout);
         if (headerLayout != null) {
-            int backgroundColor;
-            
-            // If viewing all applications, color by application status
-            if (Constant.FILTER_LEAVE_ALL.equals(filterType)) {
-                String isActive = application.getIsActive();
-                
-                if ("1".equals(isActive)) {
-                    backgroundColor = context.getResources().getColor(R.color.success_500);
-                } else if ("2".equals(isActive)) {
-                    backgroundColor = context.getResources().getColor(R.color.error_500);
-                } else {
-                    backgroundColor = context.getResources().getColor(R.color.orange);
-                }
-            } else {
-                // For filtered views, use the filter type color
-                if (Constant.FILTER_LEAVE_PENDING.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.orange);
-                } else if (Constant.FILTER_LEAVE_APPROVED.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.success_500);
-                } else if (Constant.FILTER_LEAVE_REJECTED.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.error_500);
-                } else {
-                    backgroundColor = context.getResources().getColor(R.color.navy_blue);
-                }
-            }
-            
+            // All leave application cards use staff theme (navy blue) for consistency
+            int backgroundColor = context.getResources().getColor(R.color.navy_blue);
             headerLayout.setBackgroundColor(backgroundColor);
         }
     }

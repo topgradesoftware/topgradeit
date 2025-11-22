@@ -1,79 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/white">
+    app:cardBackgroundColor="@color/white"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/complaint_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Complaint Title"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/quicksand_bold"
-            android:layout_marginBottom="4dp" />
-
-        <!-- Description -->
-        <TextView
-            android:id="@+id/complaint_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Complaint description goes here..."
-            android:textColor="@color/gray"
-            android:textSize="14sp"
-            android:fontFamily="@font/quicksand_medium"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Status and Date Row -->
+        <!-- Header with Navy Blue Background (Staff Theme) -->
         <LinearLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/navy_blue"
             android:orientation="horizontal"
+            android:padding="12dp"
             android:gravity="center_vertical">
 
-            <!-- Status -->
+            <!-- Serial Number Badge -->
+            <TextView
+                android:id="@+id/serial_number"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_background"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/navy_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand_bold"
+                android:backgroundTint="@color/white" />
+
+            <!-- Complaint Title -->
+            <TextView
+                android:id="@+id/complaint_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:text="Complaint Title"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/quicksand_bold"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <!-- Status Badge (same style as leave applications) -->
             <TextView
                 android:id="@+id/complaint_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending"
-                android:textColor="@color/warning_500"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/quicksand_bold"
-                android:background="@drawable/status_background"
-                android:padding="4dp"
-                android:layout_marginEnd="8dp" />
+                android:background="@drawable/rounded_black"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
 
-            <!-- Date -->
-            <TextView
-                android:id="@+id/complaint_date"
-                android:layout_width="0dp"
+        </LinearLayout>
+
+        <!-- Content Area -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Date Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2024-01-01"
-                android:textColor="@color/gray"
-                android:textSize="12sp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/date"
+                    android:layout_marginEnd="6dp"
+                    app:tint="@color/navy_blue"
+                    android:contentDescription="Date icon" />
+
+                <TextView
+                    android:id="@+id/complaint_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2024-01-01"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/quicksand_bold" />
+
+            </LinearLayout>
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/complaint_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complaint description goes here..."
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 android:fontFamily="@font/quicksand_medium"
-                android:gravity="end" />
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Action Indicator -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to view details"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:alpha="0.7" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="@color/navy_blue"
+                    android:contentDescription="Arrow forward" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -43,7 +43,7 @@ public class AdvancedSalary extends AppCompatActivity {
     ProgressBar progress_bar;
     Context context;
     List<AdvancedSalaryModel.Advanced> list = new ArrayList<>();
-    TextView total_records, deuction_amount, deuction_month;
+    TextView total_records;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +93,6 @@ public class AdvancedSalary extends AppCompatActivity {
         Advanced_salary_rcv = findViewById(R.id.Advanced_salary_rcv);
         progress_bar = findViewById(R.id.progress_bar);
         total_records = findViewById(R.id.total_records);
-        deuction_amount = findViewById(R.id.deuction_amount);
-        deuction_month = findViewById(R.id.deuction_month);
 
         context = AdvancedSalary.this;
         Paper.init(context);
@@ -167,36 +165,17 @@ public class AdvancedSalary extends AppCompatActivity {
                             // Use filtered list for calculations and display
                             List<AdvancedSalaryModel.Advanced> filteredList = adapter.getFilteredList();
                             total_records.setText("Total Records: " + filteredList.size());
-                            
-                            int deuction_amount_ = 0, deuction_month_ = 0;
-                            for (int i = 0; i < filteredList.size(); i++) {
-                                AdvancedSalaryModel.Advanced item = filteredList.get(i);
-                                if (item.getAmount() != null) {
-                                    deuction_amount_ = deuction_amount_ + item.getAmount();
-                                }
-                                if (item.getDeduction() != null) {
-                                    deuction_month_ = deuction_month_ + item.getDeduction();
-                                }
-                            }
-                            deuction_amount.setText("" + deuction_amount_);
-                            deuction_month.setText("" + deuction_month_);
 
                         } else {
                             total_records.setText("Total Records: 0");
-                            deuction_amount.setText("0");
-                            deuction_month.setText("0");
                             Toast.makeText(AdvancedSalary.this, "No Advanced Salary Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         total_records.setText("Total Records: 0");
-                        deuction_amount.setText("0");
-                        deuction_month.setText("0");
                         Toast.makeText(AdvancedSalary.this, response.body().getStatus().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     total_records.setText("Total Records: 0");
-                    deuction_amount.setText("0");
-                    deuction_month.setText("0");
                     Toast.makeText(AdvancedSalary.this, "No response from server", Toast.LENGTH_SHORT).show();
                 }
                 progress_bar.setVisibility(View.GONE);
@@ -206,8 +185,6 @@ public class AdvancedSalary extends AppCompatActivity {
             public void onFailure(Call<AdvancedSalaryModel> call, Throwable t) {
                 progress_bar.setVisibility(View.GONE);
                 total_records.setText("Total Records: 0");
-                deuction_amount.setText("0");
-                deuction_month.setText("0");
                 Toast.makeText(AdvancedSalary.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

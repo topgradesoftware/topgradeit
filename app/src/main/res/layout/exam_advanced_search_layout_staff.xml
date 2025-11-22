@@ -211,7 +211,7 @@
                     app:iconGravity="start"
                     app:iconPadding="8dp"
                     app:iconSize="24dp"
-                    app:backgroundTint="@color/colorAccent"
+                    app:backgroundTint="@color/navy_blue"
                     app:cornerRadius="8dp" />
 
             </LinearLayout>

@@ -100,7 +100,7 @@
                             android:layout_width="12dp"
                             android:layout_height="12dp"
                             android:background="@drawable/circle_background"
-                            android:backgroundTint="@color/orange"
+                            android:backgroundTint="@color/navy_blue"
                             android:layout_marginEnd="8dp" />
 
                         <TextView

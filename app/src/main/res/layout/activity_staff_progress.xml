@@ -8,11 +8,11 @@
     android:paddingBottom="0dp"
     android:fitsSystemWindows="false">
 
-    <!-- Background wave - Extended to cover status bar -->
+    <!-- Background wave - Minimal height for maximum report visibility -->
     <ImageView
         android:id="@+id/header_wave"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_wave_navy_blue"
         android:contentDescription="@string/header_wave_background"
@@ -23,48 +23,66 @@
     <!-- ic_arrow_back -->
     <ImageView
         android:id="@+id/back_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:padding="@dimen/_8sdp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:padding="@dimen/_4sdp"
         android:src="@drawable/ic_arrow_back"
         app:tint="@color/white"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintStart_toStartOf="parent" 
         android:contentDescription="@string/back_button"/>
 
-    <!-- Header Title -->
+    <!-- Header Title (Left side) -->
     <TextView
         android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:text="Progress Report"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:fontFamily="@font/quicksand_bold"
-        android:lineSpacingExtra="2dp"
+        android:lineSpacingExtra="0dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical|start"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
         app:layout_constraintStart_toEndOf="@+id/back_icon"
-        app:layout_constraintEnd_toStartOf="@+id/show_advanced_filter" />
+        app:layout_constraintEnd_toStartOf="@+id/show_advanced_filter"
+        app:layout_constraintHorizontal_bias="0.0" />
 
-    <!-- Advanced Filter Button -->
+    <!-- Exam Session Filter (Right side) -->
     <TextView
         android:id="@+id/show_advanced_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_16sdp"
+        android:minHeight="40dp"
+        android:minWidth="120dp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
         android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
-        android:drawablePadding="@dimen/_10sdp"
-        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/_6sdp"
+        android:gravity="center_vertical|end|center_horizontal"
         android:text="Select Exam Session"
         android:textColor="@color/white"
         android:fontFamily="@font/quicksand_bold"
-        android:textSize="14sp"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="@+id/header_wave"
-        app:layout_constraintBottom_toBottomOf="@+id/header_wave"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/header_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0" />
 
     <!-- Progress Bar -->
     <ProgressBar
@@ -77,23 +95,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Horizontal Scroll Container for wide tables (landscape support) -->
-    <HorizontalScrollView
-        android:id="@+id/horizontal_scroll"
+    <!-- Nested Scroll View for both vertical and horizontal scrolling (landscape support) -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/vertical_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbars="horizontal"
-        android:fillViewport="false"
-        android:contentDescription="@string/attendance_data_table"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/header_wave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/footer_container">
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <!-- Horizontal Scroll Container for wide tables (landscape support) -->
+        <HorizontalScrollView
+            android:id="@+id/horizontal_scroll"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:scrollbars="horizontal"
+            android:fillViewport="false"
+            android:contentDescription="@string/attendance_data_table">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <!-- Subject Header Row (if visible) -->
             <RelativeLayout
@@ -144,9 +170,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_10sdp">
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingBottom="@dimen/_4sdp">
 
                 <!-- Fixed Left Column (Headers) -->
                 <LinearLayout
@@ -427,56 +454,8 @@
             </RelativeLayout>
         </LinearLayout>
 
-    </HorizontalScrollView>
+        </HorizontalScrollView>
 
-    <!-- Footer Container -->
-    <LinearLayout
-        android:id="@+id/footer_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="@color/navy_blue">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical|center_horizontal">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/topgrade_logo"
-                    android:contentDescription="@string/topgrade_logo"
-                    android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/quicksand_bold"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/powered_by_topgrade_software"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@
             android:id="@+id/reson"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="27"
+            android:layout_weight="20"
             android:gravity="center"
             android:padding="@dimen/_1sdp"
             android:text="Reson"
@@ -31,7 +31,7 @@
             android:id="@+id/Month"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="15"
+            android:layout_weight="22"
             android:gravity="center"
             android:padding="@dimen/_1sdp"
 

@@ -37,21 +37,57 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ComplaintModel.Complaint complaint = complaints.get(position);
         
+        // Set serial number
+        if (holder.serialNumber != null) {
+            holder.serialNumber.setText(String.valueOf(position + 1));
+        }
+        
         holder.titleText.setText(complaint.getComplaintTitle());
         holder.descriptionText.setText(complaint.getComplaintDescription());
-        holder.statusText.setText(complaint.getComplaintStatus());
         holder.dateText.setText(complaint.getComplaintDate());
         
-        // Set status color based on complaint status
-        String status = complaint.getComplaintStatus().toLowerCase();
-        if (status.contains("pending")) {
-            holder.statusText.setTextColor(context.getResources().getColor(R.color.warning_500));
-        } else if (status.contains("solved") || status.contains("resolved")) {
-            holder.statusText.setTextColor(context.getResources().getColor(R.color.success_500));
-        } else if (status.contains("discussion") || status.contains("progress")) {
-            holder.statusText.setTextColor(context.getResources().getColor(R.color.error_500));
-        } else {
-            holder.statusText.setTextColor(context.getResources().getColor(R.color.gray));
+        // Update header color to navy blue (staff theme)
+        updateHeaderColor(holder.itemView);
+        
+        // Set status badge with colors (same as leave applications)
+        updateStatusBadge(holder, complaint);
+    }
+    
+    /**
+     * Update status badge with colors similar to leave applications
+     * Pending -> Orange, Solved -> Green, Under Discussion -> Orange
+     */
+    private void updateStatusBadge(ViewHolder holder, ComplaintModel.Complaint complaint) {
+        if (holder.statusText != null) {
+            String status = complaint.getComplaintStatus();
+            if (status != null) {
+                String statusLower = status.toLowerCase();
+                
+                if (statusLower.contains("solved") || statusLower.contains("resolved")) {
+                    holder.statusText.setText("Solved");
+                    holder.statusText.setBackgroundTintList(context.getResources().getColorStateList(R.color.success_500));
+                } else if (statusLower.contains("discussion") || statusLower.contains("progress")) {
+                    holder.statusText.setText("Under Discussion");
+                    holder.statusText.setBackgroundTintList(context.getResources().getColorStateList(R.color.orange));
+                } else {
+                    holder.statusText.setText("Pending");
+                    holder.statusText.setBackgroundTintList(context.getResources().getColorStateList(R.color.orange));
+                }
+                
+                // Text color always white for visibility on colored background
+                holder.statusText.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        }
+    }
+    
+    /**
+     * Update header color - all staff complaint cards use navy blue (staff theme)
+     */
+    private void updateHeaderColor(View itemView) {
+        View headerLayout = itemView.findViewById(R.id.header_layout);
+        if (headerLayout != null) {
+            // All complaint cards use staff theme (navy blue) for consistency
+            headerLayout.setBackgroundColor(context.getResources().getColor(R.color.navy_blue));
         }
     }
 
@@ -66,6 +102,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView serialNumber;
         TextView titleText;
         TextView descriptionText;
         TextView statusText;
@@ -73,6 +110,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            serialNumber = itemView.findViewById(R.id.serial_number);
             titleText = itemView.findViewById(R.id.complaint_title);
             descriptionText = itemView.findViewById(R.id.complaint_description);
             statusText = itemView.findViewById(R.id.complaint_status);

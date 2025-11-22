@@ -263,17 +263,28 @@ public class StaffComplaintList extends AppCompatActivity {
                     
                     if (response.isSuccessful() && response.body() != null) {
                         topgrade.parent.com.parentseeks.Teacher.Model.StaffComplainModel staffComplainModel = response.body();
-                        // For now, just use mock data to make the app work
-                        List<ComplaintModel.Complaint> complaints = createMockComplaints();
-                        if (complaints != null && !complaints.isEmpty()) {
-                            list = filterComplaints(complaints, filterType);
-                            updateUI();
-                            cacheComplaints(complaints);
+                        
+                        // Check if API response is successful
+                        if (staffComplainModel.getStatus() != null && "1000".equals(staffComplainModel.getStatus().getCode())) {
+                            // Use real API data
+                            List<ComplaintModel.Complaint> complaints = staffComplainModel.getData();
+                            if (complaints != null && !complaints.isEmpty()) {
+                                list = filterComplaints(complaints, filterType);
+                                updateUI();
+                                cacheComplaints(complaints);
+                                log("Loaded " + list.size() + " complaints from API");
+                            } else {
+                                log("No complaints found in API response");
+                                showEmptyState(true);
+                            }
                         } else {
+                            String errorMsg = staffComplainModel.getStatus() != null ? 
+                                staffComplainModel.getStatus().getMessage() : "Unknown error";
+                            Log.e(TAG, "API error: " + errorMsg);
                             showEmptyState(true);
                         }
                     } else {
-                        Log.e(TAG, "Response not successful: " + response.code());
+                        Log.e(TAG, "Response not successful: " + (response.body() != null ? response.code() : "null response"));
                         showEmptyState(true);
                     }
                 }

@@ -120,8 +120,8 @@ public class TaskAdaptor extends ListAdapter<Task, TaskAdaptor.Holder> {
                 }
             }
             
-            // Show lock icon for completed tasks
-            updateLockIcon(holder, task);
+            // Set status badge with colors (same as leave applications)
+            updateStatusBadge(holder, task);
             
             // Set header color based on task status (only for "View All Tasks")
             updateHeaderColor(holder, task);
@@ -143,58 +143,41 @@ public class TaskAdaptor extends ListAdapter<Task, TaskAdaptor.Holder> {
     }
     
     /**
-     * Update lock icon visibility based on task completion status
+     * Update status badge with colors similar to leave applications
+     * Pending -> Orange, Incomplete -> Orange, Completed -> Green
      */
-    private void updateLockIcon(TaskAdaptor.Holder holder, Task task) {
-        if (holder.lock_icon != null) {
-            String isCompleted = task.getIsCompleted();
-            if ("1".equals(isCompleted)) {
-                holder.lock_icon.setVisibility(View.VISIBLE);
+    private void updateStatusBadge(TaskAdaptor.Holder holder, Task task) {
+        TextView statusBadge = holder.itemView.findViewById(R.id.status_badge);
+        if (statusBadge != null) {
+            boolean isCompleted = "1".equals(task.getIsCompleted());
+            String taskResponse = task.getTaskResponse();
+            boolean hasResponse = !TextUtils.isEmpty(taskResponse) && !taskResponse.equals("null");
+            
+            if (isCompleted) {
+                statusBadge.setText("Completed");
+                statusBadge.setBackgroundTintList(context.getResources().getColorStateList(R.color.success_500));
+            } else if (hasResponse) {
+                statusBadge.setText("Incomplete");
+                statusBadge.setBackgroundTintList(context.getResources().getColorStateList(R.color.orange));
             } else {
-                holder.lock_icon.setVisibility(View.GONE);
+                statusBadge.setText("Pending");
+                statusBadge.setBackgroundTintList(context.getResources().getColorStateList(R.color.orange));
             }
+            
+            // Text color always white for visibility on colored background
+            statusBadge.setTextColor(context.getResources().getColor(R.color.white));
         }
     }
     
     /**
-     * Update header color based on task status and filter type
+     * Update header color - all staff task cards use navy blue (staff theme)
      */
     private void updateHeaderColor(TaskAdaptor.Holder holder, Task task) {
         // Find the header LinearLayout in the card
         View headerLayout = holder.itemView.findViewById(R.id.header_layout);
         if (headerLayout != null) {
-            int backgroundColor;
-            
-            // If viewing all tasks, color by task status
-            if (Constant.FILTER_ALL.equals(filterType)) {
-                String isCompleted = task.getIsCompleted();
-                String taskResponse = task.getTaskResponse();
-                
-                // Determine task status and set appropriate color
-                if ("1".equals(isCompleted)) {
-                    // Completed task - Green
-                    backgroundColor = context.getResources().getColor(R.color.success_500);
-                } else if (!TextUtils.isEmpty(taskResponse) && !taskResponse.equals("null")) {
-                    // Has response but not completed - Red (Incomplete)
-                    backgroundColor = context.getResources().getColor(R.color.error_500);
-                } else {
-                    // No response - Orange (Pending)
-                    backgroundColor = context.getResources().getColor(R.color.orange);
-                }
-            } else {
-                // For filtered views, use the filter type color
-                if (Constant.FILTER_PENDING.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.orange);
-                } else if (Constant.FILTER_INCOMPLETE.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.error_500);
-                } else if (Constant.FILTER_COMPLETED.equals(filterType)) {
-                    backgroundColor = context.getResources().getColor(R.color.success_500);
-                } else {
-                    // Default navy blue
-                    backgroundColor = context.getResources().getColor(R.color.navy_blue);
-                }
-            }
-            
+            // All task cards use staff theme (navy blue) for consistency
+            int backgroundColor = context.getResources().getColor(R.color.navy_blue);
             headerLayout.setBackgroundColor(backgroundColor);
         }
     }
@@ -235,7 +218,6 @@ public class TaskAdaptor extends ListAdapter<Task, TaskAdaptor.Holder> {
         private final TextView response_body;
         private final Button completed;
         private final Button incomplete;
-        private final android.widget.ImageView lock_icon;
         private final TextView serial_number;
         private final View response_layout;
 
@@ -250,7 +232,6 @@ public class TaskAdaptor extends ListAdapter<Task, TaskAdaptor.Holder> {
             response_layout = itemView.findViewById(R.id.Response_layout);
             completed = itemView.findViewById(R.id.completed);
             incomplete = itemView.findViewById(R.id.incomplete);
-            lock_icon = itemView.findViewById(R.id.lock_icon);
         }
     }
 }

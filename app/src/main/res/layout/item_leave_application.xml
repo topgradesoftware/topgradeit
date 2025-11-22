@@ -18,12 +18,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Top Section - Orange Background -->
+        <!-- Top Section - Navy Blue Background (Staff Theme) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/rounded_orange_background"
+            android:background="@color/navy_blue"
             android:padding="12dp"
             android:gravity="center_vertical">
 
@@ -50,14 +50,14 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="8dp"
                 android:text="Leave Application"
-                android:textColor="@color/navy_blue"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/quicksand_bold"
                 android:maxLines="2"
                 android:ellipsize="end" />
 
-            <!-- Status -->
+            <!-- Status Badge -->
             <TextView
                 android:id="@+id/application_status"
                 android:layout_width="wrap_content"
@@ -67,8 +67,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/quicksand_bold"
-                android:background="@drawable/rounded_white_background"
-                android:backgroundTint="@color/navy_blue"
+                android:background="@drawable/rounded_black"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp" />
 

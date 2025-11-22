@@ -41,10 +41,10 @@ public class ResultReportAdaptor extends RecyclerView.Adapter<ResultReportAdapto
                 // Set subject and class name
                 String subjectText = "";
                 if (report.getClassName() != null) {
-                    subjectText += report.getClassName();
+                    subjectText += report.getClassName().trim();
                 }
                 if (report.getSubjectName() != null) {
-                    subjectText += " (" + report.getSubjectName() + " )";
+                    subjectText += " (" + report.getSubjectName().trim() + ")";
                 }
                 holder.Subjects.setText(subjectText);
 
